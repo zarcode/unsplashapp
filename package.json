@@ -4,13 +4,20 @@
   "private": true,
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
-    "test": "jest"
+    "test": "jest",
+    "icon-android": "app-icon generate  --platforms=android",
+    "icon-ios": "app-icon generate  --platforms=ios",
+    "prettier": "prettier --write \"{src,__{tests,mocks}__}/**/*.js\"",
+    "flow-check": "flow check --show-all-errors",
+    "flow-coverage": "flow coverage",
+    "eslint": "eslint src"
   },
   "dependencies": {
     "react": "^16.3.0-alpha.1",
     "react-native": "0.54.1"
   },
   "devDependencies": {
+    "app-icon": "^0.6.3",
     "babel-jest": "22.4.1",
     "babel-preset-react-native": "4.0.0",
     "jest": "22.4.2",
