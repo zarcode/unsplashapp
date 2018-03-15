@@ -14,13 +14,22 @@
   },
   "dependencies": {
     "react": "^16.3.0-alpha.1",
-    "react-native": "0.54.1"
+    "react-native": "0.54.1",
+    "react-navigation": "^1.5.2",
+    "react-navigation-redux-helpers": "^1.0.3",
+    "react-redux": "^5.0.7",
+    "redux": "^3.7.2",
+    "redux-logger": "^3.0.6",
+    "redux-observable": "^0.18.0",
+    "rxjs": "^5.5.7"
   },
   "devDependencies": {
     "app-icon": "^0.6.3",
     "babel-jest": "22.4.1",
     "babel-preset-react-native": "4.0.0",
+    "flow-bin": "^0.65.0",
     "jest": "22.4.2",
+    "prettier": "^1.11.1",
     "react-test-renderer": "^16.3.0-alpha.1"
   },
   "jest": {
