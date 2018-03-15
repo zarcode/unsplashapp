@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {View, Text, TouchableOpacity} from "react-native";
+import PhotoSingleScreen from "./PhotoSingleScreen";
 
 class PhotosList extends Component {
     render() {
@@ -8,7 +9,7 @@ class PhotosList extends Component {
             <View>
                 <Text>List</Text>
                 <TouchableOpacity
-                    onPress={() => this.props.navigation.navigate('Details')}
+                    onPress={() => this.props.navigation.dispatch({ type: 'PhotoSingleScreen' })}
                 >
                     <Text>To single</Text>
                 </TouchableOpacity>
