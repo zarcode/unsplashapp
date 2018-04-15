@@ -1,31 +1,31 @@
 // @flow
 
-import logger from "redux-logger";
-import {createEpicMiddleware} from "redux-observable";
-import {combineReducers, createStore, applyMiddleware} from "redux";
+import logger from 'redux-logger';
+import { createEpicMiddleware } from 'redux-observable';
+import { combineReducers, createStore, applyMiddleware } from 'redux';
 
 // import rootEpic from "./epics/index";
-import photos from "./reducers/photos";
+import photos from './reducers/photos';
 
-import {nav} from "./reducers/nav";
-import type {Middleware} from "redux";
+import { nav } from './reducers/nav';
+import type { Middleware } from 'redux';
 
 export default (navigationMiddleware: Middleware) => {
-	// const epicMiddleware = createEpicMiddleware(rootEpic);
+  // const epicMiddleware = createEpicMiddleware(rootEpic);
 
-	const middleWares: Array<*> = [
-		// epicMiddleware,
-		navigationMiddleware
-	];
+  const middleWares: Array<*> = [
+    // epicMiddleware,
+    navigationMiddleware,
+  ];
 
-	if (__DEV__) {
-		middleWares.push(logger);
-	}
+  if (__DEV__) { // eslint-disable-line no-undef
+    middleWares.push(logger);
+  }
 
-	const appReducer = combineReducers({
-		nav,
-		photos
-	});
+  const appReducer = combineReducers({
+    nav,
+    photos,
+  });
 
-	return createStore(appReducer, applyMiddleware(...middleWares));
+  return createStore(appReducer, applyMiddleware(...middleWares));
 };
