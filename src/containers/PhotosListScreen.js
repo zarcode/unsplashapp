@@ -1,9 +1,16 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { View, Text, TouchableOpacity } from 'react-native';
+import { connect } from "react-redux";
+import { bindActionCreators } from 'redux';
+
 import PhotoSingleScreen from './PhotoSingleScreen';
+import { photosRequested } from '../action/photos';
 
 class PhotosList extends Component {
+  componentDidMount() {
+    this.props.actions.photosRequested();
+  }
   render() {
     return (
       <View>
@@ -25,4 +32,12 @@ class PhotosList extends Component {
 PhotosList.propTypes = {};
 PhotosList.defaultProps = {};
 
-export default PhotosList;
+const mapStateToProps = state => ({
+});
+
+const mapDispatchToProps = dispatch => ({
+  actions: bindActionCreators({ photosRequested }, dispatch),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(PhotosList);
+
