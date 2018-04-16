@@ -3,22 +3,18 @@
 import logger from 'redux-logger';
 import { createEpicMiddleware } from 'redux-observable';
 import { combineReducers, createStore, applyMiddleware } from 'redux';
+import type { Middleware } from 'redux';
 
-// import rootEpic from "./epics/index";
+import rootEpic from './epics/';
 import photos from './reducers/photos';
 
 import { nav } from './reducers/nav';
-import type { Middleware } from 'redux';
 
 export default (navigationMiddleware: Middleware) => {
-  // const epicMiddleware = createEpicMiddleware(rootEpic);
+  const middleWares: Array<*> = [createEpicMiddleware(rootEpic), navigationMiddleware];
 
-  const middleWares: Array<*> = [
-    // epicMiddleware,
-    navigationMiddleware,
-  ];
-
-  if (__DEV__) { // eslint-disable-line no-undef
+  if (__DEV__) {
+    // eslint-disable-line no-undef
     middleWares.push(logger);
   }
 
