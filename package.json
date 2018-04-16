@@ -13,6 +13,7 @@
     "eslint": "eslint src"
   },
   "dependencies": {
+    "axios": "^0.18.0",
     "prop-types": "^15.6.1",
     "react": "^16.3.0-alpha.1",
     "react-native": "0.54.1",
@@ -22,7 +23,7 @@
     "redux": "^3.7.2",
     "redux-logger": "^3.0.6",
     "redux-observable": "^0.18.0",
-    "rxjs": "^5.5.7"
+    "rxjs": "^5.5.10"
   },
   "devDependencies": {
     "app-icon": "^0.6.3",
