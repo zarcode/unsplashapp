@@ -1,12 +1,16 @@
 // @flow
+
+import { normalize } from 'normalizr';
 import { ACTION } from '../constants';
 import { PhotosAction } from './actionTypes';
+import * as schema from './schema';
 
-export const photosRequested = (): PhotosAction => ({ type: ACTION.PHOTOS_REQUESTED });
+export const photosRequested = (): PhotosAction => ({ type: ACTION.FETCH_PHOTOS_REQUESTED });
 
-export const photosLoading = (): PhotosAction => ({ type: ACTION.PHOTOS_LOADING });
+export const photosLoading = (): PhotosAction => ({ type: ACTION.FETCH_PHOTOS_LOADING });
 
-export const photosSuccess = (data: string): PhotosAction =>
-  ({ type: ACTION.PHOTOS_SUCCESS, data });
+export const photosSuccess = (response: any): PhotosAction =>
+  ({ type: ACTION.FETCH_PHOTOS_SUCCESS, response: normalize(response, schema.photos) });
 
-export const photosFail = (error): PhotosAction => ({ type: ACTION.PHOTOS_FAIL, error });
+export const photosFail = (error: string): PhotosAction =>
+  ({ type: ACTION.FETCH_PHOTOS_FAIL, error });
