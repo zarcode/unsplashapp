@@ -10,8 +10,8 @@ export const asObservable = <T>(promise: PromiseCancel<T>): Observable<T> =>
       })
       .catch((error) => {
         observer.error(error);
-      })
+      });
     return () => {
       promise.cancel('observable unsubscribed');
     };
-  })
+  });
