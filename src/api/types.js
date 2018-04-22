@@ -1,6 +1,6 @@
 export type PromiseCancel<T> = {
 	promise: Promise<T>,
-	cancel: (reason?: string) => void,
+	cancel: (reason?: string) => void
 };
 
 export type Photo = {
@@ -71,4 +71,9 @@ export type ApiMethod<Args, R> = (args: Args) => PromiseCancel<R>;
 
 export interface Api {
 	+fetchPhotos: ApiMethod<FetchPhotosParams, Array<Photo>>;
+}
+
+export type Filter = {
+  id: string,
+  label: string,
 }
