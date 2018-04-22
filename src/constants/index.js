@@ -6,3 +6,9 @@ export const ACTION = {
   FETCH_PHOTOS_SUCCESS: 'FETCH_PHOTOS_SUCCESS',
   FETCH_PHOTOS_FAIL: 'FETCH_PHOTOS_FAIL',
 };
+
+export const PHOTOS_FILTERS = {
+  LATEST: 'latest',
+  POPULAR: 'popular',
+  OLDEST: 'oldest',
+};
