@@ -1,14 +1,17 @@
 // @flow
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View, Text, TouchableOpacity, StyleSheet, FlatList, Image, Dimensions } from 'react-native';
+import { View, TouchableOpacity, StyleSheet, FlatList, Image, Dimensions } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 // import PhotoSingleScreen from './PhotoSingleScreen';
 import { photosRequested } from '../action/photos';
 import { getPhotos, getErrorMessage, getIsFetching } from '../reducers/photos';
+import type { Photo } from '../api/types';
+import PhotosFilters from './PhotosFilters';
 // import {List} from "immutable";
+// onPress={() => this.props.navigation.dispatch({ type: 'PhotoSingleScreen' })}
 
 const styles = StyleSheet.create({
   container: {
@@ -18,7 +21,7 @@ const styles = StyleSheet.create({
 
 type Props = {
   navigation: any,
-  photos: any, // todo
+  photos: Array<Photo>, // todo
   actions: {
     photosRequested: () => void
   }
@@ -38,23 +41,35 @@ class PhotosList extends Component<Props, State> {
       imageDim: Math.floor(Dimensions.get('window').width / 3),
     };
   }
+
   state: State;
+
   componentDidMount() {
     this.props.actions.photosRequested();
   }
+
   onPress = () => {}
+
   onLayout = () => {
     const { width, height } = Dimensions.get('window');
-    if (width > height) {
-      this.setState({ numColumns: 5, imageDim: Math.floor(width / 5) });
-    } else {
-      this.setState({ numColumns: 3, imageDim: Math.floor(width / 3) });
+    let columns = 3;
+    if (width > 1920) {
+      columns = 5;
     }
-  }
+    if (width > height) {
+      columns = 5;
+      if (width > 1920) {
+        columns = 7;
+      }
+    }
+    this.setState({ numColumns: columns, imageDim: Math.floor(width / columns) });
+  };
+
   photoViewModel = item => ({
     id: item.id,
     url: item.urls.small,
   });
+
   keyExtractor = item => item.id;
 
   renderItem = ({ item }) => {
@@ -73,18 +88,14 @@ class PhotosList extends Component<Props, State> {
       </TouchableOpacity>
     );
   };
+
   render() {
     return (
       <View
         onLayout={this.onLayout}
         style={styles.container}
       >
-
-        <TouchableOpacity
-          onPress={() => this.props.navigation.dispatch({ type: 'PhotoSingleScreen' })}
-        >
-          <Text>To single</Text>
-        </TouchableOpacity>
+        <PhotosFilters />
         <FlatList
           key={this.state.numColumns}
           numColumns={this.state.numColumns}
@@ -104,9 +115,9 @@ PhotosList.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  photos: getPhotos(state.photos),
-  isFetching: getIsFetching(state.photos),
-  getErrorMessage: getErrorMessage(state.photos),
+  photos: getPhotos(state),
+  isFetching: getIsFetching(state),
+  getErrorMessage: getErrorMessage(state),
 });
 
 const mapDispatchToProps = dispatch => ({
