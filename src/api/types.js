@@ -1,3 +1,5 @@
+import { PHOTOS_FILTERS } from '../constants';
+
 export type PromiseCancel<T> = {
 	promise: Promise<T>,
 	cancel: (reason?: string) => void
@@ -73,7 +75,9 @@ export interface Api {
 	+fetchPhotos: ApiMethod<FetchPhotosParams, Array<Photo>>;
 }
 
+export type PhotosFilter = PHOTOS_FILTERS.LATEST | PHOTOS_FILTERS.POPULAR | PHOTOS_FILTERS.OLDEST;
+
 export type Filter = {
-  id: string,
+  id: PhotosFilters,
   label: string,
 }

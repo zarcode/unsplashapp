@@ -15,10 +15,12 @@ import { asObservable } from './rxUtils';
 import api from '../api';
 
 export const loadPhotosToList = (action: Observable<Action>): Observable<Action> =>
-  action.ofType(ACTION.FETCH_PHOTOS_REQUESTED).mergeMap(() => {
+  action.ofType(ACTION.FETCH_PHOTOS_REQUESTED).mergeMap((a) => {
     const loadingAction = Observable.of(photosActions.photosLoading());
     const requestAction = asObservable(api.fetchPhotos({}))
-      .map(data => photosActions.photosSuccess(data))
+      .map(data => photosActions.photosSuccess(data, a.filter))
       .catch(e => Observable.of(photosActions.photosFail(e.message)));
-    return Observable.concat(loadingAction, requestAction).takeUntil(action.filter(futureAction => futureAction.type === ACTION.PHOTOS_REQUESTED));
+    return Observable.concat(loadingAction, requestAction)
+      .takeUntil(action
+        .filter(futureAction => futureAction.type === ACTION.FETCH_PHOTOS_REQUESTED));
   });

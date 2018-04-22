@@ -6,11 +6,12 @@ import Filters from '../shared/Filters';
 import type { FiltersProps } from '../shared/Filters';
 import { getFilter, filters } from '../reducers/photos';
 import { photosRequested } from '../action/photos';
+import type { PhotosFilter } from '../api/types';
 
 type Props = {
   currentFilter: string,
   actions: {
-    photosRequested: () => void
+    photosRequested: (filterId: PhotosFilter) => void
   }
 }
 
@@ -21,7 +22,7 @@ type Props = {
  */
 const changeFilter = ({ currentFilter, actions }: Props) => (filterId: string) => () => {
   if (filterId !== currentFilter) {
-    actions.photosRequested();
+    actions.photosRequested(filterId);
   }
 };
 

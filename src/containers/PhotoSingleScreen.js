@@ -13,6 +13,5 @@ class PhotoSingle extends Component {
 }
 
 PhotoSingle.propTypes = {};
-PhotoSingle.defaultProps = {};
 
 export default PhotoSingle;
