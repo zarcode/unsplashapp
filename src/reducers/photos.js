@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect';
 import { combineReducers } from 'redux';
 import { ACTION, PHOTOS_FILTERS } from '../constants';
-import type { Filter } from '../api/types';
+import type { Filter, PhotosFilter } from '../api/types';
 
 export const filters: Array<Filter> = [
   {
@@ -19,6 +19,10 @@ export const filters: Array<Filter> = [
 ];
 
 const filter = (state = filters[0].id, action) => {
+  if (action.type === ACTION.FETCH_PHOTOS_REQUESTED) {
+    return action.filter;
+  }
+
   return state;
 };
 
@@ -60,9 +64,9 @@ const filter = (state = filters[0].id, action) => {
 //   }
 // };
 
-const createList = (selectedFilter: PHOTOS_FILTERS.LATEST | PHOTOS_FILTERS.POPULAR | PHOTOS_FILTERS.OLDEST) => {
+const createList = (selectedFilter: PhotosFilter) => {
   const byId = (state = {}, action) => {
-    if (action.response) {
+    if (action.type === ACTION.FETCH_PHOTOS_SUCCESS && selectedFilter === action.filter) {
       return {
         ...state,
         ...action.response.entities.photos,
@@ -72,7 +76,7 @@ const createList = (selectedFilter: PHOTOS_FILTERS.LATEST | PHOTOS_FILTERS.POPUL
   };
 
   const ids = (state = [], action) => {
-    if (action.response) {
+    if (action.type === ACTION.FETCH_PHOTOS_SUCCESS && selectedFilter === action.filter) {
       return [
         ...state,
         ...action.response.result,
@@ -82,11 +86,11 @@ const createList = (selectedFilter: PHOTOS_FILTERS.LATEST | PHOTOS_FILTERS.POPUL
   };
 
   const isFetching = (state = false, action) => {
-    // if (filter !== action.filter) {
-    //   return state;
-    // }
+    if (selectedFilter !== action.filter) {
+      return state;
+    }
     switch (action.type) {
-      case ACTION.FETCH_PHOTOS_REQUESTED:
+      case ACTION.FETCH_PHOTOS_LOADING:
         return true;
       case ACTION.FETCH_PHOTOS_SUCCESS:
       case ACTION.FETCH_PHOTOS_FAIL:
@@ -97,9 +101,9 @@ const createList = (selectedFilter: PHOTOS_FILTERS.LATEST | PHOTOS_FILTERS.POPUL
   };
 
   const errorMessage = (state = null, action) => {
-    // if (filter !== action.filter) {
-    //   return state;
-    // }
+    if (selectedFilter !== action.filter) {
+      return state;
+    }
     switch (action.type) {
       case ACTION.FETCH_PHOTOS_FAIL:
         return action.error;
@@ -129,8 +133,8 @@ const photos = combineReducers({
 export default photos;
 
 export const getFilter = state => state.photos.filter;
-export const getById = state => state.photos[getFilter(state)].byId;
-export const getIds = state => state.photos[getFilter(state)].ids;
+const getById = state => state.photos[getFilter(state)].byId;
+const getIds = state => state.photos[getFilter(state)].ids;
 export const getIsFetching = state => state.photos[getFilter(state)].isFetching;
 export const getErrorMessage = state => state.photos[getFilter(state)].errorMessage;
 
