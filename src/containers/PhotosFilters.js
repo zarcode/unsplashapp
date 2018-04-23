@@ -4,14 +4,16 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Filters from '../shared/Filters';
 import type { FiltersProps } from '../shared/Filters';
-import { getFilter, filters } from '../reducers/photos';
-import { photosRequested } from '../action/photos';
+import { getFilter, getLastLoadedPage, filters } from '../reducers/photos';
+import { photosRequested, changeFilter } from '../action/photos';
 import type { PhotosFilter } from '../api/types';
 
 type Props = {
   currentFilter: string,
+  lastLoadedPage: (filterId: PhotosFilter) => number,
   actions: {
-    photosRequested: (filterId: PhotosFilter) => void
+    photosRequested: (filterId: PhotosFilter, refresh: boolean) => void,
+    changeFilter: (filterId: PhotosFilter) => void
   }
 }
 
@@ -20,14 +22,20 @@ type Props = {
  * @param {string} filterId
  * @returns {function()}
  */
-const changeFilter = ({ currentFilter, actions }: Props) => (filterId: string) => () => {
-  if (filterId !== currentFilter) {
-    actions.photosRequested(filterId);
-  }
-};
+const handleChangeFilter = ({ currentFilter, lastLoadedPage, actions }: Props) =>
+  (filterId: string) => () => {
+  console.log(actions);
+    if (filterId !== currentFilter) {
+      if (lastLoadedPage(filterId) === 0) {
+        actions.photosRequested(filterId, true);
+      } else {
+        actions.changeFilter(filterId);
+      }
+    }
+  };
 
 const buildFilterProps = (props: Props): FiltersProps => ({
-  onFilterSelect: changeFilter(props),
+  onFilterSelect: handleChangeFilter(props),
   currentFilter: props.currentFilter,
   allFilters: filters,
 })
@@ -38,10 +46,11 @@ const PhotosFilters = mapPropsHoc(Filters);
 
 const mapStateToProps = state => ({
   currentFilter: getFilter(state),
+  lastLoadedPage: getLastLoadedPage(state),
 });
 
 const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators({ photosRequested }, dispatch),
+  actions: bindActionCreators({ photosRequested, changeFilter }, dispatch),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(PhotosFilters);

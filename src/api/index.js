@@ -24,11 +24,11 @@ const requestGet = ({ url, params }): PromiseCancel<Array<Photo>> => {
 };
 
 class ApiIml implements Api {
-	fetchPhotos = (params: FetchPhotosParams): PromiseCancel<Array<Photo>> =>
-	  requestGet({
-	    url: `${config.url}/photos`,
-	    params,
-	  });
+  fetchPhotos = (params: FetchPhotosParams): PromiseCancel<Array<Photo>> =>
+    requestGet({
+      url: `${config.url}/photos`,
+      params,
+    });
 }
 
 const api: Api = new ApiIml();

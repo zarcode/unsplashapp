@@ -7,9 +7,16 @@ import { bindActionCreators } from 'redux';
 
 // import PhotoSingleScreen from './PhotoSingleScreen';
 import { photosRequested } from '../action/photos';
-import { getPhotos, getFilter, getErrorMessage, getIsFetching } from '../reducers/photos';
+import {
+  getPhotos,
+  getFilter,
+  getErrorMessage,
+  getIsLastPage,
+  getLastLoadedPage,
+  getLoadingState,
+} from '../reducers/photos';
 import type { Photo, PhotosFilter } from '../api/types';
-import { PHOTOS_FILTERS } from '../constants';
+import ListLoader from '../shared/ListLoader';
 // import {List} from "immutable";
 // onPress={() => this.props.navigation.dispatch({ type: 'PhotoSingleScreen' })}
 
@@ -17,8 +24,11 @@ type Props = {
   navigation: any,
   photos: Array<Photo>,
   filter: PhotosFilter,
+  isLastPage: boolean,
+  lastLoadedPage: number,
+  loadingState: 'refreshing' | 'loading' | 'idle',
   actions: {
-    photosRequested: (filter: PhotosFilter) => void
+    photosRequested: (filter: PhotosFilter, refresh: boolean) => void
   }
 };
 
@@ -40,13 +50,8 @@ class PhotosList extends Component<Props, State> {
   state: State;
 
   componentDidMount() {
-    this.loadIfRequired(this.props.filter);
+    this.onStart();
   }
-  // componentDidUpdate(oldProps) {
-  //   if (oldProps.filter !== this.props.filter) {
-  //     this.loadIfRequired(this.props.filter);
-  //   }
-  // }
 
   onPress = () => {}
 
@@ -59,15 +64,52 @@ class PhotosList extends Component<Props, State> {
     if (width > height) {
       columns = 5;
       if (width > 1920) {
-        columns = 7;
+        columns = 10;
       }
     }
     this.setState({ numColumns: columns, imageDim: Math.floor(width / columns) });
   };
 
-  loadIfRequired = (filter: PhotosFilter) => {
-    this.props.actions.photosRequested(filter);
-  }
+  // onRefresh = () => {
+  //   this.loadIfRequired(true);
+  //   this.setState({
+  //     refreshing: true,
+  //   });
+  // }
+  //
+  // onLoadMore = () => {
+  //   if (!this.props.loadingState && !this.state.refreshing) {
+  //     this.loadIfRequired(false);
+  //   }
+  // }
+  //
+  // loadIfRequired = (refresh: boolean): void => {
+  //   this.props.actions.photosRequested(this.props.filter, refresh);
+  // }
+
+  onStart = () => {
+    const isLoaded = this.props.lastLoadedPage > 0;
+    const isIdle = this.props.loadingState === 'idle';
+    // const isRestored = this.props.isRestored;
+    const isRestored = false;
+    if (isIdle && (!isLoaded || isRestored)) {
+      this.props.actions.photosRequested(this.props.filter, true);
+    }
+  };
+
+  refresh = () => {
+    this.props.actions.photosRequested(this.props.filter, true);
+  };
+
+  loadMore = () => {
+    const isLoaded = this.props.lastLoadedPage > 0;
+    const isIdle = this.props.loadingState === 'idle';
+    const { isLastPage } = this.props;
+
+    if (isLoaded && isIdle && !isLastPage) {
+      this.props.actions.photosRequested(this.props.filter, false);
+    }
+  };
 
   photoViewModel = item => ({
     id: item.id,
@@ -93,15 +135,31 @@ class PhotosList extends Component<Props, State> {
     );
   };
 
+  renderFooter = () => {
+    if (this.props.loadingState === 'loading') {
+      return <ListLoader />;
+    }
+    return null;
+  }
+
   render() {
+    const loading = this.props.loadingState === 'loading';
+    const refreshing = this.props.loadingState === 'refreshing';
+
     return (
       <FlatList
+        loading={loading}
         onLayout={this.onLayout}
         key={this.state.numColumns}
         numColumns={this.state.numColumns}
         data={this.props.photos}
         keyExtractor={this.keyExtractor}
         renderItem={this.renderItem}
+        ListFooterComponent={this.renderFooter}
+        refreshing={refreshing}
+        onRefresh={this.refresh}
+        onEndReachedThreshold={0.5}
+        onEndReached={this.loadMore}
       />
     );
   }
@@ -113,12 +171,17 @@ PhotosList.propTypes = {
   }).isRequired,
 };
 
-const mapStateToProps = state => ({
-  photos: getPhotos(state),
-  filter: getFilter(state),
-  isFetching: getIsFetching(state),
-  getErrorMessage: getErrorMessage(state),
-});
+const mapStateToProps = (state) => {
+  const filter = getFilter(state);
+  return {
+    photos: getPhotos(state),
+    filter,
+    isLastPage: getIsLastPage(state),
+    lastLoadedPage: getLastLoadedPage(state)(filter),
+    loadingState: getLoadingState(state),
+    getErrorMessage: getErrorMessage(state),
+  };
+}
 
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({ photosRequested }, dispatch),
