@@ -148,6 +148,11 @@ class PhotosList extends Component<Props, State> {
 
     return (
       <FlatList
+        getItemLayout={(data, index) => ({
+          length: this.state.imageDim,
+          offset: this.state.imageDim * index,
+          index,
+        })}
         loading={loading}
         onLayout={this.onLayout}
         key={this.state.numColumns}

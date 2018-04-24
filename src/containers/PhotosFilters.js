@@ -24,7 +24,6 @@ type Props = {
  */
 const handleChangeFilter = ({ currentFilter, lastLoadedPage, actions }: Props) =>
   (filterId: string) => () => {
-  console.log(actions);
     if (filterId !== currentFilter) {
       if (lastLoadedPage(filterId) === 0) {
         actions.photosRequested(filterId, true);
