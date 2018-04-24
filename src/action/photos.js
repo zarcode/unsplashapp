@@ -46,3 +46,5 @@ export const photosSuccess = (
 
 export const photosFail = (error: string): PhotosAction =>
   ({ type: ACTION.FETCH_PHOTOS_FAIL, error });
+
+export const toSinglePhoto = () => ({ type: ACTION.TO_SINGLE_PHOTO });

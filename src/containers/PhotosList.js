@@ -1,12 +1,10 @@
 // @flow
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { TouchableOpacity, FlatList, Image, Dimensions } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-// import PhotoSingleScreen from './PhotoSingleScreen';
-import { photosRequested } from '../action/photos';
+import { photosRequested, toSinglePhoto } from '../action/photos';
 import {
   getPhotos,
   getFilter,
@@ -17,17 +15,16 @@ import {
 } from '../reducers/photos';
 import type { Photo, PhotosFilter } from '../api/types';
 import ListLoader from '../shared/ListLoader';
-// import {List} from "immutable";
-// onPress={() => this.props.navigation.dispatch({ type: 'PhotoSingleScreen' })}
+
 
 type Props = {
-  navigation: any,
   photos: Array<Photo>,
   filter: PhotosFilter,
   isLastPage: boolean,
   lastLoadedPage: number,
   loadingState: 'refreshing' | 'loading' | 'idle',
   actions: {
+    toSinglePhoto: () => void,
     photosRequested: (filter: PhotosFilter, refresh: boolean) => void
   }
 };
@@ -53,8 +50,6 @@ class PhotosList extends Component<Props, State> {
     this.onStart();
   }
 
-  onPress = () => {}
-
   onLayout = () => {
     const { width, height } = Dimensions.get('window');
     let columns = 3;
@@ -69,24 +64,6 @@ class PhotosList extends Component<Props, State> {
     }
     this.setState({ numColumns: columns, imageDim: Math.floor(width / columns) });
   };
-
-  // onRefresh = () => {
-  //   this.loadIfRequired(true);
-  //   this.setState({
-  //     refreshing: true,
-  //   });
-  // }
-  //
-  // onLoadMore = () => {
-  //   if (!this.props.loadingState && !this.state.refreshing) {
-  //     this.loadIfRequired(false);
-  //   }
-  // }
-  //
-  // loadIfRequired = (refresh: boolean): void => {
-  //   this.props.actions.photosRequested(this.props.filter, refresh);
-  // }
-
   onStart = () => {
     const isLoaded = this.props.lastLoadedPage > 0;
     const isIdle = this.props.loadingState === 'idle';
@@ -121,11 +98,16 @@ class PhotosList extends Component<Props, State> {
   renderItem = ({ item }) => {
     const photo = this.photoViewModel(item);
     return (
-      <TouchableOpacity onPress={this.onPress}>
+      <TouchableOpacity
+        style={{
+          padding: 1,
+        }}
+        onPress={this.props.actions.toSinglePhoto}
+      >
         <Image
           style={{
-            width: this.state.imageDim,
-            height: this.state.imageDim,
+            width: this.state.imageDim - 2,
+            height: this.state.imageDim - 2,
           }}
           source={{
             uri: photo.url,
@@ -170,12 +152,6 @@ class PhotosList extends Component<Props, State> {
   }
 }
 
-PhotosList.propTypes = {
-  actions: PropTypes.shape({
-    photosRequested: PropTypes.func.isRequired,
-  }).isRequired,
-};
-
 const mapStateToProps = (state) => {
   const filter = getFilter(state);
   return {
@@ -189,7 +165,7 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators({ photosRequested }, dispatch),
+  actions: bindActionCreators({ photosRequested, toSinglePhoto }, dispatch),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(PhotosList);

@@ -31,10 +31,10 @@ const addListener = createReduxBoundAddListener('root');
 const App = props => (
   <AppNavigator
     navigation={addNavigationHelpers({
-			dispatch: props.dispatch,
-			state: props.nav,
-			addListener,
-		})}
+      dispatch: props.dispatch,
+      state: props.nav,
+      addListener,
+    })}
   />
 );
 
