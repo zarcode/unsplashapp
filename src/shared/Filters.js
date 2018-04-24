@@ -9,8 +9,7 @@ import type { Filter } from '../api/types';
 const styles = StyleSheet.create({
   filters: {
     flexDirection: 'row',
-    // paddingHorizontal: 10,
-    paddingVertical: 10,
+    paddingVertical: 13,
     justifyContent: 'space-evenly',
   },
   current: {
