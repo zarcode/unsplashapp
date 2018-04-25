@@ -14,4 +14,6 @@ export const AppNavigator = StackNavigator({
   PhotoSingleScreen: {
     screen: PhotoSingleScreen,
   },
+}, {
+  headerMode: 'screen',
 });

@@ -1,6 +1,6 @@
 // @flow
 import React, { Component } from 'react';
-import { FlatList, Dimensions, StyleSheet, Image } from 'react-native';
+import { FlatList, Dimensions, StyleSheet, Image, Alert } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
@@ -64,6 +64,17 @@ class PhotosList extends Component<Props, State> {
 
   componentDidMount() {
     this.onStart();
+  }
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.getErrorMessage) {
+      Alert.alert(
+        'Sorry, something went wrong',
+        'Please, try refreshing the list',
+        [
+          { text: 'OK', onPress: null },
+        ],
+      );
+    }
   }
 
   onLayout = () => {
