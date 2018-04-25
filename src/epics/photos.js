@@ -40,7 +40,7 @@ export const loadPhotosToList = (action: Observable<Action>, store: Object): Obs
             data.length < perPage,
             a.refresh,
           ))
-        .catch(e => Observable.of(photosActions.photosFail(e.message)));
+        .catch(e => Observable.of(photosActions.photosFail(e.message, a.filter)));
       return Observable.concat(loadingAction, requestAction)
         .takeUntil(action
           .filter(futureAction => futureAction.type === ACTION.FETCH_PHOTOS_REQUESTED));
