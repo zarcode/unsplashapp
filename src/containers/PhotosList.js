@@ -1,6 +1,6 @@
 // @flow
 import React, { Component } from 'react';
-import { TouchableOpacity, FlatList, Image, Dimensions } from 'react-native';
+import { FlatList, Dimensions, StyleSheet, Image } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
@@ -15,7 +15,9 @@ import {
 } from '../reducers/photos';
 import type { Photo, PhotosFilter } from '../api/types';
 import ListLoader from '../shared/ListLoader';
+import PhotoThumb from './PhotoThumb';
 
+const noImages = require('../assets/icons/no-images.png');
 
 type Props = {
   photos: Array<Photo>,
@@ -23,6 +25,7 @@ type Props = {
   isLastPage: boolean,
   lastLoadedPage: number,
   loadingState: 'refreshing' | 'loading' | 'idle',
+  getErrorMessage: string,
   actions: {
     toSinglePhoto: () => void,
     photosRequested: (filter: PhotosFilter, refresh: boolean) => void
@@ -33,6 +36,19 @@ type State = {
   numColumns: number,
   imageDim: number,
 };
+
+export type PhotoViewModel = {
+  id: any,
+  url: string,
+};
+
+const styles = StyleSheet.create({
+  listContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+});
 
 class PhotosList extends Component<Props, State> {
   constructor(props) {
@@ -96,24 +112,13 @@ class PhotosList extends Component<Props, State> {
   keyExtractor = item => item.id;
 
   renderItem = ({ item }) => {
-    const photo = this.photoViewModel(item);
+    const photo: PhotoViewModel = this.photoViewModel(item);
     return (
-      <TouchableOpacity
-        style={{
-          padding: 1,
-        }}
+      <PhotoThumb
         onPress={this.props.actions.toSinglePhoto}
-      >
-        <Image
-          style={{
-            width: this.state.imageDim - 2,
-            height: this.state.imageDim - 2,
-          }}
-          source={{
-            uri: photo.url,
-          }}
-        />
-      </TouchableOpacity>
+        photo={photo}
+        size={this.state.imageDim - 2}
+      />
     );
   };
 
@@ -124,12 +129,32 @@ class PhotosList extends Component<Props, State> {
     return null;
   }
 
+  renderEmpty = () => {
+    if (this.props.loadingState !== 'idle') {
+      return null;
+    }
+
+    return (
+      <Image
+        style={{
+          width: 150,
+          height: 150,
+          tintColor: 'rgba(255,255,255,0.4)',
+        }}
+        resizeMode="cover"
+        source={noImages}
+      />
+    );
+  }
+
   render() {
     const loading = this.props.loadingState === 'loading';
     const refreshing = this.props.loadingState === 'refreshing';
+    const errorHappend = this.props.loadingState === 'idle' && this.props.getErrorMessage;
 
     return (
       <FlatList
+        contentContainerStyle={errorHappend && styles.listContainer}
         getItemLayout={(data, index) => ({
           length: this.state.imageDim,
           offset: this.state.imageDim * index,
@@ -142,6 +167,7 @@ class PhotosList extends Component<Props, State> {
         data={this.props.photos}
         keyExtractor={this.keyExtractor}
         renderItem={this.renderItem}
+        ListEmptyComponent={this.renderEmpty}
         ListFooterComponent={this.renderFooter}
         refreshing={refreshing}
         onRefresh={this.refresh}

@@ -2,7 +2,7 @@ import { ACTION } from '../constants';
 import type { PhotosFilter } from '../api/types';
 
 export type PhotosAction = {
-    type: ACTION.FETCH_PHOTOS_REQUESTED,
+    type: ACTION.CHANGE_PHOTOS_FILTER,
     filter: PhotosFilter,
   } |
   {
@@ -14,6 +14,11 @@ export type PhotosAction = {
     type: ACTION.FETCH_PHOTOS_LOADING,
     filter: PhotosFilter,
     refresh: boolean
+  } |
+  {
+    type: ACTION.FETCH_PHOTOS_FAIL,
+    error: string,
+    filter: PhotosFilter
   } |
   {
     type: ACTION.FETCH_PHOTOS_SUCCESS,
@@ -28,6 +33,9 @@ export type PhotosAction = {
     page: number,
     isLastPage: boolean,
     refresh: boolean,
+  } |
+  {
+    type: ACTION.TO_SINGLE_PHOTO,
   }
 
 export type Action = PhotosAction;
