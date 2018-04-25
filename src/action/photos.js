@@ -44,7 +44,7 @@ export const photosSuccess = (
     refresh,
   });
 
-export const photosFail = (error: string): PhotosAction =>
-  ({ type: ACTION.FETCH_PHOTOS_FAIL, error });
+export const photosFail = (error: string, filter: PhotosFilter): PhotosAction =>
+  ({ type: ACTION.FETCH_PHOTOS_FAIL, error, filter });
 
-export const toSinglePhoto = () => ({ type: ACTION.TO_SINGLE_PHOTO });
+export const toSinglePhoto = (): PhotosAction => ({ type: ACTION.TO_SINGLE_PHOTO });

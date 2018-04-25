@@ -78,6 +78,6 @@ export interface Api {
 export type PhotosFilter = PHOTOS_FILTERS.LATEST | PHOTOS_FILTERS.POPULAR | PHOTOS_FILTERS.OLDEST;
 
 export type Filter = {
-  id: PhotosFilters,
+  id: PhotosFilter,
   label: string,
 }
