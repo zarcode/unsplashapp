@@ -1,5 +1,5 @@
 // @flow
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import type { PromiseCancel } from '../api/types';
 
 export const asObservable = <T>(promise: PromiseCancel<T>): Observable<T> =>
