@@ -50,8 +50,8 @@ const styles = StyleSheet.create({
   },
 });
 
-class PhotosList extends Component<Props, State> {
-  constructor(props) {
+export class PhotosListComponent extends Component<Props, State> {
+  constructor(props: Props) {
     super(props);
 
     this.state = {
@@ -65,7 +65,7 @@ class PhotosList extends Component<Props, State> {
   componentDidMount() {
     this.onStart();
   }
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps(nextProps: Props) {
     if (nextProps.getErrorMessage) {
       Alert.alert(
         'Sorry, something went wrong',
@@ -115,14 +115,14 @@ class PhotosList extends Component<Props, State> {
     }
   };
 
-  photoViewModel = item => ({
+  photoViewModel = (item: Photo): PhotoViewModel => ({
     id: item.id,
     url: item.urls.small,
   });
 
-  keyExtractor = item => item.id;
+  keyExtractor = (item: Photo) => item.id;
 
-  renderItem = ({ item }) => {
+  renderItem = ({ item }: Photo) => {
     const photo: PhotoViewModel = this.photoViewModel(item);
     return (
       <PhotoThumb
@@ -138,7 +138,7 @@ class PhotosList extends Component<Props, State> {
       return <ListLoader />;
     }
     return null;
-  }
+  };
 
   renderEmpty = () => {
     if (this.props.loadingState !== 'idle') {
@@ -156,7 +156,7 @@ class PhotosList extends Component<Props, State> {
         source={noImages}
       />
     );
-  }
+  };
 
   render() {
     const loading = this.props.loadingState === 'loading';
@@ -199,10 +199,10 @@ const mapStateToProps = (state) => {
     loadingState: getLoadingState(state),
     getErrorMessage: getErrorMessage(state),
   };
-}
+};
 
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({ photosRequested, toSinglePhoto }, dispatch),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(PhotosList);
+export default connect(mapStateToProps, mapDispatchToProps)(PhotosListComponent);
