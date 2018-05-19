@@ -47,11 +47,11 @@ const mapStateToProps = state => ({
   nav: state.nav,
 });
 
-const AppWithNavigationState = connect(mapStateToProps)(App);
+export const AppWithNavigationState = connect(mapStateToProps)(App);
 
 const store = configureStore(navigationMiddleware);
 
-export const Root = () => (
+const Root = () => (
   <View style={{ flex: 1 }}>
     <Provider style={{ flex: 1 }} store={store}>
       <AppWithNavigationState />

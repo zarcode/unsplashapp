@@ -14,36 +14,7 @@ export type Photo = {
 	color: string,
 	description: string,
 	categories: Array<any>,
-	user: {
-		id: string,
-		updated_at: string,
-		username: string,
-		name: string,
-		first_name: string,
-		last_name: string,
-		twitter_username: string,
-		portfolio_url: string,
-		bio: string,
-		location: string,
-		links: {
-			self: string,
-			html: string,
-			photos: string,
-			likes: string,
-			portfolio: string,
-			following: string,
-			followers: string,
-		},
-		profile_image: {
-			small: string,
-			medium: string,
-			large: string,
-		},
-		total_collections: number,
-		instagram_username: string,
-		total_likes: number,
-		total_photos: number,
-	},
+	user: string,
 	urls: {
 		raw: string,
 		full: string,
@@ -63,10 +34,41 @@ export type Photo = {
 	current_user_collections: Array<any>,
 };
 
+export type User = {
+  id: string,
+  updated_at: string,
+  username: string,
+  name: string,
+  first_name: string,
+  last_name: string,
+  twitter_username: string,
+  portfolio_url: string,
+  bio: string,
+  location: string,
+  links: {
+    self: string,
+    html: string,
+    photos: string,
+    likes: string,
+    portfolio: string,
+    following: string,
+    followers: string,
+  },
+  profile_image: {
+    small: string,
+    medium: string,
+    large: string,
+  },
+  total_collections: number,
+  instagram_username: string,
+  total_likes: number,
+  total_photos: number,
+};
+
 export type FetchPhotosParams = {
 	page: number,
 	per_page: number,
-	order_by: "latest" | "oldest" | "popular",
+	order_by: "latest" | "oldest" | "popular"
 };
 
 export type ApiMethod<Args, R> = (args: Args) => PromiseCancel<R>;
