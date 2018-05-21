@@ -34,9 +34,8 @@ export const photosSuccess = (
   page: number,
   isLastPage: boolean,
   refresh: boolean,
-): PhotosAction => {
-  console.log(normalize(response, schema.photos))
-  return ({
+): PhotosAction =>
+  ({
     type: ACTION.FETCH_PHOTOS_SUCCESS,
     response: normalize(response, schema.photos),
     filter,
@@ -44,7 +43,6 @@ export const photosSuccess = (
     isLastPage,
     refresh,
   });
-}
 
 export const photosFail = (error: string, filter: PhotosFilter): PhotosAction =>
   ({ type: ACTION.FETCH_PHOTOS_FAIL, error, filter });
