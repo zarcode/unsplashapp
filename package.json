@@ -31,6 +31,7 @@
   },
   "devDependencies": {
     "app-icon": "^0.6.3",
+    "axios-mock-adapter": "^1.15.0",
     "babel-eslint": "^8.2.3",
     "babel-jest": "22.4.1",
     "babel-preset-react-native": "4.0.0",
@@ -48,12 +49,18 @@
     "prettier-eslint-cli": "^4.7.1",
     "react-dom": "^16.3.2",
     "react-test-renderer": "^16.3.0-alpha.1",
-    "reactotron-react-native": "^1.14.0"
+    "reactotron-react-native": "^1.14.0",
+    "redux-mock-store": "^1.5.1"
   },
   "jest": {
     "setupTestFrameworkScriptFile": "<rootDir>/setupTests.js",
     "transformIgnorePatterns": [
       "node_modules/(?!(jest-)?react-native|react-navigation)"
+    ],
+    "collectCoverage": true,
+    "coverageFormats": [
+      "json",
+      "html"
     ],
     "preset": "react-native"
   }

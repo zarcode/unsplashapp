@@ -44,7 +44,7 @@ describe('photos actions', () => {
     )).toEqual(expectedAction);
   });
   it('should create an action to mark photos request success', () => {
-    const response = {
+    const normalizedRes = {
       entities: {
         users: {
           userid: { id: 'userid' },
@@ -66,7 +66,7 @@ describe('photos actions', () => {
     const refresh = true;
     const expectedAction = {
       type: ACTION.FETCH_PHOTOS_SUCCESS,
-      response,
+      response: normalizedRes,
       filter,
       page,
       isLastPage,
