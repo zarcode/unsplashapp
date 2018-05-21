@@ -18,7 +18,7 @@ export const filters: Array<Filter> = [
   },
 ];
 
-const filter = (state = filters[0].id, action) => {
+export const filter = (state = filters[0].id, action) => {
   if (
     action.type === ACTION.FETCH_PHOTOS_REQUESTED ||
     action.type === ACTION.CHANGE_PHOTOS_FILTER
@@ -29,120 +29,81 @@ const filter = (state = filters[0].id, action) => {
   return state;
 };
 
-// const initialListState = {
-//   ids: [],
-//   loadingState: false,
-//   errorMessage: null,
-// };
-// const list = (state = initialListState, action) => {
-//   switch (action.type) {
-//     case ACTION.FETCH_PHOTOS_REQUESTED:
-//       return {
-//         ...state,
-//         errorMessage: null,
-//       };
-//     case ACTION.FETCH_PHOTOS_LOADING:
-//       return {
-//         ...state,
-//         loadingState: true,
-//       };
-//     case ACTION.FETCH_PHOTOS_SUCCESS:
-//       return {
-//         ...state,
-//         ids: [
-//           ...state.ids,
-//           ...action.response.result,
-//         ],
-//         errorMessage: null,
-//         loadingState: false,
-//       };
-//     case ACTION.FETCH_PHOTOS_FAIL:
-//       return {
-//         ...state,
-//         errorMessage: action.error,
-//         loadingState: false,
-//       };
-//     default:
-//       return state;
-//   }
-// };
+export const byId = (selectedFilter: PhotosFilter) => (state = {}, action) => {
+  if (action.type === ACTION.FETCH_PHOTOS_SUCCESS && selectedFilter === action.filter) {
+    return {
+      ...state,
+      ...action.response.entities.photos,
+    };
+  }
+  return state;
+};
 
-const createList = (selectedFilter: PhotosFilter) => {
-  const byId = (state = {}, action) => {
-    if (action.type === ACTION.FETCH_PHOTOS_SUCCESS && selectedFilter === action.filter) {
-      return {
+export const ids = (selectedFilter: PhotosFilter) => (state = [], action) => {
+  if (action.type === ACTION.FETCH_PHOTOS_SUCCESS && selectedFilter === action.filter) {
+    return action.refresh ?
+      [...action.response.result] :
+      [
         ...state,
-        ...action.response.entities.photos,
-      };
-    }
-    return state;
-  };
+        ...action.response.result,
+      ];
+  }
+  return state;
+};
 
-  const ids = (state = [], action) => {
-    if (action.type === ACTION.FETCH_PHOTOS_SUCCESS && selectedFilter === action.filter) {
-      return action.refresh ?
-        [...action.response.result] :
-        [
-          ...state,
-          ...action.response.result,
-        ];
-    }
-    return state;
-  };
+export const lastLoadedPage = (selectedFilter: PhotosFilter) => (state = 0, action) => {
+  if (action.type === ACTION.FETCH_PHOTOS_SUCCESS && selectedFilter === action.filter) {
+    return action.page;
+  }
+  return state;
+};
 
-  const lastLoadedPage = (state = 0, action) => {
-    if (action.type === ACTION.FETCH_PHOTOS_SUCCESS && selectedFilter === action.filter) {
-      return action.page;
-    }
-    return state;
-  };
+export const isLastPage = (selectedFilter: PhotosFilter) => (state = false, action) => {
+  if (action.type === ACTION.FETCH_PHOTOS_SUCCESS && selectedFilter === action.filter) {
+    return action.isLastPage;
+  }
+  return state;
+};
 
-  const isLastPage = (state = false, action) => {
-    if (action.type === ACTION.FETCH_PHOTOS_SUCCESS && selectedFilter === action.filter) {
-      return action.isLastPage;
-    }
+export const loadingState = (selectedFilter: PhotosFilter) => (state = 'idle', action) => {
+  if (selectedFilter !== action.filter) {
     return state;
-  };
-
-  const loadingState = (state = 'idle', action) => {
-    if (selectedFilter !== action.filter) {
+  }
+  switch (action.type) {
+    case ACTION.FETCH_PHOTOS_LOADING:
+      return action.refresh ? 'refreshing' : 'loading';
+    case ACTION.FETCH_PHOTOS_SUCCESS:
+    case ACTION.FETCH_PHOTOS_FAIL:
+      return 'idle';
+    default:
       return state;
-    }
-    switch (action.type) {
-      case ACTION.FETCH_PHOTOS_LOADING:
-        return action.refresh ? 'refreshing' : 'loading';
-      case ACTION.FETCH_PHOTOS_SUCCESS:
-      case ACTION.FETCH_PHOTOS_FAIL:
-        return 'idle';
-      default:
-        return state;
-    }
-  };
+  }
+};
 
-  const errorMessage = (state = null, action) => {
-    if (selectedFilter !== action.filter) {
+export const errorMessage = (selectedFilter: PhotosFilter) => (state = null, action) => {
+  if (selectedFilter !== action.filter) {
+    return state;
+  }
+  switch (action.type) {
+    case ACTION.FETCH_PHOTOS_FAIL:
+      return action.error;
+    case ACTION.FETCH_PHOTOS_REQUESTED:
+    case ACTION.FETCH_PHOTOS_SUCCESS:
+      return null;
+    default:
       return state;
-    }
-    switch (action.type) {
-      case ACTION.FETCH_PHOTOS_FAIL:
-        return action.error;
-      case ACTION.FETCH_PHOTOS_REQUESTED:
-      case ACTION.FETCH_PHOTOS_SUCCESS:
-        return null;
-      default:
-        return state;
-    }
-  };
+  }
+};
 
-  return combineReducers({
-    byId,
-    ids,
-    lastLoadedPage,
-    isLastPage,
-    loadingState,
-    errorMessage,
+const createList = (selectedFilter: PhotosFilter) =>
+  combineReducers({
+    byId: byId(selectedFilter),
+    ids: ids(selectedFilter),
+    lastLoadedPage: lastLoadedPage(selectedFilter),
+    isLastPage: isLastPage(selectedFilter),
+    loadingState: loadingState(selectedFilter),
+    errorMessage: errorMessage(selectedFilter),
   });
-}
 
 const photos = combineReducers({
   filter,
@@ -164,6 +125,6 @@ export const getErrorMessage = state => state.photos[getFilter(state)].errorMess
 
 export const getPhotos = createSelector(
   [getIds, getById],
-  (ids, byId) => ids.map(id => byId[id]),
+  (allIds, allById) => allIds.map(id => allById[id]),
 )
 
