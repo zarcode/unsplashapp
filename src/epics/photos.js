@@ -1,5 +1,5 @@
 // @flow
-import { Observable, of } from 'rxjs';
+import { Observable, of, from } from 'rxjs';
 import {
   switchMap,
   concat,
@@ -34,7 +34,7 @@ export const loadPhotosToList = (action$: Observable<Action>, state$: Object): O
           per_page: perPage,
           order_by: a.filter,
         });
-        const requestAction = asObservable(request)
+        const requestAction = from(request)
           .pipe(
             // tap(data => { console.log("data", data); }),
             map(data =>
