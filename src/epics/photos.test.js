@@ -14,7 +14,7 @@ const mockStore = configureMockStore([epicMiddleware]);
 
 const mockApi = new MockAdapter(axios);
 
-describe('fetchUserEpic', () => {
+describe('fetch photos epic', () => {
   let store;
 
   beforeEach(() => {
@@ -40,15 +40,34 @@ describe('fetchUserEpic', () => {
       liked_by_user: false,
       slug: null,
     }];
+    const normalizedResponse = {
+      entities: {
+        photos: {
+          f_IGFcYncfQ: {
+            id: 'f_IGFcYncfQ',
+            created_at: '2018-05-18T09:47:08-04:00',
+            updated_at: '2018-05-19T04:25:34-04:00',
+            width: 4027,
+            height: 2334,
+            color: '#C9906B',
+            description: null,
+            sponsored: false,
+            likes: 19,
+            liked_by_user: false,
+            slug: null,
+          },
+        },
+      },
+      result: [
+        'f_IGFcYncfQ',
+      ],
+    };
     const params = {
       page: 1,
       per_page: 30,
       order_by: 'latest',
       client_id: config.client_id,
     };
-    // mockApi.onGet(`${config.url}/photos`, {
-    //   params,
-    // }).reply(200, payload);
 
     mockApi.onGet(`${config.url}/photos`, { params }).reply(200, payload);
 
@@ -80,6 +99,9 @@ describe('fetchUserEpic', () => {
       {
         filter: 'latest',
         refresh: true,
+        response: normalizedResponse,
+        page: 1,
+        isLastPage: false,
         type: ACTION.FETCH_PHOTOS_SUCCESS,
       },
     ]);

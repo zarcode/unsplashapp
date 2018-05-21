@@ -58,10 +58,6 @@
       "node_modules/(?!(jest-)?react-native|react-navigation)"
     ],
     "collectCoverage": true,
-    "coverageFormats": [
-      "json",
-      "html"
-    ],
     "preset": "react-native"
   }
 }
