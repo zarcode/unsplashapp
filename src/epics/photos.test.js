@@ -26,7 +26,7 @@ describe('fetch photos epic', () => {
     epicMiddleware.replaceEpic(loadPhotosToList);
   });
 
-  it('produces the photo model', () => {
+  it('produces the photo model', (done) => {
     const payload = [{
       id: 'f_IGFcYncfQ',
       created_at: '2018-05-18T09:47:08-04:00',
@@ -84,26 +84,28 @@ describe('fetch photos epic', () => {
       filter: 'latest',
       refresh: true,
     });
-
-    expect(store.getActions()).toEqual([
-      {
-        filter: 'latest',
-        refresh: true,
-        type: ACTION.FETCH_PHOTOS_REQUESTED,
-      },
-      {
-        filter: 'latest',
-        refresh: true,
-        type: ACTION.FETCH_PHOTOS_LOADING,
-      },
-      {
-        filter: 'latest',
-        refresh: true,
-        response: normalizedResponse,
-        page: 1,
-        isLastPage: false,
-        type: ACTION.FETCH_PHOTOS_SUCCESS,
-      },
-    ]);
+    setImmediate(() => {
+      expect(store.getActions()).toEqual([
+        {
+          filter: 'latest',
+          refresh: true,
+          type: ACTION.FETCH_PHOTOS_REQUESTED,
+        },
+        {
+          filter: 'latest',
+          refresh: true,
+          type: ACTION.FETCH_PHOTOS_LOADING,
+        },
+        {
+          filter: 'latest',
+          refresh: true,
+          response: normalizedResponse,
+          page: 1,
+          isLastPage: false,
+          type: ACTION.FETCH_PHOTOS_SUCCESS,
+        },
+      ]);
+      done();
+    })
   });
 });
