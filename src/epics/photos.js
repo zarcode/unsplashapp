@@ -29,11 +29,11 @@ export const loadPhotosToList = (action$: Observable<Action>, state$: Object): O
       switchMap((a) => {
         const nextPage = !a.refresh ? state(a.filter).lastLoadedPage + 1 : 1;
         const loadingAction = of(photosActions.photosLoading(a.filter, a.refresh));
-        const request = api.fetchPhotos({
+        const request = asObservable(api.fetchPhotos({
           page: nextPage,
           per_page: perPage,
           order_by: a.filter,
-        });
+        }));
         const requestAction = from(request)
           .pipe(
             // tap(data => { console.log("data", data); }),
