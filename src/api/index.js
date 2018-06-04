@@ -17,12 +17,12 @@ const requestGet = ({ url, params }): PromiseCancel<Array<Photo>> => {
 
   const promise: Promise<Array<Photo>> = axios(request).then(r => r.data);
 
-  return promise;
+  // return promise;
 
-  // return {
-  //   promise,
-  //   cancel: cancelSource.cancel,
-  // };
+  return {
+    promise,
+    cancel: cancelSource.cancel,
+  };
 };
 
 class ApiIml implements Api {

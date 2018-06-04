@@ -101,11 +101,86 @@ describe('fetch photos epic', () => {
           refresh: true,
           response: normalizedResponse,
           page: 1,
-          isLastPage: false,
+          isLastPage: true,
           type: ACTION.FETCH_PHOTOS_SUCCESS,
         },
       ]);
       done();
-    })
+    });
+  });
+  it('produces fail', (done) => {
+    const params = {
+      page: 1,
+      per_page: 30,
+      order_by: 'latest',
+      client_id: config.client_id,
+    };
+
+    mockApi.onGet(`${config.url}/photos`, { params }).reply(500);
+    store.dispatch({
+      type: ACTION.FETCH_PHOTOS_REQUESTED,
+      filter: 'latest',
+      refresh: true,
+    });
+    setImmediate(() => {
+      expect(store.getActions()).toEqual([
+        {
+          filter: 'latest',
+          refresh: true,
+          type: ACTION.FETCH_PHOTOS_REQUESTED,
+        },
+        {
+          filter: 'latest',
+          refresh: true,
+          type: ACTION.FETCH_PHOTOS_LOADING,
+        },
+        {
+          filter: 'latest',
+          error: 'Request failed with status code 500',
+          type: ACTION.FETCH_PHOTOS_FAIL,
+        },
+      ]);
+      done();
+    });
+  });
+  it('produces takeUntil', (done) => {
+    const params = {
+      page: 1,
+      per_page: 30,
+      order_by: 'latest',
+      client_id: config.client_id,
+    };
+
+    mockApi.onGet(`${config.url}/photos`, { params }).reply(500);
+    store.dispatch({
+      type: ACTION.FETCH_PHOTOS_REQUESTED,
+      filter: 'latest',
+      refresh: true,
+    });
+    store.dispatch({
+      type: ACTION.FETCH_PHOTOS_REQUESTED,
+      filter: 'latest',
+      refresh: true,
+    });
+    setImmediate(() => {
+      expect(store.getActions()).toEqual([
+        {
+          filter: 'latest',
+          refresh: true,
+          type: ACTION.FETCH_PHOTOS_REQUESTED,
+        },
+        {
+          filter: 'latest',
+          refresh: true,
+          type: ACTION.FETCH_PHOTOS_LOADING,
+        },
+        {
+          filter: 'latest',
+          error: 'Request failed with status code 500',
+          type: ACTION.FETCH_PHOTOS_FAIL,
+        },
+      ]);
+      done();
+    });
   });
 });
