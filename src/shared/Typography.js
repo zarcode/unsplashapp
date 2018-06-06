@@ -11,5 +11,7 @@ const styles = StyleSheet.create({
 });
 
 export const AppText = ({ style, children, ...rest }: TextProps): Element<*> => (
-  <Text {...rest} style={[styles.appText, style]}>{children}</Text>
+  <Text {...rest} style={[styles.appText, style]}>
+    {children}
+  </Text>
 );

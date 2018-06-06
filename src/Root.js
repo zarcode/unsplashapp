@@ -24,16 +24,16 @@ const navigationMiddleware = createReactNavigationReduxMiddleware('root', state 
 const addListener = createReduxBoundAddListener('root');
 
 type Props = {
-  dispatch: Dispatch,
-  nav: NavigationState,
-}
-export const App = (props:Props) => (
+	dispatch: Dispatch,
+	nav: NavigationState,
+};
+export const App = (props: Props) => (
   <AppNavigator
     navigation={addNavigationHelpers({
-      dispatch: props.dispatch,
-      state: props.nav,
-      addListener,
-    })}
+			dispatch: props.dispatch,
+			state: props.nav,
+			addListener,
+		})}
   />
 );
 
