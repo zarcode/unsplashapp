@@ -18,23 +18,17 @@ const styles = StyleSheet.create({
 });
 
 const PhotosListScreen = () => (
-  <View
-    style={styles.container}
-  >
+  <View style={styles.container}>
     <PhotosList />
   </View>
 );
 
-PhotosListScreen.navigationOptions = () => {
-  return {
-    header: (
-      <View
-        style={styles.header}
-      >
-        <PhotosFilters />
-      </View>
-    ),
-  };
-};
+PhotosListScreen.navigationOptions = () => ({
+  header: (
+    <View style={styles.header}>
+      <PhotosFilters />
+    </View>
+  ),
+});
 
 export default PhotosListScreen;

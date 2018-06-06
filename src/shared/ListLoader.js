@@ -5,7 +5,7 @@ const styles = StyleSheet.create({
   spinnerWrap: {
     paddingVertical: 15,
   },
-})
+});
 
 const ListLoader = () => (
   <View style={styles.spinnerWrap}>

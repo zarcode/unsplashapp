@@ -27,19 +27,21 @@ describe('fetch photos epic', () => {
   });
 
   it('produces the photo model', (done) => {
-    const payload = [{
-      id: 'f_IGFcYncfQ',
-      created_at: '2018-05-18T09:47:08-04:00',
-      updated_at: '2018-05-19T04:25:34-04:00',
-      width: 4027,
-      height: 2334,
-      color: '#C9906B',
-      description: null,
-      sponsored: false,
-      likes: 19,
-      liked_by_user: false,
-      slug: null,
-    }];
+    const payload = [
+      {
+        id: 'f_IGFcYncfQ',
+        created_at: '2018-05-18T09:47:08-04:00',
+        updated_at: '2018-05-19T04:25:34-04:00',
+        width: 4027,
+        height: 2334,
+        color: '#C9906B',
+        description: null,
+        sponsored: false,
+        likes: 19,
+        liked_by_user: false,
+        slug: null,
+      },
+    ];
     const normalizedResponse = {
       entities: {
         photos: {
@@ -58,9 +60,7 @@ describe('fetch photos epic', () => {
           },
         },
       },
-      result: [
-        'f_IGFcYncfQ',
-      ],
+      result: ['f_IGFcYncfQ'],
     };
     const params = {
       page: 1,

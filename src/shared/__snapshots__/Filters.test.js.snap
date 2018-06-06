@@ -1,0 +1,44 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Filters /> renders correctly 1`] = `
+<View
+  style={
+    Object {
+      "flexDirection": "row",
+      "justifyContent": "space-evenly",
+      "paddingVertical": 13,
+    }
+  }
+>
+  <TouchableOpacity
+    activeOpacity={0.2}
+    key="latest"
+  >
+    <AppText
+      style={Object {}}
+    >
+      Latest
+    </AppText>
+  </TouchableOpacity>
+  <TouchableOpacity
+    activeOpacity={0.2}
+    key="popular"
+  >
+    <AppText
+      style={Object {}}
+    >
+      Popular
+    </AppText>
+  </TouchableOpacity>
+  <TouchableOpacity
+    activeOpacity={0.2}
+    key="oldest"
+  >
+    <AppText
+      style={Object {}}
+    >
+      Oldest
+    </AppText>
+  </TouchableOpacity>
+</View>
+`;

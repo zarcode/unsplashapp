@@ -21,21 +21,19 @@ export type FiltersProps = {
   onFilterSelect: (id: string) => () => void,
   currentFilter: string,
   allFilters: Array<Filter>,
-}
+};
 
 const Filters = ({ onFilterSelect, allFilters, currentFilter }: FiltersProps): Element<*> => (
   <View style={styles.filters}>
     {allFilters.map(filter => (
-      <TouchableOpacity
-        key={filter.id}
-        onPress={onFilterSelect(filter.id)}
-      >
+      <TouchableOpacity key={filter.id} onPress={onFilterSelect(filter.id)}>
         <AppText style={currentFilter === filter.id ? styles.current : {}}>
-          { filter.label }
+          {filter.label}
         </AppText>
       </TouchableOpacity>
     ))}
-  </View>);
+  </View>
+);
 
 // Filters.propTypes = {};
 Filters.defaultProps = {};

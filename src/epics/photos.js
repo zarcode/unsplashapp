@@ -1,13 +1,6 @@
 // @flow
 import { Observable, of, from } from 'rxjs';
-import {
-  switchMap,
-  concat,
-  map,
-  filter,
-  catchError,
-  takeUntil,
-} from 'rxjs/operators';
+import { switchMap, concat, map, filter, catchError, takeUntil } from 'rxjs/operators';
 
 import { ACTION } from '../constants';
 import { Action } from '../action/actionTypes';
@@ -18,24 +11,28 @@ import type { PhotosFilter } from '../api/types';
 
 const perPage = 30;
 
-export const loadPhotosToList = (action$: Observable<Action>, state$: Object): Observable<Action> => {
+export const loadPhotosToList = (
+  action$: Observable<Action>,
+  state$: Object,
+): Observable<Action> => {
   const state = (photosFilter: PhotosFilter) => state$.value.photos[photosFilter];
-  return action$
-  // .ofType(ACTION.FETCH_PHOTOS_REQUESTED)
-    .pipe(
-      filter((a: Action) =>
-        a.type === ACTION.FETCH_PHOTOS_REQUESTED &&
-        ((state(a.filter).loadingState === 'idle' && !state(a.filter).isLastPage) || a.refresh)),
-      switchMap((a) => {
-        const nextPage = !a.refresh ? state(a.filter).lastLoadedPage + 1 : 1;
-        const loadingAction = of(photosActions.photosLoading(a.filter, a.refresh));
-        const request = asObservable(api.fetchPhotos({
-          page: nextPage,
-          per_page: perPage,
-          order_by: a.filter,
-        }));
-        const requestAction = from(request)
-          .pipe(
+  return (
+    action$
+    // .ofType(ACTION.FETCH_PHOTOS_REQUESTED)
+      .pipe(
+        filter((a: Action) =>
+          a.type === ACTION.FETCH_PHOTOS_REQUESTED &&
+						((state(a.filter).loadingState === 'idle' && !state(a.filter).isLastPage) ||
+							a.refresh)),
+        switchMap((a) => {
+          const nextPage = !a.refresh ? state(a.filter).lastLoadedPage + 1 : 1;
+          const loadingAction = of(photosActions.photosLoading(a.filter, a.refresh));
+          const request = asObservable(api.fetchPhotos({
+            page: nextPage,
+            per_page: perPage,
+            order_by: a.filter,
+          }));
+          const requestAction = from(request).pipe(
             // tap(data => { console.log("data", data); }),
             map(data =>
               photosActions.photosSuccess(
@@ -47,13 +44,13 @@ export const loadPhotosToList = (action$: Observable<Action>, state$: Object): O
               )),
             catchError(e => of(photosActions.photosFail(e.message, a.filter))),
           );
-        // requestAction.subscribe(x => console.log("-------",x));
-        return loadingAction
-          .pipe(
+          // requestAction.subscribe(x => console.log("-------",x));
+          return loadingAction.pipe(
             concat(requestAction),
-            takeUntil(action$
-              .pipe(filter(futureAction => futureAction.type === ACTION.FETCH_PHOTOS_REQUESTED))),
+            takeUntil(action$.pipe(filter(futureAction =>
+              futureAction.type === ACTION.FETCH_PHOTOS_REQUESTED))),
           );
-      }),
-    );
+        }),
+      )
+  );
 };
