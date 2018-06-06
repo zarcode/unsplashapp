@@ -1,9 +1,9 @@
 const config  =  {
     singleQuote: false,
-    useTabs: true,
-    tabWidth: 4,
+    useTabs: false,
+    tabWidth: 2,
     bracketSpacing: false,
-    parser: 'babylon'
+    parser: 'babylon',
 };
 
 module.exports = config;

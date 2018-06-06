@@ -18,12 +18,11 @@ export const loadPhotosToList = (
   const state = (photosFilter: PhotosFilter) => state$.value.photos[photosFilter];
   return (
     action$
-    // .ofType(ACTION.FETCH_PHOTOS_REQUESTED)
+      // .ofType(ACTION.FETCH_PHOTOS_REQUESTED)
       .pipe(
         filter((a: Action) =>
           a.type === ACTION.FETCH_PHOTOS_REQUESTED &&
-						((state(a.filter).loadingState === 'idle' && !state(a.filter).isLastPage) ||
-							a.refresh)),
+            ((state(a.filter).loadingState === 'idle' && !state(a.filter).isLastPage) || a.refresh)),
         switchMap((a) => {
           const nextPage = !a.refresh ? state(a.filter).lastLoadedPage + 1 : 1;
           const loadingAction = of(photosActions.photosLoading(a.filter, a.refresh));
@@ -47,8 +46,7 @@ export const loadPhotosToList = (
           // requestAction.subscribe(x => console.log("-------",x));
           return loadingAction.pipe(
             concat(requestAction),
-            takeUntil(action$.pipe(filter(futureAction =>
-              futureAction.type === ACTION.FETCH_PHOTOS_REQUESTED))),
+            takeUntil(action$.pipe(filter(futureAction => futureAction.type === ACTION.FETCH_PHOTOS_REQUESTED))),
           );
         }),
       )
