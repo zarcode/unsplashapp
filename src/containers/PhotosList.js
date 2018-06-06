@@ -24,7 +24,7 @@ type Props = {
   filter: PhotosFilter,
   isLastPage: boolean,
   lastLoadedPage: number,
-  loadingState: "refreshing" | "loading" | "idle",
+  loadingState: 'refreshing' | 'loading' | 'idle',
   getErrorMessage: string,
   actions: {
     toSinglePhoto: () => void,

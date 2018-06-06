@@ -68,7 +68,7 @@ export type User = {
 export type FetchPhotosParams = {
   page: number,
   per_page: number,
-  order_by: "latest" | "oldest" | "popular",
+  order_by: 'latest' | 'oldest' | 'popular',
 };
 
 export type ApiMethod<Args, R> = (args: Args) => PromiseCancel<R>;
