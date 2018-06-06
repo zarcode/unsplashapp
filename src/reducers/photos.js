@@ -21,7 +21,7 @@ export const filters: Array<Filter> = [
 export const filter = (state = filters[0].id, action) => {
   if (
     action.type === ACTION.FETCH_PHOTOS_REQUESTED ||
-		action.type === ACTION.CHANGE_PHOTOS_FILTER
+    action.type === ACTION.CHANGE_PHOTOS_FILTER
   ) {
     return action.filter;
   }

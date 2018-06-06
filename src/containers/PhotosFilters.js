@@ -9,12 +9,12 @@ import { photosRequested, changeFilter } from '../action/photos';
 import type { PhotosFilter } from '../api/types';
 
 type Props = {
-	currentFilter: string,
-	lastLoadedPage: (filterId: PhotosFilter) => number,
-	actions: {
-		photosRequested: (filterId: PhotosFilter, refresh: boolean) => void,
-		changeFilter: (filterId: PhotosFilter) => void,
-	},
+  currentFilter: string,
+  lastLoadedPage: (filterId: PhotosFilter) => number,
+  actions: {
+    photosRequested: (filterId: PhotosFilter, refresh: boolean) => void,
+    changeFilter: (filterId: PhotosFilter) => void,
+  },
 };
 
 /**
