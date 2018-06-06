@@ -10,7 +10,7 @@ import {
   getFilter,
 } from './photos';
 import state from '../../models/state.json';
-import { ACTION } from '../constants';
+import { ACTION } from '../constants/index';
 
 const normalizedRes = {
   entities: {

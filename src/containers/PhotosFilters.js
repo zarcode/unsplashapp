@@ -22,7 +22,7 @@ type Props = {
  * @param {string} filterId
  * @returns {function()}
  */
-const handleChangeFilter = ({ currentFilter, lastLoadedPage, actions }: Props) =>
+export const handleChangeFilter = ({ currentFilter, lastLoadedPage, actions }: Props) =>
   (filterId: string) => () => {
     if (filterId !== currentFilter) {
       if (lastLoadedPage(filterId) === 0) {
@@ -37,11 +37,11 @@ const buildFilterProps = (props: Props): FiltersProps => ({
   onFilterSelect: handleChangeFilter(props),
   currentFilter: props.currentFilter,
   allFilters: filters,
-})
+});
 
 const mapPropsHoc = mapProps(buildFilterProps);
 
-const PhotosFilters = mapPropsHoc(Filters);
+export const PhotosFilters = mapPropsHoc(Filters);
 
 const mapStateToProps = state => ({
   currentFilter: getFilter(state),
