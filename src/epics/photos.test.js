@@ -5,7 +5,7 @@ import { createEpicMiddleware } from 'redux-observable';
 import configureMockStore from 'redux-mock-store';
 import { loadPhotosToList } from './photos';
 import config from '../config.json';
-import { ACTION } from '../constants';
+import { ACTION } from '../constants/index';
 import state from '../../models/state.json';
 // import api from '../api';
 

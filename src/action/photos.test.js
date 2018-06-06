@@ -1,4 +1,4 @@
-import { PHOTOS_FILTERS, ACTION } from '../constants';
+import { PHOTOS_FILTERS, ACTION } from '../constants/index';
 import * as actions from './photos';
 
 describe('photos actions', () => {

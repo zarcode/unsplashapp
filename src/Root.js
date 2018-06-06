@@ -5,30 +5,29 @@
 import React from 'react';
 import { View } from 'react-native';
 import { connect, Provider } from 'react-redux';
-import PropTypes from 'prop-types';
 import { addNavigationHelpers } from 'react-navigation';
 import {
   createReduxBoundAddListener,
   createReactNavigationReduxMiddleware,
 } from 'react-navigation-redux-helpers';
-// import type {
-//   NavigationDispatch,
-//   NavigationEventCallback,
-//   NavigationEventPayload,
-//   NavigationState,
-// } from 'react-navigation';
+import type {
+  // NavigationDispatch,
+  // NavigationEventCallback,
+  // NavigationEventPayload,
+  NavigationState,
+} from 'react-navigation';
+import type { Dispatch } from 'redux';
 import configureStore from './configureStore';
 import { AppNavigator } from './navigation/AppNavigator';
-
-// type Props = {
-//   dispatch: NavigationDispatch,
-//   nav: NavigationState,
-// };
 
 const navigationMiddleware = createReactNavigationReduxMiddleware('root', state => state.nav);
 const addListener = createReduxBoundAddListener('root');
 
-const App = props => (
+type Props = {
+  dispatch: Dispatch,
+  nav: NavigationState,
+}
+export const App = (props:Props) => (
   <AppNavigator
     navigation={addNavigationHelpers({
       dispatch: props.dispatch,
@@ -37,11 +36,6 @@ const App = props => (
     })}
   />
 );
-
-App.propTypes = {
-  dispatch: PropTypes.func.isRequired,
-  nav: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
-};
 
 const mapStateToProps = state => ({
   nav: state.nav,
