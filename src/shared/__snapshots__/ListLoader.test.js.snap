@@ -1,0 +1,18 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<ListLoader /> renders correctly 1`] = `
+<View
+  style={
+    Object {
+      "paddingVertical": 15,
+    }
+  }
+>
+  <ActivityIndicator
+    animating={true}
+    color="#999999"
+    hidesWhenStopped={true}
+    size="small"
+  />
+</View>
+`;
