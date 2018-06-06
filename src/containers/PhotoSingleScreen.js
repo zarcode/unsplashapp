@@ -32,8 +32,9 @@ class PhotoSingleScreen extends Component {
       <View style={styles.container}>
         <PhotoView
           source={{
-            uri: 'https://images.unsplash.com/photo-1524562596000-38f0dbe5b07a?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max&ixid=eyJhcHBfaWQiOjI0NzMwfQ&s=6642c2d7e15fc4a1d2b0d8bd65835e65',
-          }}
+						uri:
+							'https://images.unsplash.com/photo-1524562596000-38f0dbe5b07a?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max&ixid=eyJhcHBfaWQiOjI0NzMwfQ&s=6642c2d7e15fc4a1d2b0d8bd65835e65',
+					}}
           minimumZoomScale={0.9}
           maximumZoomScale={3}
           androidScaleType="center"
@@ -41,20 +42,15 @@ class PhotoSingleScreen extends Component {
           style={styles.imagePreview}
         />
         <View style={styles.topLine}>
-          <TouchableOpacity
-            style={styles.backButton}
-          >
-          </TouchableOpacity>
+          <TouchableOpacity style={styles.backButton} />
         </View>
       </View>
     );
   }
 }
 
-PhotoSingleScreen.navigationOptions = () => {
-  return {
-    header: null,
-  };
-};
+PhotoSingleScreen.navigationOptions = () => ({
+  header: null,
+});
 
 export default PhotoSingleScreen;

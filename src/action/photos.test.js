@@ -38,10 +38,7 @@ describe('photos actions', () => {
       error,
       filter,
     };
-    expect(actions.photosFail(
-      'Some error happened',
-      PHOTOS_FILTERS.LATEST,
-    )).toEqual(expectedAction);
+    expect(actions.photosFail('Some error happened', PHOTOS_FILTERS.LATEST)).toEqual(expectedAction);
   });
   it('should create an action to mark photos request success', () => {
     const normalizedRes = {
@@ -56,9 +53,7 @@ describe('photos actions', () => {
           },
         },
       },
-      result: [
-        'photoid',
-      ],
+      result: ['photoid'],
     };
     const filter = PHOTOS_FILTERS.LATEST;
     const page = 1;
@@ -72,22 +67,20 @@ describe('photos actions', () => {
       isLastPage,
       refresh,
     };
-    expect(actions
-      .photosSuccess(
-        [
-          {
-            id: 'photoid',
-            user: {
-              id: 'userid',
-            },
+    expect(actions.photosSuccess(
+      [
+        {
+          id: 'photoid',
+          user: {
+            id: 'userid',
           },
-        ],
-        PHOTOS_FILTERS.LATEST,
-        1,
-        false,
-        true,
-      ))
-      .toEqual(expectedAction);
+        },
+      ],
+      PHOTOS_FILTERS.LATEST,
+      1,
+      false,
+      true,
+    )).toEqual(expectedAction);
   });
 
   it('should create an action navigate to single photo screen', () => {

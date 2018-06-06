@@ -21,7 +21,7 @@ export const filters: Array<Filter> = [
 export const filter = (state = filters[0].id, action) => {
   if (
     action.type === ACTION.FETCH_PHOTOS_REQUESTED ||
-    action.type === ACTION.CHANGE_PHOTOS_FILTER
+		action.type === ACTION.CHANGE_PHOTOS_FILTER
   ) {
     return action.filter;
   }
@@ -41,12 +41,7 @@ export const byId = (selectedFilter: PhotosFilter) => (state = {}, action) => {
 
 export const ids = (selectedFilter: PhotosFilter) => (state = [], action) => {
   if (action.type === ACTION.FETCH_PHOTOS_SUCCESS && selectedFilter === action.filter) {
-    return action.refresh ?
-      [...action.response.result] :
-      [
-        ...state,
-        ...action.response.result,
-      ];
+    return action.refresh ? [...action.response.result] : [...state, ...action.response.result];
   }
   return state;
 };
@@ -118,13 +113,10 @@ export const getFilter = state => state.photos.filter;
 const getById = state => state.photos[getFilter(state)].byId;
 const getIds = state => state.photos[getFilter(state)].ids;
 export const getIsLastPage = state => state.photos[getFilter(state)].isLastPage;
-export const getLastLoadedPage = state =>
-  selectedFilter => state.photos[selectedFilter].lastLoadedPage;
+export const getLastLoadedPage = state => selectedFilter =>
+  state.photos[selectedFilter].lastLoadedPage;
 export const getLoadingState = state => state.photos[getFilter(state)].loadingState;
 export const getErrorMessage = state => state.photos[getFilter(state)].errorMessage;
 
-export const getPhotos = createSelector(
-  [getIds, getById],
-  (allIds, allById) => allIds.map(id => allById[id]),
-)
-
+export const getPhotos = createSelector([getIds, getById], (allIds, allById) =>
+  allIds.map(id => allById[id]));

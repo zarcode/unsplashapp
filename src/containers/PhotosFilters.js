@@ -9,29 +9,28 @@ import { photosRequested, changeFilter } from '../action/photos';
 import type { PhotosFilter } from '../api/types';
 
 type Props = {
-  currentFilter: string,
-  lastLoadedPage: (filterId: PhotosFilter) => number,
-  actions: {
-    photosRequested: (filterId: PhotosFilter, refresh: boolean) => void,
-    changeFilter: (filterId: PhotosFilter) => void
-  }
-}
+	currentFilter: string,
+	lastLoadedPage: (filterId: PhotosFilter) => number,
+	actions: {
+		photosRequested: (filterId: PhotosFilter, refresh: boolean) => void,
+		changeFilter: (filterId: PhotosFilter) => void,
+	},
+};
 
 /**
  *  Change filter
  * @param {string} filterId
  * @returns {function()}
  */
-export const handleChangeFilter = ({ currentFilter, lastLoadedPage, actions }: Props) =>
-  (filterId: string) => () => {
-    if (filterId !== currentFilter) {
-      if (lastLoadedPage(filterId) === 0) {
-        actions.photosRequested(filterId, true);
-      } else {
-        actions.changeFilter(filterId);
-      }
+export const handleChangeFilter = ({ currentFilter, lastLoadedPage, actions }: Props) => (filterId: string) => () => {
+  if (filterId !== currentFilter) {
+    if (lastLoadedPage(filterId) === 0) {
+      actions.photosRequested(filterId, true);
+    } else {
+      actions.changeFilter(filterId);
     }
-  };
+  }
+};
 
 const buildFilterProps = (props: Props): FiltersProps => ({
   onFilterSelect: handleChangeFilter(props),
