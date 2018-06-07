@@ -7,7 +7,7 @@ import {
 import PhotosListScreen from '../containers/PhotosListScreen';
 import PhotoSingleScreen from '../containers/PhotoSingleScreen';
 
-export const AppNavigator = StackNavigator(
+const AppNavigator = StackNavigator(
   {
     PhotosListScreen: {
       screen: PhotosListScreen,
@@ -20,3 +20,5 @@ export const AppNavigator = StackNavigator(
     headerMode: 'screen',
   },
 );
+
+export default AppNavigator;

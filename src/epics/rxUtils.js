@@ -2,7 +2,7 @@
 import { Observable } from 'rxjs';
 import type { PromiseCancel } from '../api/types';
 
-export const asObservable = <T>(promise: PromiseCancel<T>): Observable<T> =>
+const asObservable = <T>(promise: PromiseCancel<T>): Observable<T> =>
   Observable.create((observer) => {
     promise.promise
       .then((result) => {
@@ -15,3 +15,5 @@ export const asObservable = <T>(promise: PromiseCancel<T>): Observable<T> =>
       promise.cancel('observable unsubscribed');
     };
   });
+
+export default asObservable;
