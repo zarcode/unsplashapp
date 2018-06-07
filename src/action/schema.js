@@ -5,4 +5,4 @@ const photo = new schema.Entity('photos', {
   user,
 });
 
-export const photos = [photo];
+export const photos = [photo]; // eslint-disable-line import/prefer-default-export

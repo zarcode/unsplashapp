@@ -22,15 +22,16 @@ type Props = {
  * @param {string} filterId
  * @returns {function()}
  */
-export const handleChangeFilter = ({ currentFilter, lastLoadedPage, actions }: Props) => (filterId: string) => () => {
-  if (filterId !== currentFilter) {
-    if (lastLoadedPage(filterId) === 0) {
-      actions.photosRequested(filterId, true);
-    } else {
-      actions.changeFilter(filterId);
+export const handleChangeFilter = ({ currentFilter, lastLoadedPage, actions }: Props) =>
+  (filterId: string) => () => {
+    if (filterId !== currentFilter) {
+      if (lastLoadedPage(filterId) === 0) {
+        actions.photosRequested(filterId, true);
+      } else {
+        actions.changeFilter(filterId);
+      }
     }
-  }
-};
+  };
 
 const buildFilterProps = (props: Props): FiltersProps => ({
   onFilterSelect: handleChangeFilter(props),
