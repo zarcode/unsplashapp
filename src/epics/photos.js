@@ -5,7 +5,7 @@ import { switchMap, concat, map, filter, catchError, takeUntil } from 'rxjs/oper
 import { ACTION } from '../constants';
 import { Action } from '../action/actionTypes';
 import * as photosActions from '../action/photos';
-import { asObservable } from './rxUtils';
+import asObservable from './rxUtils';
 import api from '../api';
 import type { PhotosFilter } from '../api/types';
 
@@ -46,9 +46,12 @@ export const loadPhotosToList = (
           // requestAction.subscribe(x => console.log("-------",x));
           return loadingAction.pipe(
             concat(requestAction),
-            takeUntil(action$.pipe(filter(futureAction => futureAction.type === ACTION.FETCH_PHOTOS_REQUESTED))),
+            takeUntil(action$
+              .pipe(filter(futureAction => futureAction.type === ACTION.FETCH_PHOTOS_REQUESTED))),
           );
         }),
       )
   );
 };
+
+export const moreEpics = '';
