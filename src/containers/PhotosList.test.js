@@ -21,6 +21,7 @@ describe('<PhotosFilters />', () => {
     const props = {
       loadingState: 'idle',
       lastLoadedPage: 0,
+      filter: 'latest',
       actions: {
         photosRequested: jest.fn(),
       },
@@ -30,5 +31,6 @@ describe('<PhotosFilters />', () => {
     // wrapper.instance().onStart();
     expect(PhotosList.prototype.componentDidMount.mock.calls.length).toBe(1);
     expect(props.actions.photosRequested.mock.calls.length).toBe(1);
+    expect(props.actions.photosRequested.mock.calls[0][0]).toBe('latest');
   });
 });
