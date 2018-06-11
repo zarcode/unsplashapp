@@ -31,6 +31,6 @@ describe('<PhotosFilters />', () => {
     // wrapper.instance().onStart();
     expect(PhotosList.prototype.componentDidMount.mock.calls.length).toBe(1);
     expect(props.actions.photosRequested.mock.calls.length).toBe(1);
-    expect(props.actions.photosRequested.mock.calls[0][0]).toBe('some');
+    expect(props.actions.photosRequested.mock.calls[0][0]).toBe('latest');
   });
 });
