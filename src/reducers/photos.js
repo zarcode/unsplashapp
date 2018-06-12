@@ -30,7 +30,10 @@ export const filter = (state = filters[0].id, action) => {
 };
 
 export const byId = (selectedFilter: PhotosFilter) => (state = {}, action) => {
-  if (action.type === ACTION.FETCH_PHOTOS_SUCCESS && selectedFilter === action.filter) {
+  if (
+    action.type === ACTION.FETCH_PHOTOS_SUCCESS &&
+    selectedFilter === action.filter
+  ) {
     return {
       ...state,
       ...action.response.entities.photos,
@@ -40,27 +43,47 @@ export const byId = (selectedFilter: PhotosFilter) => (state = {}, action) => {
 };
 
 export const ids = (selectedFilter: PhotosFilter) => (state = [], action) => {
-  if (action.type === ACTION.FETCH_PHOTOS_SUCCESS && selectedFilter === action.filter) {
-    return action.refresh ? [...action.response.result] : [...state, ...action.response.result];
+  if (
+    action.type === ACTION.FETCH_PHOTOS_SUCCESS &&
+    selectedFilter === action.filter
+  ) {
+    return action.refresh
+      ? [...action.response.result]
+      : [...state, ...action.response.result];
   }
   return state;
 };
 
-export const lastLoadedPage = (selectedFilter: PhotosFilter) => (state = 0, action) => {
-  if (action.type === ACTION.FETCH_PHOTOS_SUCCESS && selectedFilter === action.filter) {
+export const lastLoadedPage = (selectedFilter: PhotosFilter) => (
+  state = 0,
+  action,
+) => {
+  if (
+    action.type === ACTION.FETCH_PHOTOS_SUCCESS &&
+    selectedFilter === action.filter
+  ) {
     return action.page;
   }
   return state;
 };
 
-export const isLastPage = (selectedFilter: PhotosFilter) => (state = false, action) => {
-  if (action.type === ACTION.FETCH_PHOTOS_SUCCESS && selectedFilter === action.filter) {
+export const isLastPage = (selectedFilter: PhotosFilter) => (
+  state = false,
+  action,
+) => {
+  if (
+    action.type === ACTION.FETCH_PHOTOS_SUCCESS &&
+    selectedFilter === action.filter
+  ) {
     return action.isLastPage;
   }
   return state;
 };
 
-export const loadingState = (selectedFilter: PhotosFilter) => (state = 'idle', action) => {
+export const loadingState = (selectedFilter: PhotosFilter) => (
+  state = 'idle',
+  action,
+) => {
   if (selectedFilter !== action.filter) {
     return state;
   }
@@ -75,7 +98,10 @@ export const loadingState = (selectedFilter: PhotosFilter) => (state = 'idle', a
   }
 };
 
-export const errorMessage = (selectedFilter: PhotosFilter) => (state = null, action) => {
+export const errorMessage = (selectedFilter: PhotosFilter) => (
+  state = null,
+  action,
+) => {
   if (selectedFilter !== action.filter) {
     return state;
   }
@@ -115,8 +141,10 @@ const getIds = state => state.photos[getFilter(state)].ids;
 export const getIsLastPage = state => state.photos[getFilter(state)].isLastPage;
 export const getLastLoadedPage = state => selectedFilter =>
   state.photos[selectedFilter].lastLoadedPage;
-export const getLoadingState = state => state.photos[getFilter(state)].loadingState;
-export const getErrorMessage = state => state.photos[getFilter(state)].errorMessage;
+export const getLoadingState = state =>
+  state.photos[getFilter(state)].loadingState;
+export const getErrorMessage = state =>
+  state.photos[getFilter(state)].errorMessage;
 
 export const getPhotos = createSelector([getIds, getById], (allIds, allById) =>
   allIds.map(id => allById[id]));

@@ -77,7 +77,10 @@ export interface Api {
   +fetchPhotos: ApiMethod<FetchPhotosParams, Array<Photo>>;
 }
 
-export type PhotosFilter = PHOTOS_FILTERS.LATEST | PHOTOS_FILTERS.POPULAR | PHOTOS_FILTERS.OLDEST;
+export type PhotosFilter =
+  | PHOTOS_FILTERS.LATEST
+  | PHOTOS_FILTERS.POPULAR
+  | PHOTOS_FILTERS.OLDEST;
 
 export type Filter = {
   id: PhotosFilter,

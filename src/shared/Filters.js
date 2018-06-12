@@ -23,11 +23,17 @@ export type FiltersProps = {
   allFilters: Array<Filter>,
 };
 
-const Filters = ({ onFilterSelect, allFilters, currentFilter }: FiltersProps): Element<*> => (
+const Filters = ({
+  onFilterSelect,
+  allFilters,
+  currentFilter,
+}: FiltersProps): Element<*> => (
   <View style={styles.filters}>
     {allFilters.map(filter => (
       <TouchableOpacity key={filter.id} onPress={onFilterSelect(filter.id)}>
-        <AppText style={currentFilter === filter.id ? styles.current : {}}>{filter.label}</AppText>
+        <AppText style={currentFilter === filter.id ? styles.current : {}}>
+          {filter.label}
+        </AppText>
       </TouchableOpacity>
     ))}
   </View>
