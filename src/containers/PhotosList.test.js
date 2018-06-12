@@ -17,7 +17,7 @@ describe('<PhotosFilters />', () => {
     wrapper.setProps({ getErrorMessage: 'Error' });
     expect(PhotosList.prototype.componentWillReceiveProps.mock.calls.length).toBe(1);
   });
-  it('setProps calls onStart', () => {
+  it('componentDidMount calls photosRequested', () => {
     const props = {
       loadingState: 'idle',
       lastLoadedPage: 0,
@@ -29,7 +29,18 @@ describe('<PhotosFilters />', () => {
     jest.spyOn(PhotosList.prototype, 'componentDidMount');
     shallow(<PhotosList {...props} />);
     // wrapper.instance().onStart();
-    expect(PhotosList.prototype.componentDidMount.mock.calls.length).toBe(1);
+    expect(PhotosList.prototype.componentDidMount).toBeCalled();
+    expect(props.actions.photosRequested).toBeCalledWith('latest', true);
+  });
+  it('refresh calls photosRequested', () => {
+    const props = {
+      filter: 'latest',
+      actions: {
+        photosRequested: jest.fn(),
+      },
+    };
+    const wrapper = shallow(<PhotosList {...props} />);
+    wrapper.instance().refresh();
     expect(props.actions.photosRequested.mock.calls.length).toBe(1);
     expect(props.actions.photosRequested.mock.calls[0][0]).toBe('latest');
   });
