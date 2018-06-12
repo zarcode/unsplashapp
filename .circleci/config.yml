@@ -40,15 +40,7 @@ jobs:
       - run: npm run flow-check
 
       # run linter!
-      - run:
-          name: "JavaScript Linter"
-          # yarn here makes sure we are using the local jest binary
-          command: npm run eslint src -- --format junit -o reports/junit/js-lint-results.xml
-      # Note: this hasn't changed. Don't add this twice!
-      - store_test_results:
-          path: reports/junit
-      - store_artifacts:
-          path: reports/junit
+      - run: npm run eslint
 
       # run tests!
       - run: npm test
