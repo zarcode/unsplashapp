@@ -67,9 +67,11 @@ export class PhotosListComponent extends Component<Props, State> {
   }
   componentWillReceiveProps(nextProps: Props) {
     if (nextProps.getErrorMessage) {
-      Alert.alert('Sorry, something went wrong', 'Please, try refreshing the list', [
-        { text: 'OK', onPress: null },
-      ]);
+      Alert.alert(
+        'Sorry, something went wrong',
+        'Please, try refreshing the list',
+        [{ text: 'OK', onPress: null }],
+      );
     }
   }
 
@@ -85,7 +87,10 @@ export class PhotosListComponent extends Component<Props, State> {
         columns = 10;
       }
     }
-    this.setState({ numColumns: columns, imageDim: Math.floor(width / columns) });
+    this.setState({
+      numColumns: columns,
+      imageDim: Math.floor(width / columns),
+    });
   };
   onStart = () => {
     const isLoaded = this.props.lastLoadedPage > 0;
@@ -157,7 +162,8 @@ export class PhotosListComponent extends Component<Props, State> {
   render() {
     const loading = this.props.loadingState === 'loading';
     const refreshing = this.props.loadingState === 'refreshing';
-    const errorHappend = this.props.loadingState === 'idle' && this.props.getErrorMessage;
+    const errorHappend =
+      this.props.loadingState === 'idle' && this.props.getErrorMessage;
 
     return (
       <FlatList

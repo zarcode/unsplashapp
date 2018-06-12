@@ -20,7 +20,10 @@ import type { Dispatch } from 'redux';
 import configureStore from './configureStore';
 import { AppNavigator } from './navigation/AppNavigator';
 
-const navigationMiddleware = createReactNavigationReduxMiddleware('root', state => state.nav);
+const navigationMiddleware = createReactNavigationReduxMiddleware(
+  'root',
+  state => state.nav,
+);
 const addListener = createReduxBoundAddListener('root');
 
 type Props = {
