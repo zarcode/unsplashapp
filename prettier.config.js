@@ -1,5 +1,5 @@
 const config = {
-  printWidth: 100,
+  printWidth: 80,
 };
 
 module.exports = config;
