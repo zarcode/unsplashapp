@@ -16,8 +16,8 @@ export default (navigationMiddleware: Middleware) => {
     navigationMiddleware,
   ];
 
+  // eslint-disable-next-line no-undef
   if (__DEV__) {
-    // eslint-disable-line no-undef
     middleWares.push(logger);
   }
 
