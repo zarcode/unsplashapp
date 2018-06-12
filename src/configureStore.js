@@ -11,9 +11,13 @@ import photos from './reducers/photos';
 import nav from './reducers/nav';
 
 export default (navigationMiddleware: Middleware) => {
-  const middleWares: Array<*> = [createEpicMiddleware(rootEpic), navigationMiddleware];
+  const middleWares: Array<*> = [
+    createEpicMiddleware(rootEpic),
+    navigationMiddleware,
+  ];
 
-  if (__DEV__) { // eslint-disable-line no-undef
+  if (__DEV__) {
+    // eslint-disable-line no-undef
     middleWares.push(logger);
   }
 

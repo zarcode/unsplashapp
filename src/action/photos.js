@@ -11,13 +11,19 @@ export const changeFilter = (filter: PhotosFilter): PhotosAction => ({
   filter,
 });
 
-export const photosRequested = (filter: PhotosFilter, refresh: boolean): PhotosAction => ({
+export const photosRequested = (
+  filter: PhotosFilter,
+  refresh: boolean,
+): PhotosAction => ({
   type: ACTION.FETCH_PHOTOS_REQUESTED,
   filter,
   refresh,
 });
 
-export const photosLoading = (filter: PhotosFilter, refresh: boolean): PhotosAction => ({
+export const photosLoading = (
+  filter: PhotosFilter,
+  refresh: boolean,
+): PhotosAction => ({
   type: ACTION.FETCH_PHOTOS_LOADING,
   filter,
   refresh,
@@ -38,10 +44,15 @@ export const photosSuccess = (
   refresh,
 });
 
-export const photosFail = (error: string, filter: PhotosFilter): PhotosAction => ({
+export const photosFail = (
+  error: string,
+  filter: PhotosFilter,
+): PhotosAction => ({
   type: ACTION.FETCH_PHOTOS_FAIL,
   error,
   filter,
 });
 
-export const toSinglePhoto = (): PhotosAction => ({ type: ACTION.TO_SINGLE_PHOTO });
+export const toSinglePhoto = (): PhotosAction => ({
+  type: ACTION.TO_SINGLE_PHOTO,
+});
