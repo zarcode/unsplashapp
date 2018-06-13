@@ -128,9 +128,10 @@ const createList = (selectedFilter: PhotosFilter) =>
 
 const photos = combineReducers({
   filter,
-  [PHOTOS_FILTERS.LATEST]: createList(PHOTOS_FILTERS.LATEST),
-  [PHOTOS_FILTERS.POPULAR]: createList(PHOTOS_FILTERS.POPULAR),
-  [PHOTOS_FILTERS.OLDEST]: createList(PHOTOS_FILTERS.OLDEST),
+  ...filters.reduce((acc, x) => {
+    acc[x.id] = createList(x.id);
+    return acc;
+  }, {}),
 });
 
 export default photos;
