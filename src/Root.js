@@ -3,9 +3,8 @@
  */
 
 import React from 'react';
-import { View } from 'react-native';
+import { View, SafeAreaView } from 'react-native';
 import { connect, Provider } from 'react-redux';
-import { addNavigationHelpers } from 'react-navigation';
 import {
   createReduxBoundAddListener,
   createReactNavigationReduxMiddleware,
@@ -24,6 +23,7 @@ const navigationMiddleware = createReactNavigationReduxMiddleware(
   'root',
   state => state.nav,
 );
+
 const addListener = createReduxBoundAddListener('root');
 
 type Props = {
@@ -32,11 +32,11 @@ type Props = {
 };
 export const App = (props: Props) => (
   <AppNavigator
-    navigation={addNavigationHelpers({
+    navigation={{
       dispatch: props.dispatch,
       state: props.nav,
       addListener,
-    })}
+    }}
   />
 );
 
@@ -49,11 +49,13 @@ export const AppWithNavigationState = connect(mapStateToProps)(App);
 const store = configureStore(navigationMiddleware);
 
 const Root = () => (
-  <View style={{ flex: 1 }}>
-    <Provider style={{ flex: 1 }} store={store}>
-      <AppWithNavigationState />
-    </Provider>
-  </View>
+  <SafeAreaView style={{flex: 1, backgroundColor: '#fff'}}>
+    <View style={{ flex: 1 }}>
+      <Provider style={{ flex: 1 }} store={store}>
+        <AppWithNavigationState />
+      </Provider>
+    </View>
+  </SafeAreaView>
 );
 
 export default Root;
