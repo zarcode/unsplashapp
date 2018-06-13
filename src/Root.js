@@ -18,7 +18,7 @@ import type {
 } from 'react-navigation';
 import type { Dispatch } from 'redux';
 import configureStore from './configureStore';
-import { AppNavigator } from './navigation/AppNavigator';
+import AppNavigator from './navigation/AppNavigator';
 
 const navigationMiddleware = createReactNavigationReduxMiddleware(
   'root',
