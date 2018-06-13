@@ -1,13 +1,13 @@
 import {
   // addNavigationHelpers,
   // TabBarBottom,
-  StackNavigator,
+  createStackNavigator,
   // TabNavigator
 } from 'react-navigation';
 import PhotosListScreen from '../containers/PhotosListScreen';
 import PhotoSingleScreen from '../containers/PhotoSingleScreen';
 
-const AppNavigator = StackNavigator(
+const AppNavigator = createStackNavigator(
   {
     PhotosListScreen: {
       screen: PhotosListScreen,
@@ -18,6 +18,9 @@ const AppNavigator = StackNavigator(
   },
   {
     headerMode: 'screen',
+    cardStyle: {
+      shadowColor: 'transparent',
+    },
   },
 );
 
