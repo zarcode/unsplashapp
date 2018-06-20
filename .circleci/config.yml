@@ -27,11 +27,12 @@ jobs:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
       # run prettier!
-       - run: npm run prettier:diff
+      - run: npm run prettier:diff
       # run flow!
       - run: npm run flow-check
       # run linter!
       - run:
+          name: "npm run eslint"
           # npm here makes sure we are using the local jest binary
           command: npm run eslint src -- --format junit -o reports/junit/js-lint-results.xml
       # Note: this hasn't changed. Don't add this twice!
