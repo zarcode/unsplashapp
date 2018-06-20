@@ -56,7 +56,10 @@ describe('<PhotosList />', () => {
     expect(props.actions.photosRequested).toBeCalledWith('latest', false);
   });
   it('creates photo model', () => {
-    expect(wrapper.instance().photoViewModel(photo)).toEqual({ id: '1', url: 'url' });
+    expect(wrapper.instance().photoViewModel(photo)).toEqual({
+      id: '1',
+      url: 'url',
+    });
     const photo1 = {
       id: '1',
     };

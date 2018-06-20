@@ -1,5 +1,7 @@
+# Unofficial unsplash.com Mobile App
+[![CircleCI](https://circleci.com/gh/zarcode/unsplashapp/tree/master.svg?style=shield)](https://circleci.com/gh/zarcode/unsplashapp/tree/master)
 ## Description:
-React Native app for browsing the [Unsplash](https://unsplash.com/)
+React Native app for browsing [Unsplash](https://unsplash.com/) photos.
 
 ## How to run localy:
 
@@ -20,13 +22,20 @@ npm install
 react-native run-ios
 ```
 
-This runs the app in development mode on iOS simulator (if you have one).
+This runs the app on iOS simulator (if you have one). You can run it also on android of course.
 
 ## Contributing:
 
-Before making PR, make sure eslint and flow checks are passing:
+Before making PR, run:
+```
+npm run prettier
+```
+to make sure code is pretty and respects eslint configuration.
+
+Also, make sure eslint, flow checks and tests are passing:
 
 ```
 npm run eslint
 npm run flow-check
+npm test
 ```
