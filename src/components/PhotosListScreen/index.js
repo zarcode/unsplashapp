@@ -4,7 +4,7 @@ import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Header } from 'react-navigation';
 import PhotosFilters from './PhotosFilters';
-import PhotosList from '../PhotosList';
+import PhotosList from './PhotosList';
 
 const styles = StyleSheet.create({
   container: {

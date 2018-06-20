@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import propPath from 'crocks/Maybe/propPath';
 
-import { photosRequested, toSinglePhoto } from '../action/photos';
+import { photosRequested, toSinglePhoto } from '../../action/photos';
 import {
   getPhotos,
   getFilter,
@@ -13,12 +13,12 @@ import {
   getIsLastPage,
   getLastLoadedPage,
   getLoadingState,
-} from '../reducers/photos';
-import type { Photo, PhotosFilter } from '../api/types';
+} from '../../reducers/photos';
+import type { Photo, PhotosFilter } from '../../api/types';
 import ListLoader from '../shared/ListLoader';
-import PhotoThumb from './PhotosListScreen/PhotoThumb';
+import PhotoThumb from './PhotoThumb';
 
-const noImages = require('../assets/icons/no-images.png');
+const noImages = require('../../assets/icons/no-images.png');
 
 type Props = {
   photos: Array<Photo>,

@@ -4,9 +4,9 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Filters from '../shared/Filters';
 import type { FiltersProps } from '../shared/Filters';
-import { getFilter, getLastLoadedPage, filters } from '../reducers/photos';
-import { photosRequested, changeFilter } from '../action/photos';
-import type { PhotosFilter } from '../api/types';
+import { getFilter, getLastLoadedPage, filters } from '../../reducers/photos';
+import { photosRequested, changeFilter } from '../../action/photos';
+import type { PhotosFilter } from '../../api/types';
 
 type Props = {
   currentFilter: string,

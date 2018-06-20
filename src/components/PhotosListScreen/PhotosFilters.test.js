@@ -1,5 +1,5 @@
 import { handleChangeFilter } from './PhotosFilters';
-import { filters } from '../reducers/photos';
+import { filters } from '../../reducers/photos';
 
 describe('<PhotosFilters />', () => {
   it('trigger filter actions correctly', () => {
