@@ -50,7 +50,7 @@ jobs:
     steps:
       - checkout
       - run: npm install
-      - run: cd android && ./gradlew assembleDebug
+      - run: cd android && export TERM=xterm && ./gradlew assembleDebug
 
 workflows:
   version: 2
