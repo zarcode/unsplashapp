@@ -137,8 +137,8 @@ const photos = combineReducers({
 export default photos;
 
 export const getFilter = state => state.photos.filter;
-const getById = state => state.photos[getFilter(state)].byId;
-const getIds = state => state.photos[getFilter(state)].ids;
+export const getById = state => state.photos[getFilter(state)].byId;
+export const getIds = state => state.photos[getFilter(state)].ids;
 export const getIsLastPage = state => state.photos[getFilter(state)].isLastPage;
 export const getLastLoadedPage = state => selectedFilter =>
   state.photos[selectedFilter].lastLoadedPage;

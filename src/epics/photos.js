@@ -12,7 +12,7 @@ import {
 import { ACTION } from '../constants';
 import { Action } from '../action/actionTypes';
 import * as photosActions from '../action/photos';
-import asObservable from './rxUtils';
+import { asObservable } from './rxUtils';
 import api from '../api';
 import type { PhotosFilter } from '../api/types';
 
@@ -20,21 +20,21 @@ const perPage = 30;
 
 export const loadPhotosToList = (
   action$: Observable<Action>,
-  state$: Object,
+  state: Object,
 ): Observable<Action> => {
-  const state = (photosFilter: PhotosFilter) =>
-    state$.value.photos[photosFilter];
+  const photosState = (photosFilter: PhotosFilter) =>
+    state.value.photos[photosFilter];
   return (
     action$
       // .ofType(ACTION.FETCH_PHOTOS_REQUESTED)
       .pipe(
         filter((a: Action) =>
           a.type === ACTION.FETCH_PHOTOS_REQUESTED &&
-            ((state(a.filter).loadingState === 'idle' &&
-              !state(a.filter).isLastPage) ||
+            ((photosState(a.filter).loadingState === 'idle' &&
+              !photosState(a.filter).isLastPage) ||
               a.refresh)),
         switchMap((a) => {
-          const nextPage = !a.refresh ? state(a.filter).lastLoadedPage + 1 : 1;
+          const nextPage = !a.refresh ? photosState(a.filter).lastLoadedPage + 1 : 1;
           const loadingAction = of(photosActions.photosLoading(a.filter, a.refresh));
           const request = asObservable(api.fetchPhotos({
             page: nextPage,

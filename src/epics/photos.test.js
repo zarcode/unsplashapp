@@ -6,7 +6,7 @@ import configureMockStore from 'redux-mock-store';
 import { loadPhotosToList } from './photos';
 import config from '../config.json';
 import { ACTION } from '../constants/index';
-import state from '../../models/state.json';
+import state from '../../__mocks__/state.json';
 // import api from '../api';
 
 const epicMiddleware = createEpicMiddleware(loadPhotosToList);
