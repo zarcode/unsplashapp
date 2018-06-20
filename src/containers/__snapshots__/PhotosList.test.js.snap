@@ -1,0 +1,27 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<PhotosList /> render loader 1`] = `
+<FlatList
+  ListEmptyComponent={[Function]}
+  ListFooterComponent={[Function]}
+  contentContainerStyle={false}
+  disableVirtualization={false}
+  getItemLayout={[Function]}
+  horizontal={false}
+  initialNumToRender={10}
+  key="3"
+  keyExtractor={[Function]}
+  loading={true}
+  maxToRenderPerBatch={10}
+  numColumns={3}
+  onEndReached={[Function]}
+  onEndReachedThreshold={0.5}
+  onLayout={[Function]}
+  onRefresh={[Function]}
+  refreshing={false}
+  renderItem={[Function]}
+  scrollEventThrottle={50}
+  updateCellsBatchingPeriod={50}
+  windowSize={21}
+/>
+`;

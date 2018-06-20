@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { FlatList, Dimensions, StyleSheet, Image, Alert } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import propPath from 'crocks/Maybe/propPath';
 
 import { photosRequested, toSinglePhoto } from '../action/photos';
 import {
@@ -101,7 +102,11 @@ export class PhotosListComponent extends Component<Props, State> {
       this.props.actions.photosRequested(this.props.filter, true);
     }
   };
-
+  itemLayout = (_: *, index: number) => ({
+    length: this.state.imageDim,
+    offset: this.state.imageDim * index,
+    index,
+  });
   refresh = () => {
     this.props.actions.photosRequested(this.props.filter, true);
   };
@@ -117,8 +122,8 @@ export class PhotosListComponent extends Component<Props, State> {
   };
 
   photoViewModel = (item: Photo): PhotoViewModel => ({
-    id: item.id,
-    url: item.urls.small,
+    id: propPath(['id'], item).option(0),
+    url: propPath(['urls', 'small'], item).option(null),
   });
 
   keyExtractor = (item: Photo) => item.id;
@@ -164,15 +169,10 @@ export class PhotosListComponent extends Component<Props, State> {
     const refreshing = this.props.loadingState === 'refreshing';
     const errorHappend =
       this.props.loadingState === 'idle' && this.props.getErrorMessage;
-
     return (
       <FlatList
         contentContainerStyle={errorHappend && styles.listContainer}
-        getItemLayout={(data, index) => ({
-          length: this.state.imageDim,
-          offset: this.state.imageDim * index,
-          index,
-        })}
+        getItemLayout={this.itemLayout}
         loading={loading}
         onLayout={this.onLayout}
         key={this.state.numColumns}

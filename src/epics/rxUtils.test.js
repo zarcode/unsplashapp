@@ -1,4 +1,4 @@
-import asObservable from './rxUtils';
+import { asObservable } from './rxUtils';
 
 describe('rx utils', () => {
   it('should make valid observable on resolve', () => {

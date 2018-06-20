@@ -16,4 +16,6 @@ const asObservable = <T>(promise: PromiseCancel<T>): Observable<T> =>
     };
   });
 
-export default asObservable;
+module.exports = {
+  asObservable,
+};
