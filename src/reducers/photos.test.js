@@ -8,8 +8,10 @@ import {
   loadingState,
   errorMessage,
   getFilter,
+  getById,
+  getIds,
 } from './photos';
-import state from '../../models/state.json';
+import state from '../../__mocks__/state.json';
 import { ACTION } from '../constants/index';
 
 const normalizedRes = {
@@ -209,5 +211,11 @@ describe('photos reducers', () => {
   // selectors
   it('getFilter selector returns filter', () => {
     expect(getFilter(state)).toEqual('latest');
+  });
+  it('getById selector returns photos', () => {
+    expect(getById(state)).toEqual(state.photos.latest.byId);
+  });
+  it('getIds selector returns ids', () => {
+    expect(getIds(state)).toEqual(state.photos.latest.ids);
   });
 });
