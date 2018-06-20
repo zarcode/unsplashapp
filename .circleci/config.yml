@@ -43,13 +43,13 @@ jobs:
       # run tests!
       - run: npm test
 
-    android:
-      working_directory: ~/repo
-      docker:
-        - image: circleci/android:api-27-node8-alpha
-      steps:
-        - checkout
-        - run: npm install
+  android:
+    working_directory: ~/repo
+    docker:
+      - image: circleci/android:api-27-node8-alpha
+    steps:
+      - checkout
+      - run: npm install
         - run: cd android && ./gradlew assembleDebug
 
 workflows:
