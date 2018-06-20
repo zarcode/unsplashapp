@@ -3,7 +3,7 @@ import { TouchableOpacity } from 'react-native';
 import toJson from 'enzyme-to-json';
 import { shallow } from 'enzyme';
 import Filters from './Filters';
-import { filters } from '../reducers/photos';
+import { filters } from '../../reducers/photos';
 
 describe('<Filters />', () => {
   const props = {
