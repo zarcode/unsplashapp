@@ -4,8 +4,8 @@ import {
   createStackNavigator,
   // TabNavigator
 } from 'react-navigation';
-import PhotosListScreen from '../containers/PhotosListScreen';
-import PhotoSingleScreen from '../containers/PhotoSingleScreen';
+import PhotosListScreen from '../components/PhotosListScreen/index';
+import PhotoSingleScreen from '../components/PhotoSingleScreen/PhotoSingleScreen';
 
 const AppNavigator = createStackNavigator(
   {

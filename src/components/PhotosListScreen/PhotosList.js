@@ -16,7 +16,7 @@ import {
 } from '../reducers/photos';
 import type { Photo, PhotosFilter } from '../api/types';
 import ListLoader from '../shared/ListLoader';
-import PhotoThumb from './PhotoThumb';
+import PhotoThumb from './PhotosListScreen/PhotoThumb';
 
 const noImages = require('../assets/icons/no-images.png');
 
