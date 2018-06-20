@@ -1,0 +1,26 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<PhotoThumb> renders correctly 1`] = `
+<TouchableOpacity
+  activeOpacity={0.2}
+  style={
+    Object {
+      "padding": 1,
+    }
+  }
+>
+  <Image
+    source={
+      Object {
+        "uri": "url",
+      }
+    }
+    style={
+      Object {
+        "height": undefined,
+        "width": undefined,
+      }
+    }
+  />
+</TouchableOpacity>
+`;

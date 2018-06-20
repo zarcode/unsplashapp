@@ -60,7 +60,10 @@ describe('<PhotosList />', () => {
     const photo1 = {
       id: '1',
     };
-    expect(wrapper.instance().photoViewModel(photo1)).toEqual({ id: '1', url: null });
+    expect(wrapper.instance().photoViewModel(photo1)).toEqual({
+      id: '1',
+      url: null,
+    });
   });
   it('render item', () => {
     const toSinglePhoto = jest.fn();
@@ -77,15 +80,14 @@ describe('<PhotosList />', () => {
       offset: 500 * 2,
       index: 2,
     });
-    expect(showStateWrapper.instance().renderItem({ photo }))
-      .toEqual(<PhotoThumb
-        onPress={toSinglePhoto}
-        photo={{
+    expect(showStateWrapper.instance().renderItem({ photo })).toEqual(<PhotoThumb
+      onPress={toSinglePhoto}
+      photo={{
           id: 0,
           url: null,
         }}
-        size={500 - 2}
-      />);
+      size={500 - 2}
+    />);
   });
   it('render loader', () => {
     const loadingProps = {
@@ -107,18 +109,17 @@ describe('<PhotosList />', () => {
       },
     };
     const emptyStateWrapper = shallow(<PhotosList {...emptyProps} />);
-    expect(emptyStateWrapper.instance().renderEmpty())
-      .toEqual(<Image
-        resizeMode="cover"
-        source={{
+    expect(emptyStateWrapper.instance().renderEmpty()).toEqual(<Image
+      resizeMode="cover"
+      source={{
           testUri: '../../../src/assets/icons/no-images.png',
         }}
-        style={{
+      style={{
           height: 150,
           tintColor: 'rgba(255,255,255,0.4)',
           width: 150,
         }}
-      />);
+    />);
   });
   it('layout is correct', () => {
     wrapper.instance().onLayout();

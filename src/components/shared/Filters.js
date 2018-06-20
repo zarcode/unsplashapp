@@ -2,7 +2,7 @@
 import React from 'react';
 import type { Element } from 'react';
 import { StyleSheet, View, TouchableOpacity } from 'react-native';
-import AppText from './Typography';
+import { AppText } from './Typography';
 import { colors } from '../../styles/index';
 import type { Filter } from '../../api/types';
 
