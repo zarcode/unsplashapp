@@ -8,6 +8,7 @@
     "icon-android": "app-icon generate  --platforms=android",
     "icon-ios": "app-icon generate  --platforms=ios",
     "prettier": "prettier-eslint --write \"{src,__{tests,mocks}__}/**/*.js\"",
+    "prettier:diff": "prettier-eslint --list-different \"{src,__{tests,mocks}__}/**/*.js\"",
     "flow-check": "flow check --show-all-errors",
     "flow-coverage": "flow coverage",
     "eslint": "eslint src"
