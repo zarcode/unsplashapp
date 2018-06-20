@@ -49,7 +49,7 @@ export const AppWithNavigationState = connect(mapStateToProps)(App);
 const store = configureStore(navigationMiddleware);
 
 const Root = () => (
-  <SafeAreaView style={{flex: 1, backgroundColor: '#fff'}}>
+  <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
     <View style={{ flex: 1 }}>
       <Provider style={{ flex: 1 }} store={store}>
         <AppWithNavigationState />

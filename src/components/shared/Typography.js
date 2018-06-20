@@ -16,4 +16,4 @@ const AppText = ({ style, children, ...rest }: TextProps): Element<*> => (
   </Text>
 );
 
-export default AppText;
+module.exports = { AppText };

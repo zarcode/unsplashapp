@@ -34,7 +34,9 @@ export const loadPhotosToList = (
               !photosState(a.filter).isLastPage) ||
               a.refresh)),
         switchMap((a) => {
-          const nextPage = !a.refresh ? photosState(a.filter).lastLoadedPage + 1 : 1;
+          const nextPage = !a.refresh
+            ? photosState(a.filter).lastLoadedPage + 1
+            : 1;
           const loadingAction = of(photosActions.photosLoading(a.filter, a.refresh));
           const request = asObservable(api.fetchPhotos({
             page: nextPage,
