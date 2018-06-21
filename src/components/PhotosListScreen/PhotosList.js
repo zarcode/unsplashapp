@@ -207,4 +207,7 @@ const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({ photosRequested, toSinglePhoto }, dispatch),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(PhotosListComponent);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(PhotosListComponent);
