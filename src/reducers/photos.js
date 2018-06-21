@@ -1,7 +1,9 @@
+// @flow
 import { createSelector } from 'reselect';
 import { combineReducers } from 'redux';
 import { ACTION, PHOTOS_FILTERS } from '../constants';
-import type { Filter, PhotosFilter } from '../api/types';
+import type { Filter, Photo, PhotosFilter } from '../api/types';
+import { PhotosAction } from '../action/actionTypes';
 
 export const filters: Array<Filter> = [
   {
@@ -18,7 +20,10 @@ export const filters: Array<Filter> = [
   },
 ];
 
-export const filter = (state = filters[0].id, action) => {
+export const filter = (
+  state: PhotosFilter = filters[0].id,
+  action: PhotosAction,
+) => {
   if (
     action.type === ACTION.FETCH_PHOTOS_REQUESTED ||
     action.type === ACTION.CHANGE_PHOTOS_FILTER
@@ -29,7 +34,10 @@ export const filter = (state = filters[0].id, action) => {
   return state;
 };
 
-export const byId = (selectedFilter: PhotosFilter) => (state = {}, action) => {
+export const byId = (selectedFilter: PhotosFilter) => (
+  state: { [string]: Photo } = {},
+  action: PhotosAction,
+) => {
   if (
     action.type === ACTION.FETCH_PHOTOS_SUCCESS &&
     selectedFilter === action.filter
@@ -42,7 +50,10 @@ export const byId = (selectedFilter: PhotosFilter) => (state = {}, action) => {
   return state;
 };
 
-export const ids = (selectedFilter: PhotosFilter) => (state = [], action) => {
+export const ids = (selectedFilter: PhotosFilter) => (
+  state: Array<string> = [],
+  action: PhotosAction,
+) => {
   if (
     action.type === ACTION.FETCH_PHOTOS_SUCCESS &&
     selectedFilter === action.filter
@@ -55,8 +66,8 @@ export const ids = (selectedFilter: PhotosFilter) => (state = [], action) => {
 };
 
 export const lastLoadedPage = (selectedFilter: PhotosFilter) => (
-  state = 0,
-  action,
+  state: number = 0,
+  action: PhotosAction,
 ) => {
   if (
     action.type === ACTION.FETCH_PHOTOS_SUCCESS &&
@@ -68,8 +79,8 @@ export const lastLoadedPage = (selectedFilter: PhotosFilter) => (
 };
 
 export const isLastPage = (selectedFilter: PhotosFilter) => (
-  state = false,
-  action,
+  state: boolean = false,
+  action: PhotosAction,
 ) => {
   if (
     action.type === ACTION.FETCH_PHOTOS_SUCCESS &&
@@ -81,8 +92,8 @@ export const isLastPage = (selectedFilter: PhotosFilter) => (
 };
 
 export const loadingState = (selectedFilter: PhotosFilter) => (
-  state = 'idle',
-  action,
+  state: 'idle' | 'refreshing' | 'loading' = 'idle',
+  action: PhotosAction,
 ) => {
   if (selectedFilter !== action.filter) {
     return state;
@@ -99,8 +110,8 @@ export const loadingState = (selectedFilter: PhotosFilter) => (
 };
 
 export const errorMessage = (selectedFilter: PhotosFilter) => (
-  state = null,
-  action,
+  state: string | null = null,
+  action: PhotosAction,
 ) => {
   if (selectedFilter !== action.filter) {
     return state;
@@ -136,15 +147,16 @@ const photos = combineReducers({
 
 export default photos;
 
-export const getFilter = state => state.photos.filter;
-export const getById = state => state.photos[getFilter(state)].byId;
-export const getIds = state => state.photos[getFilter(state)].ids;
-export const getIsLastPage = state => state.photos[getFilter(state)].isLastPage;
-export const getLastLoadedPage = state => selectedFilter =>
+export const getFilter = (state: any) => state.photos.filter;
+export const getById = (state: any) => state.photos[getFilter(state)].byId;
+export const getIds = (state: any) => state.photos[getFilter(state)].ids;
+export const getIsLastPage = (state: any) =>
+  state.photos[getFilter(state)].isLastPage;
+export const getLastLoadedPage = (state: *) => (selectedFilter: PhotosFilter) =>
   state.photos[selectedFilter].lastLoadedPage;
-export const getLoadingState = state =>
+export const getLoadingState = (state: any) =>
   state.photos[getFilter(state)].loadingState;
-export const getErrorMessage = state =>
+export const getErrorMessage = (state: any) =>
   state.photos[getFilter(state)].errorMessage;
 
 export const getPhotos = createSelector([getIds, getById], (allIds, allById) =>

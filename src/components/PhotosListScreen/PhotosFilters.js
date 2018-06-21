@@ -55,4 +55,7 @@ const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({ photosRequested, changeFilter }, dispatch),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(PhotosFilters);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(PhotosFilters);
