@@ -11,7 +11,9 @@ const nav = (state: * = initialState, action: *) => {
   switch (action.type) {
     case ACTION.TO_SINGLE_PHOTO:
       return AppNavigator.router.getStateForAction(
-        NavigationActions.navigate({ routeName: 'PhotoSingleScreen' }),
+        NavigationActions.navigate({
+          routeName: 'PhotoSingleScreen',
+        }),
         state,
       );
     default:
