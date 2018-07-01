@@ -1,5 +1,5 @@
 import { ACTION } from '../constants';
-import type { PhotosFilter } from '../api/types';
+import type { PhotosFilter, PhotoID } from '../api/types';
 
 export type PhotosAction =
   | {
@@ -37,6 +37,7 @@ export type PhotosAction =
     }
   | {
       type: ACTION.TO_SINGLE_PHOTO,
+      id: PhotoID,
     };
 
 export type Action = PhotosAction;

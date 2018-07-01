@@ -3,7 +3,7 @@
 import { normalize } from 'normalizr';
 import { ACTION } from '../constants';
 import { PhotosAction } from './actionTypes';
-import type { PhotosFilter } from '../api/types';
+import type { PhotosFilter, Photo } from '../api/types';
 import * as schema from './schema';
 
 export const changeFilter = (filter: PhotosFilter): PhotosAction => ({
@@ -53,6 +53,7 @@ export const photosFail = (
   filter,
 });
 
-export const toSinglePhoto = (): PhotosAction => ({
+export const toSinglePhoto = (photo: Photo): PhotosAction => ({
   type: ACTION.TO_SINGLE_PHOTO,
+  photo,
 });

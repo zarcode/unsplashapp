@@ -13,6 +13,9 @@ const nav = (state: * = initialState, action: *) => {
       return AppNavigator.router.getStateForAction(
         NavigationActions.navigate({
           routeName: 'PhotoSingleScreen',
+          params: {
+            photo: action.photo,
+          },
         }),
         state,
       );
