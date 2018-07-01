@@ -7,6 +7,7 @@ import type { Middleware } from 'redux';
 
 import rootEpic from './epics/';
 import photos from './reducers/photos';
+import users from './reducers/users';
 
 import nav from './reducers/nav';
 
@@ -24,6 +25,7 @@ export default (navigationMiddleware: Middleware) => {
   const appReducer = combineReducers({
     nav,
     photos,
+    users,
   });
 
   return createStore(appReducer, applyMiddleware(...middleWares));

@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
-import { Header } from 'react-navigation';
+import { SafeAreaView } from 'react-navigation';
 import PhotosFilters from './PhotosFilters';
 import PhotosList from './PhotosList';
 
@@ -11,24 +11,25 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   header: {
-    height: Header.HEIGHT,
+    // height: Header.HEIGHT,
     justifyContent: 'flex-end',
     backgroundColor: 'white',
   },
 });
 
 const PhotosListScreen = () => (
-  <View style={styles.container}>
-    <PhotosList />
-  </View>
+  <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
+    <View style={styles.container}>
+      <View style={styles.header}>
+        <PhotosFilters />
+      </View>
+      <PhotosList />
+    </View>
+  </SafeAreaView>
 );
 
 PhotosListScreen.navigationOptions = () => ({
-  header: (
-    <View style={styles.header}>
-      <PhotosFilters />
-    </View>
-  ),
+  header: null,
 });
 
 export default PhotosListScreen;

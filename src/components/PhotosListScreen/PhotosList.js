@@ -14,7 +14,7 @@ import {
   getLastLoadedPage,
   getLoadingState,
 } from '../../reducers/photos';
-import type { Photo, PhotosFilter } from '../../api/types';
+import type { Photo, PhotosFilter, PhotoID } from '../../api/types';
 import ListLoader from '../shared/ListLoader';
 import PhotoThumb from './PhotoThumb';
 
@@ -28,7 +28,7 @@ type Props = {
   loadingState: 'refreshing' | 'loading' | 'idle',
   getErrorMessage: string,
   actions: {
-    toSinglePhoto: () => void,
+    toSinglePhoto: (photo: Photo) => void,
     photosRequested: (filter: PhotosFilter, refresh: boolean) => void,
   },
 };
@@ -39,7 +39,7 @@ type State = {
 };
 
 export type PhotoViewModel = {
-  id: any,
+  id: PhotoID,
   url: string,
 };
 
@@ -122,17 +122,20 @@ export class PhotosListComponent extends Component<Props, State> {
   };
 
   photoViewModel = (item: Photo): PhotoViewModel => ({
-    id: propPath(['id'], item).option(0),
+    id: propPath(['id'], item).option(''),
     url: propPath(['urls', 'small'], item).option(null),
   });
 
   keyExtractor = (item: Photo) => item.id;
 
+  navigateToSingle = (item: Photo) => () =>
+    this.props.actions.toSinglePhoto(item);
+
   renderItem = ({ item }: Photo) => {
     const photo: PhotoViewModel = this.photoViewModel(item);
     return (
       <PhotoThumb
-        onPress={this.props.actions.toSinglePhoto}
+        onPress={this.navigateToSingle(item)}
         photo={photo}
         size={this.state.imageDim - 2}
       />
@@ -171,7 +174,10 @@ export class PhotosListComponent extends Component<Props, State> {
       this.props.loadingState === 'idle' && this.props.getErrorMessage;
     return (
       <FlatList
-        contentContainerStyle={errorHappend && styles.listContainer}
+        contentContainerStyle={
+          (errorHappend || this.props.photos.length === 0) &&
+          styles.listContainer
+        }
         getItemLayout={this.itemLayout}
         loading={loading}
         onLayout={this.onLayout}
