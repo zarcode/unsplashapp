@@ -11,6 +11,12 @@ import PhotoThumb from './PhotoThumb';
 jest.mock('Dimensions');
 
 describe('<PhotosList />', () => {
+  const photo = {
+    id: '1',
+    urls: {
+      small: 'url',
+    },
+  };
   const props = {
     filter: 'latest',
     isLastPage: false,
@@ -18,13 +24,9 @@ describe('<PhotosList />', () => {
     lastLoadedPage: 1,
     actions: {
       photosRequested: jest.fn(),
+      toSinglePhoto: jest.fn(),
     },
-  };
-  const photo = {
-    id: '1',
-    urls: {
-      small: 'url',
-    },
+    photos: [photo],
   };
   const wrapper = shallow(<PhotosList {...props} />);
   it('setProps calls componentWillReceiveProps', () => {
@@ -37,6 +39,7 @@ describe('<PhotosList />', () => {
       loadingState: 'idle',
       lastLoadedPage: 0,
       filter: 'latest',
+      photos: [photo],
       actions: {
         photosRequested: jest.fn(),
       },
@@ -69,10 +72,10 @@ describe('<PhotosList />', () => {
     });
   });
   it('render item', () => {
-    const toSinglePhoto = jest.fn();
     const showProps = {
+      photos: [photo],
       actions: {
-        toSinglePhoto,
+        toSinglePhoto: jest.fn(),
       },
     };
 
@@ -84,7 +87,7 @@ describe('<PhotosList />', () => {
       index: 2,
     });
     expect(showStateWrapper.instance().renderItem({ photo })).toEqual(<PhotoThumb
-      onPress={toSinglePhoto}
+      onPress={expect.any(Function)}
       photo={{
           id: 0,
           url: null,
@@ -95,6 +98,7 @@ describe('<PhotosList />', () => {
   it('render loader', () => {
     const loadingProps = {
       loadingState: 'loading',
+      photos: [photo],
     };
 
     expect(wrapper.instance().renderFooter()).toEqual(null);
@@ -130,5 +134,9 @@ describe('<PhotosList />', () => {
       imageDim: 80,
       numColumns: 5,
     });
+  });
+  it('navigates to single', () => {
+    wrapper.instance().navigateToSingle(photo)();
+    expect(props.actions.toSinglePhoto).toBeCalledWith(photo);
   });
 });

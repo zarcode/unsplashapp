@@ -5,8 +5,10 @@ export type PromiseCancel<T> = {
   cancel: (reason?: string) => void,
 };
 
+export type PhotoID = string;
+
 export type Photo = {
-  id: string,
+  id: PhotoID,
   created_at: string,
   updated_at: string,
   width: number,
@@ -34,8 +36,10 @@ export type Photo = {
   current_user_collections: Array<any>,
 };
 
+export type UserID = string;
+
 export type User = {
-  id: string,
+  id: UserID,
   updated_at: string,
   username: string,
   name: string,

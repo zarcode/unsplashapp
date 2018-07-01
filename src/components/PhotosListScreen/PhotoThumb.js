@@ -8,6 +8,7 @@ type Props = {
   photo: PhotoViewModel,
   size: number,
 };
+
 const PhotoThumb = ({ onPress, photo, size }: Props) => (
   <TouchableOpacity
     style={{

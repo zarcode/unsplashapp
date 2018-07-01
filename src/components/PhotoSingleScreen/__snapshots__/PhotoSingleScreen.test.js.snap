@@ -11,7 +11,7 @@ exports[`<PhotoSingleScreen> renders correctly 1`] = `
   <PhotoView
     androidScaleType="center"
     maximumZoomScale={3}
-    minimumZoomScale={0.9}
+    minimumZoomScale={1}
     onLoad={[Function]}
     source={
       Object {
