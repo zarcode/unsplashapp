@@ -86,7 +86,9 @@ describe('<PhotosList />', () => {
       offset: 500 * 2,
       index: 2,
     });
-    expect(JSON.stringify(showStateWrapper.instance().renderItem({ item: photo }))).toEqual(JSON.stringify(<PhotoThumb
+    const call = showStateWrapper.instance().renderItem({ item: photo });
+    const stringifyCall = JSON.stringify(call);
+    expect(stringifyCall).toEqual(JSON.stringify(<PhotoThumb
       onPress={showStateWrapper.instance().navigateToSingle}
       photo={{
             id: '1',
