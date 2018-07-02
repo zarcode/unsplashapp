@@ -6,6 +6,9 @@ import { PhotoSingleScreen } from './PhotoSingleScreen';
 describe('<PhotoSingleScreen>', () => {
   it('renders correctly', () => {
     const props = {
+      navigation: {
+        setParams: jest.fn(),
+      },
       photo: {
         url: 'url',
       },

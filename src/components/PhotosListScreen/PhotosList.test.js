@@ -86,14 +86,14 @@ describe('<PhotosList />', () => {
       offset: 500 * 2,
       index: 2,
     });
-    expect(showStateWrapper.instance().renderItem({ photo })).toEqual(<PhotoThumb
-      onPress={expect.any(Function)}
+    expect(JSON.stringify(showStateWrapper.instance().renderItem({ item: photo }))).toEqual(JSON.stringify(<PhotoThumb
+      onPress={showStateWrapper.instance().navigateToSingle}
       photo={{
-          id: 0,
-          url: null,
-        }}
+            id: '1',
+            url: 'url',
+          }}
       size={500 - 2}
-    />);
+    />));
   });
   it('render loader', () => {
     const loadingProps = {
