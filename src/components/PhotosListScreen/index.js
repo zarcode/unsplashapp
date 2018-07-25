@@ -4,7 +4,7 @@ import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-navigation';
 import PhotosFilters from './PhotosFilters';
-import PhotosList from './PhotosList';
+import AllPhotosList from './AllPhotosList';
 
 const styles = StyleSheet.create({
   container: {
@@ -23,7 +23,7 @@ const PhotosListScreen = () => (
       <View style={styles.header}>
         <PhotosFilters />
       </View>
-      <PhotosList />
+      <AllPhotosList />
     </View>
   </SafeAreaView>
 );
