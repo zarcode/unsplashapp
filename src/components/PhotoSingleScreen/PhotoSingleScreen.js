@@ -6,7 +6,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 // import PropTypes from 'prop-types';
 import PhotoView from 'react-native-photo-view';
-import { View, StyleSheet, Image, Text } from 'react-native';
+import { View, StyleSheet, Image, Text, ActivityIndicator } from 'react-native';
 // import { Header } from 'react-navigation';
 import propPath from 'crocks/Maybe/propPath';
 import { getById as getUserById } from '../../reducers/users';
@@ -47,8 +47,37 @@ const styles = StyleSheet.create({
     left: 0,
     borderBottomWidth: 0,
   },
+  user: {
+    marginRight: 20,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
   userName: {
     color: 'white',
+    marginRight: 10,
+    textShadowOffset: {
+      width: 1,
+      height: 1,
+    },
+    textShadowColor: 'black',
+    textShadowRadius: 1,
+  },
+  userAvatar: {
+    backgroundColor: 'rgba(50, 50, 50, 0.6)',
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    borderWidth: 2,
+    borderColor: 'black',
+  },
+  loaderContainer: {
+    backgroundColor: '#5f9ea0',
+    position: 'absolute',
+    width: '100%',
+    height: '100%',
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });
 
@@ -56,6 +85,10 @@ type Props = {
   photo: Photo,
   user: User,
   navigation: any,
+};
+
+type State = {
+  loaded: boolean,
 };
 
 type PhotoViewModel = {
@@ -85,29 +118,44 @@ function userViewModel(item: User): UserViewModel {
 
 const navigateBack = navigation => () => navigation.goBack();
 
-export class PhotoSingleScreen extends Component<Props> {
+export class PhotoSingleScreen extends Component<Props, State> {
   static navigationOptions: (*) => *;
+  constructor(props: Props) {
+    super(props);
+    this.state = {
+      loaded: false,
+    };
+  }
   componentDidMount() {
     const userVM = userViewModel(this.props.user);
     this.props.navigation.setParams({ userVM });
   }
+  removeLoader = () => {
+    this.setState({
+      loaded: true,
+    });
+  }
   render() {
     const { photo } = this.props;
     const photoVM = photoViewModel(photo);
+    if (!photoVM.url) return null;
     return (
       <View style={styles.container}>
-        {photoVM.url && (
-          <PhotoView
-            source={{
-              uri: photoVM.url,
-            }}
-            minimumZoomScale={1}
-            maximumZoomScale={3}
-            androidScaleType="center"
-            onLoad={() => {}}
-            style={styles.imagePreview}
-          />
-        )}
+        <PhotoView
+          source={{
+            uri: photoVM.url,
+          }}
+          minimumZoomScale={1}
+          maximumZoomScale={3}
+          androidScaleType="center"
+          onLoad={this.removeLoader}
+          style={styles.imagePreview}
+        />
+        {!this.state.loaded &&
+          <View style={styles.loaderContainer}>
+            <ActivityIndicator color="white" />
+          </View>
+        }
       </View>
     );
   }
@@ -127,9 +175,12 @@ PhotoSingleScreen.navigationOptions = ({ navigation }) => {
       />
     ),
     headerRight: params.userVM ? (
-      <View>
+      <View
+        style={styles.user}
+      >
         <Text style={styles.userName}>{params.userVM.name}</Text>
         <Image
+          style={styles.userAvatar}
           source={{
             uri: params.userVM.avatar,
           }}
@@ -149,8 +200,6 @@ const mapStateToProps = (state, ownProps) => {
   return {
     photo,
     user: userId.map(id => getUserById(state)(id)).option(null),
-    // user: photo? getUser(state) : null,
-    // user: !photo || getUser(state)(photo.user)
   };
 };
 
