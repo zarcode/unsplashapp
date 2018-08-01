@@ -8,6 +8,7 @@ import type { Middleware } from 'redux';
 import rootEpic from './epics/';
 import photos from './reducers/photos';
 import users from './reducers/users';
+import userPhotos from './reducers/userPhotos';
 
 import nav from './reducers/nav';
 
@@ -26,6 +27,7 @@ export default (navigationMiddleware: Middleware) => {
     nav,
     photos,
     users,
+    userPhotos,
   });
 
   return createStore(appReducer, applyMiddleware(...middleWares));

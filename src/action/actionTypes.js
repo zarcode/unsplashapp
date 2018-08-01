@@ -1,28 +1,29 @@
+// @flow
 import { ACTION } from '../constants';
-import type { PhotosFilter, PhotoID } from '../api/types';
+import type { PhotosFilter, Photo, User } from '../api/types';
 
 export type PhotosAction =
-  | {
-      type: ACTION.CHANGE_PHOTOS_FILTER,
+  {
+      type: typeof ACTION.CHANGE_PHOTOS_FILTER,
       filter: PhotosFilter,
     }
   | {
-      type: ACTION.FETCH_PHOTOS_REQUESTED,
-      filter: PhotosFilter,
-      refresh: boolean,
-    }
-  | {
-      type: ACTION.FETCH_PHOTOS_LOADING,
+      type: typeof ACTION.FETCH_PHOTOS_REQUESTED,
       filter: PhotosFilter,
       refresh: boolean,
     }
   | {
-      type: ACTION.FETCH_PHOTOS_FAIL,
+      type: typeof ACTION.FETCH_PHOTOS_LOADING,
+      filter: PhotosFilter,
+      refresh: boolean,
+    }
+  | {
+      type: typeof ACTION.FETCH_PHOTOS_FAIL,
       error: string,
       filter: PhotosFilter,
     }
   | {
-      type: ACTION.FETCH_PHOTOS_SUCCESS,
+      type: typeof ACTION.FETCH_PHOTOS_SUCCESS,
       response: {
         entities: {
           users: any,
@@ -36,8 +37,48 @@ export type PhotosAction =
       refresh: boolean,
     }
   | {
-      type: ACTION.TO_SINGLE_PHOTO,
-      id: PhotoID,
+      type: typeof ACTION.TO_SINGLE_PHOTO,
+      photo: Photo,
     };
 
-export type Action = PhotosAction;
+export type UsersAction =
+    {
+      type: typeof ACTION.TO_USER,
+      user: User,
+    };
+
+export type UserPhotosAction =
+    {
+        type: typeof ACTION.FETCH_USER_PHOTOS_REQUESTED,
+        username: PhotosFilter,
+        refresh: boolean,
+      }
+    | {
+        type: typeof ACTION.FETCH_USER_PHOTOS_LOADING,
+        refresh: boolean,
+      }
+    | {
+        type: typeof ACTION.FETCH_USER_PHOTOS_FAIL,
+        error: string,
+      }
+    | {
+        type: typeof ACTION.FETCH_USER_PHOTOS_RESET,
+      }
+    | {
+        type: typeof ACTION.FETCH_USER_PHOTOS_SUCCESS,
+        response: {
+          entities: {
+            users: any,
+            photos: any,
+          },
+          result: Array<string>,
+        },
+        page: number,
+        isLastPage: boolean,
+        refresh: boolean,
+      };
+
+export type Action =
+  PhotosAction
+  | UsersAction
+  | UserPhotosAction;
