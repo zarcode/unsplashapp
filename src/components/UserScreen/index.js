@@ -13,6 +13,7 @@ import type { User } from '../../api/types';
 import UserPhotosList from './UserPhotosList';
 import IconButton from '../shared/IconButton';
 import { AppText } from '../shared/Typography';
+import { openInBrowser } from '../shared/utils';
 
 const styles = StyleSheet.create({
   container: {
@@ -73,6 +74,7 @@ type UserViewModel = {
   name: string,
   username: string,
   avatar: string,
+  link: string,
 };
 
 type Props = {
@@ -84,10 +86,12 @@ function userViewModel(item: User): UserViewModel {
     name: propPath(['name'], item).option(''),
     username: propPath(['username'], item).option(''),
     avatar: propPath(['profile_image', 'large'], item).option(null),
+    link: propPath(['links', 'html'], item).option(null),
   };
 }
 
 const navigateBack = navigation => () => navigation.goBack();
+const openLinkInBrowser = url => () => openInBrowser(url);
 const backIcon = require('../../assets/icons/arrow-back.png');
 
 const UserScreen = (props: Props) => {
@@ -117,7 +121,10 @@ const UserScreen = (props: Props) => {
       </View>
       <View style={styles.user}>
         <AppText style={styles.userName}>{userVM.name}</AppText>
-        <TouchableOpacity onPress={() => {}} style={styles.viewOnline}>
+        <TouchableOpacity
+          onPress={openLinkInBrowser(userVM.link)}
+          style={styles.viewOnline}
+        >
           <AppText style={styles.viewOnlineLabel}>View on Unsplash</AppText>
         </TouchableOpacity>
       </View>

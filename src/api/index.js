@@ -1,10 +1,5 @@
 import axios from 'axios';
-import {
-  Api,
-  FetchPhotosParams,
-  Photo,
-  PromiseCancel,
-} from './types';
+import { Api, FetchPhotosParams, Photo, PromiseCancel } from './types';
 import config from '../config.json';
 
 const requestGet = ({ url, params }): PromiseCancel<Array<Photo>> => {
