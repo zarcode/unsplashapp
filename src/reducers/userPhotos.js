@@ -120,14 +120,11 @@ export default userPhotos;
 
 export const getById = (state: any) => state.userPhotos.byId;
 export const getIds = (state: any) => state.userPhotos.ids;
-export const getIsLastPage = (state: any) =>
-  state.userPhotos.isLastPage;
+export const getIsLastPage = (state: any) => state.userPhotos.isLastPage;
 export const getLastLoadedPage = (state: any) =>
   state.userPhotos.lastLoadedPage;
-export const getLoadingState = (state: any) =>
-  state.userPhotos.loadingState;
-export const getErrorMessage = (state: any) =>
-  state.userPhotos.errorMessage;
+export const getLoadingState = (state: any) => state.userPhotos.loadingState;
+export const getErrorMessage = (state: any) => state.userPhotos.errorMessage;
 
 export const getPhotos = createSelector([getIds, getById], (allIds, allById) =>
   allIds.map(id => allById[id]));

@@ -3,7 +3,10 @@ import { connect } from 'react-redux';
 import { mapProps } from 'recompose';
 import { bindActionCreators } from 'redux';
 
-import { userPhotosRequested as photosRequested, resetUserPhotos as resetPhotos } from '../../action/userPhotos';
+import {
+  userPhotosRequested as photosRequested,
+  resetUserPhotos as resetPhotos,
+} from '../../action/userPhotos';
 import { toSinglePhoto } from '../../action/photos';
 import {
   getPhotos,
@@ -28,7 +31,10 @@ const mapStateToProps = (state, ownProps) => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators({ photosRequested, toSinglePhoto, resetPhotos }, dispatch),
+  actions: bindActionCreators(
+    { photosRequested, toSinglePhoto, resetPhotos },
+    dispatch,
+  ),
 });
 
 export default connect(

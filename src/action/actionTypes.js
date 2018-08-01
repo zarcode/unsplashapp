@@ -3,7 +3,7 @@ import { ACTION } from '../constants';
 import type { PhotosFilter, Photo, User } from '../api/types';
 
 export type PhotosAction =
-  {
+  | {
       type: typeof ACTION.CHANGE_PHOTOS_FILTER,
       filter: PhotosFilter,
     }
@@ -41,44 +41,40 @@ export type PhotosAction =
       photo: Photo,
     };
 
-export type UsersAction =
-    {
-      type: typeof ACTION.TO_USER,
-      user: User,
-    };
+export type UsersAction = {
+  type: typeof ACTION.TO_USER,
+  user: User,
+};
 
 export type UserPhotosAction =
-    {
-        type: typeof ACTION.FETCH_USER_PHOTOS_REQUESTED,
-        username: PhotosFilter,
-        refresh: boolean,
-      }
-    | {
-        type: typeof ACTION.FETCH_USER_PHOTOS_LOADING,
-        refresh: boolean,
-      }
-    | {
-        type: typeof ACTION.FETCH_USER_PHOTOS_FAIL,
-        error: string,
-      }
-    | {
-        type: typeof ACTION.FETCH_USER_PHOTOS_RESET,
-      }
-    | {
-        type: typeof ACTION.FETCH_USER_PHOTOS_SUCCESS,
-        response: {
-          entities: {
-            users: any,
-            photos: any,
-          },
-          result: Array<string>,
+  | {
+      type: typeof ACTION.FETCH_USER_PHOTOS_REQUESTED,
+      username: PhotosFilter,
+      refresh: boolean,
+    }
+  | {
+      type: typeof ACTION.FETCH_USER_PHOTOS_LOADING,
+      refresh: boolean,
+    }
+  | {
+      type: typeof ACTION.FETCH_USER_PHOTOS_FAIL,
+      error: string,
+    }
+  | {
+      type: typeof ACTION.FETCH_USER_PHOTOS_RESET,
+    }
+  | {
+      type: typeof ACTION.FETCH_USER_PHOTOS_SUCCESS,
+      response: {
+        entities: {
+          users: any,
+          photos: any,
         },
-        page: number,
-        isLastPage: boolean,
-        refresh: boolean,
-      };
+        result: Array<string>,
+      },
+      page: number,
+      isLastPage: boolean,
+      refresh: boolean,
+    };
 
-export type Action =
-  PhotosAction
-  | UsersAction
-  | UserPhotosAction;
+export type Action = PhotosAction | UsersAction | UserPhotosAction;
