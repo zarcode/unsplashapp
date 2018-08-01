@@ -30,25 +30,24 @@ const styles = StyleSheet.create({
   barTitle: {
     flex: 1,
     alignItems: 'center',
-    paddingHorizontal: 30,
+    paddingHorizontal: 20,
   },
   buttonWrap: {
-    width: 34,
+    width: 36,
   },
   backButton: {
     alignSelf: 'flex-start',
     width: 26,
     height: 26,
-    marginTop: 7,
-    marginLeft: 8,
+    marginTop: 10,
+    marginLeft: 10,
   },
   userAvatar: {
-    backgroundColor: 'rgba(50, 50, 50, 0.6)',
     width: 62,
     height: 62,
     borderRadius: 31,
-    marginTop: 10,
-    marginBottom: 10,
+    marginTop: 20,
+    marginBottom: 7,
   },
   userName: {
     fontSize: 18,
