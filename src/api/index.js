@@ -2,7 +2,6 @@ import axios from 'axios';
 import {
   Api,
   FetchPhotosParams,
-  FetchUserPhotosParams,
   Photo,
   PromiseCancel,
 } from './types';
