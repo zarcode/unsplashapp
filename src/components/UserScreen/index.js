@@ -1,7 +1,13 @@
 // @flow
 
 import React from 'react';
-import { View, SafeAreaView, Image, StyleSheet, TouchableOpacity } from 'react-native';
+import {
+  View,
+  SafeAreaView,
+  Image,
+  StyleSheet,
+  TouchableOpacity,
+} from 'react-native';
 import propPath from 'crocks/Maybe/propPath';
 import type { User } from '../../api/types';
 import UserPhotosList from './UserPhotosList';
@@ -71,7 +77,7 @@ type UserViewModel = {
 
 type Props = {
   navigation: any,
-}
+};
 
 function userViewModel(item: User): UserViewModel {
   return {
@@ -99,21 +105,19 @@ const UserScreen = (props: Props) => {
         </View>
         <View style={styles.barTitle}>
           {userVM.avatar && (
-          <Image
-            style={styles.userAvatar}
-            source={{
-              uri: userVM.avatar,
-            }}
-          />)}
+            <Image
+              style={styles.userAvatar}
+              source={{
+                uri: userVM.avatar,
+              }}
+            />
+          )}
         </View>
         <View style={styles.buttonWrap} />
       </View>
       <View style={styles.user}>
         <AppText style={styles.userName}>{userVM.name}</AppText>
-        <TouchableOpacity
-          onPress={() => {}}
-          style={styles.viewOnline}
-        >
+        <TouchableOpacity onPress={() => {}} style={styles.viewOnline}>
           <AppText style={styles.viewOnlineLabel}>View on Unsplash</AppText>
         </TouchableOpacity>
       </View>
