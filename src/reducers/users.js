@@ -2,10 +2,13 @@
 // import { combineReducers } from 'redux';
 import { ACTION } from '../constants';
 import type { User, UserID } from '../api/types';
-import { PhotosAction } from '../action/actionTypes';
+import type { UserPhotosAction } from '../action/actionTypes';
 
-export const byId = (state: { [string]: User } = {}, action: PhotosAction) => {
-  if (action.type === ACTION.FETCH_PHOTOS_SUCCESS) {
+export const byId = (state: { [string]: User } = {}, action: UserPhotosAction) => {
+  if (
+    action.type === ACTION.FETCH_PHOTOS_SUCCESS
+    || action.type === ACTION.FETCH_USER_PHOTOS_SUCCESS
+  ) {
     return {
       ...state,
       ...action.response.entities.users,

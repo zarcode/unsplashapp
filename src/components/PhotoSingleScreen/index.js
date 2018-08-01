@@ -3,15 +3,18 @@
  */
 
 import React, { Component } from 'react';
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 // import PropTypes from 'prop-types';
 import PhotoView from 'react-native-photo-view';
-import { View, StyleSheet, Image, Text, ActivityIndicator } from 'react-native';
+import { View, StyleSheet, Image, ActivityIndicator, TouchableOpacity } from 'react-native';
 // import { Header } from 'react-navigation';
 import propPath from 'crocks/Maybe/propPath';
 import { getById as getUserById } from '../../reducers/users';
 import type { Photo, User, PhotoID, UserID } from '../../api/types';
+import { AppText } from '../shared/Typography';
 import IconButton from '../shared/IconButton';
+import toUser from '../../action/users';
 
 const backIcon = require('../../assets/icons/arrow-back.png');
 
@@ -61,6 +64,7 @@ const styles = StyleSheet.create({
     },
     textShadowColor: 'black',
     textShadowRadius: 1,
+    fontSize: 14,
   },
   userAvatar: {
     backgroundColor: 'rgba(50, 50, 50, 0.6)',
@@ -71,7 +75,7 @@ const styles = StyleSheet.create({
     borderColor: 'black',
   },
   loaderContainer: {
-    backgroundColor: '#5f9ea0',
+    backgroundColor: 'black',
     position: 'absolute',
     width: '100%',
     height: '100%',
@@ -85,6 +89,9 @@ type Props = {
   photo: Photo,
   user: User,
   navigation: any,
+  actions: {
+    toUser: (user: User) => void,
+  },
 };
 
 type State = {
@@ -98,6 +105,8 @@ type PhotoViewModel = {
 
 type UserViewModel = {
   id: UserID,
+  name: string,
+  username: string,
   avatar: string,
 };
 
@@ -112,6 +121,7 @@ function userViewModel(item: User): UserViewModel {
   return {
     id: propPath(['id'], item).option(''),
     name: propPath(['name'], item).option(''),
+    username: propPath(['username'], item).option(''),
     avatar: propPath(['profile_image', 'medium'], item).option(null),
   };
 }
@@ -128,7 +138,17 @@ export class PhotoSingleScreen extends Component<Props, State> {
   }
   componentDidMount() {
     const userVM = userViewModel(this.props.user);
-    this.props.navigation.setParams({ userVM });
+    this.props.navigation.setParams({
+      userVM,
+      toUser: () => userVM.username && this.props.actions.toUser(this.props.user),
+    });
+  }
+  componentWillReceiveProps(nextProps: Props) {
+    if (nextProps.photo.id !== this.props.photo.id) {
+      this.setState({
+        loaded: false,
+      });
+    }
   }
   removeLoader = () => {
     this.setState({
@@ -142,6 +162,7 @@ export class PhotoSingleScreen extends Component<Props, State> {
     return (
       <View style={styles.container}>
         <PhotoView
+          key={photoVM.id}
           source={{
             uri: photoVM.url,
           }}
@@ -175,17 +196,19 @@ PhotoSingleScreen.navigationOptions = ({ navigation }) => {
       />
     ),
     headerRight: params.userVM ? (
-      <View
+      <TouchableOpacity
+        onPress={params.toUser}
         style={styles.user}
       >
-        <Text style={styles.userName}>{params.userVM.name}</Text>
+        <AppText style={styles.userName}>{params.userVM.name}</AppText>
+        {params.userVM.avatar && (
         <Image
           style={styles.userAvatar}
           source={{
             uri: params.userVM.avatar,
           }}
-        />
-      </View>
+        />)}
+      </TouchableOpacity>
     ) : null,
   };
 };
@@ -203,7 +226,9 @@ const mapStateToProps = (state, ownProps) => {
   };
 };
 
-const mapDispatchToProps = () => ({});
+const mapDispatchToProps = dispatch => ({
+  actions: bindActionCreators({ toUser }, dispatch),
+});
 
 export default connect(
   mapStateToProps,

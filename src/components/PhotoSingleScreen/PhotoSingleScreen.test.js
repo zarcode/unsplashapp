@@ -1,7 +1,7 @@
 import React from 'react';
 import toJson from 'enzyme-to-json';
 import { shallow } from 'enzyme';
-import { PhotoSingleScreen } from './PhotoSingleScreen';
+import { PhotoSingleScreen } from './';
 
 describe('<PhotoSingleScreen>', () => {
   it('renders correctly', () => {

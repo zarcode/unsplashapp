@@ -1,19 +1,8 @@
 // @flow
 import React, { Component } from 'react';
 import { FlatList, Dimensions, StyleSheet, Image, Alert } from 'react-native';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import propPath from 'crocks/Maybe/propPath';
 
-import { photosRequested, toSinglePhoto } from '../../action/photos';
-import {
-  getPhotos,
-  getFilter,
-  getErrorMessage,
-  getIsLastPage,
-  getLastLoadedPage,
-  getLoadingState,
-} from '../../reducers/photos';
 import type { Photo, PhotosFilter, PhotoID } from '../../api/types';
 import ListLoader from '../shared/ListLoader';
 import PhotoThumb from './PhotoThumb';
@@ -30,6 +19,7 @@ type Props = {
   actions: {
     toSinglePhoto: (photo: Photo) => void,
     photosRequested: (filter: PhotosFilter, refresh: boolean) => void,
+    resetPhotos?: () => void,
   },
 };
 
@@ -51,7 +41,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export class PhotosListComponent extends Component<Props, State> {
+export default class PhotosListComponent extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
 
@@ -74,6 +64,9 @@ export class PhotosListComponent extends Component<Props, State> {
         [{ text: 'OK', onPress: null }],
       );
     }
+  }
+  componentWillUnmount() {
+    if (this.props.actions.resetPhotos) this.props.actions.resetPhotos();
   }
 
   onLayout = () => {
@@ -196,24 +189,3 @@ export class PhotosListComponent extends Component<Props, State> {
     );
   }
 }
-
-const mapStateToProps = (state) => {
-  const filter = getFilter(state);
-  return {
-    photos: getPhotos(state),
-    filter,
-    isLastPage: getIsLastPage(state),
-    lastLoadedPage: getLastLoadedPage(state)(filter),
-    loadingState: getLoadingState(state),
-    getErrorMessage: getErrorMessage(state),
-  };
-};
-
-const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators({ photosRequested, toSinglePhoto }, dispatch),
-});
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(PhotosListComponent);

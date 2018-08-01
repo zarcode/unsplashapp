@@ -70,15 +70,16 @@ export type User = {
 };
 
 export type FetchPhotosParams = {
-  page: number,
-  per_page: number,
-  order_by: 'latest' | 'oldest' | 'popular',
+  page?: number,
+  per_page?: number,
+  order_by?: 'latest' | 'oldest' | 'popular',
 };
 
 export type ApiMethod<Args, R> = (args: Args) => PromiseCancel<R>;
 
 export interface Api {
   +fetchPhotos: ApiMethod<FetchPhotosParams, Array<Photo>>;
+  +fetchUserPhotos: ApiMethod<FetchPhotosParams & { username: string }, Array<Photo>>;
 }
 
 export type PhotosFilter =

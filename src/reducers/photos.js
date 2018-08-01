@@ -3,7 +3,7 @@ import { createSelector } from 'reselect';
 import { combineReducers } from 'redux';
 import { ACTION, PHOTOS_FILTERS } from '../constants';
 import type { Filter, Photo, PhotosFilter } from '../api/types';
-import { PhotosAction } from '../action/actionTypes';
+import type { PhotosAction } from '../action/actionTypes';
 
 export const filters: Array<Filter> = [
   {
