@@ -93,6 +93,22 @@ def enableSeparateBuildPerCPUArchitecture = false
  */
 def enableProguardInReleaseBuilds = false
 
+def getPassword(String currentUser, String keyChain) {
+   def stdout = new ByteArrayOutputStream()
+   def stderr = new ByteArrayOutputStream()
+   exec {
+       commandLine 'security', '-q', 'find-generic-password', '-a', currentUser, '-s', keyChain, '-w'
+       standardOutput = stdout
+       errorOutput = stderr
+       ignoreExitValue true
+   }
+   //noinspection GroovyAssignabilityCheck
+      stdout.toString().trim()
+}
+
+def store_pass = getPassword("zarcode","unsplash_android_store")
+def key_pass = getPassword("zarcode","unsplash_android_key")
+
 android {
     compileSdkVersion 23
     buildToolsVersion "23.0.1"
@@ -107,6 +123,16 @@ android {
             abiFilters "armeabi-v7a", "x86"
         }
     }
+    signingConfigs {
+        release {
+            if (project.hasProperty('UNSPLASH_RELEASE_STORE_FILE')) {
+                storeFile file(UNSPLASH_RELEASE_STORE_FILE)
+                storePassword store_pass
+                keyAlias UNSPLASH_RELEASE_KEY_ALIAS
+                keyPassword key_pass
+            }
+        }
+    }
     splits {
         abi {
             reset()
@@ -119,6 +145,7 @@ android {
         release {
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+            signingConfig signingConfigs.release
         }
     }
     // applicationVariants are e.g. debug, release
