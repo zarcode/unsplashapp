@@ -19,6 +19,16 @@ const nav = (state: * = initialState, action: *) => {
         }),
         state,
       );
+    case ACTION.TO_USER:
+      return AppNavigator.router.getStateForAction(
+        NavigationActions.navigate({
+          routeName: 'UserScreen',
+          params: {
+            user: action.user,
+          },
+        }),
+        state,
+      );
     default:
       return newState || state;
   }

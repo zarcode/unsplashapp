@@ -2,7 +2,7 @@
 
 import { normalize } from 'normalizr';
 import { ACTION } from '../constants';
-import { PhotosAction } from './actionTypes';
+import type { PhotosAction } from './actionTypes';
 import type { PhotosFilter, Photo } from '../api/types';
 import * as schema from './schema';
 

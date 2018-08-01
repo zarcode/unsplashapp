@@ -2,7 +2,7 @@ import React from 'react';
 import { Image } from 'react-native';
 import toJson from 'enzyme-to-json';
 import { shallow } from 'enzyme';
-import { PhotosListComponent as PhotosList } from './PhotosList';
+import PhotosList from './PhotosList';
 // import type {Photo} from '../api/types';
 // import {AppWithNavigationState} from '../Root';
 import ListLoader from '../shared/ListLoader';
