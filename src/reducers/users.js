@@ -4,10 +4,13 @@ import { ACTION } from '../constants';
 import type { User, UserID } from '../api/types';
 import type { UserPhotosAction } from '../action/actionTypes';
 
-export const byId = (state: { [string]: User } = {}, action: UserPhotosAction) => {
+export const byId = (
+  state: { [string]: User } = {},
+  action: UserPhotosAction,
+) => {
   if (
-    action.type === ACTION.FETCH_PHOTOS_SUCCESS
-    || action.type === ACTION.FETCH_USER_PHOTOS_SUCCESS
+    action.type === ACTION.FETCH_PHOTOS_SUCCESS ||
+    action.type === ACTION.FETCH_USER_PHOTOS_SUCCESS
   ) {
     return {
       ...state,

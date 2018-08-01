@@ -1,5 +1,11 @@
 import axios from 'axios';
-import { Api, FetchPhotosParams, FetchUserPhotosParams, Photo, PromiseCancel } from './types';
+import {
+  Api,
+  FetchPhotosParams,
+  FetchUserPhotosParams,
+  Photo,
+  PromiseCancel,
+} from './types';
 import config from '../config.json';
 
 const requestGet = ({ url, params }): PromiseCancel<Array<Photo>> => {
@@ -31,8 +37,10 @@ class ApiIml implements Api {
       url: `${config.url}/photos`,
       params,
     });
-  fetchUserPhotos =
-  ({ username, ...rest }: { username: string } & FetchPhotosParams): PromiseCancel<Array<Photo>> =>
+  fetchUserPhotos = ({
+    username,
+    ...rest
+  }: { username: string } & FetchPhotosParams): PromiseCancel<Array<Photo>> =>
     requestGet({
       url: `${config.url}/users/${username}/photos`,
       rest,

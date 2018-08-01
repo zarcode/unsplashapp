@@ -7,7 +7,13 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 // import PropTypes from 'prop-types';
 import PhotoView from 'react-native-photo-view';
-import { View, StyleSheet, Image, ActivityIndicator, TouchableOpacity } from 'react-native';
+import {
+  View,
+  StyleSheet,
+  Image,
+  ActivityIndicator,
+  TouchableOpacity,
+} from 'react-native';
 // import { Header } from 'react-navigation';
 import propPath from 'crocks/Maybe/propPath';
 import { getById as getUserById } from '../../reducers/users';
@@ -140,7 +146,8 @@ export class PhotoSingleScreen extends Component<Props, State> {
     const userVM = userViewModel(this.props.user);
     this.props.navigation.setParams({
       userVM,
-      toUser: () => userVM.username && this.props.actions.toUser(this.props.user),
+      toUser: () =>
+        userVM.username && this.props.actions.toUser(this.props.user),
     });
   }
   componentWillReceiveProps(nextProps: Props) {
@@ -154,7 +161,7 @@ export class PhotoSingleScreen extends Component<Props, State> {
     this.setState({
       loaded: true,
     });
-  }
+  };
   render() {
     const { photo } = this.props;
     const photoVM = photoViewModel(photo);
@@ -172,11 +179,11 @@ export class PhotoSingleScreen extends Component<Props, State> {
           onLoad={this.removeLoader}
           style={styles.imagePreview}
         />
-        {!this.state.loaded &&
+        {!this.state.loaded && (
           <View style={styles.loaderContainer}>
             <ActivityIndicator color="white" />
           </View>
-        }
+        )}
       </View>
     );
   }
@@ -196,18 +203,16 @@ PhotoSingleScreen.navigationOptions = ({ navigation }) => {
       />
     ),
     headerRight: params.userVM ? (
-      <TouchableOpacity
-        onPress={params.toUser}
-        style={styles.user}
-      >
+      <TouchableOpacity onPress={params.toUser} style={styles.user}>
         <AppText style={styles.userName}>{params.userVM.name}</AppText>
         {params.userVM.avatar && (
-        <Image
-          style={styles.userAvatar}
-          source={{
-            uri: params.userVM.avatar,
-          }}
-        />)}
+          <Image
+            style={styles.userAvatar}
+            source={{
+              uri: params.userVM.avatar,
+            }}
+          />
+        )}
       </TouchableOpacity>
     ) : null,
   };
