@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
     width: 34,
     height: 34,
     borderRadius: 17,
-    marginLeft: 20,
+    marginLeft: 10,
   },
   backButtonIcon: {
     tintColor: 'white',
@@ -55,9 +55,11 @@ const styles = StyleSheet.create({
     top: 0,
     left: 0,
     borderBottomWidth: 0,
+    elevation: 0,
+    shadowOpacity: 0,
   },
   user: {
-    marginRight: 20,
+    marginRight: 10,
     flexDirection: 'row',
     alignItems: 'center',
   },
@@ -73,7 +75,6 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   userAvatar: {
-    backgroundColor: 'rgba(50, 50, 50, 0.6)',
     width: 36,
     height: 36,
     borderRadius: 18,
