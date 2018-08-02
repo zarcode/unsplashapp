@@ -43,7 +43,7 @@ jobs:
       # run tests!
       - run: npm test
       # run jsbuild!
-      - run: npm install -g npm@latest react-native-cli
+      - run: sudo npm install -g npm@latest react-native-cli
       - run: 
           name: "make bundle"
           command: react-native bundle --platform android --dev false --entry-file index.js --bundle-output index.android.bundle
