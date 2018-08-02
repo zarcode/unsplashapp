@@ -109,12 +109,10 @@ android {
     }
     signingConfigs {
         release {
-            if (project.hasProperty('UNSPLASH_RELEASE_STORE_FILE')) {
-                storeFile file(UNSPLASH_RELEASE_STORE_FILE)
-                storePassword UNSPLASH_RELEASE_STORE_PASSWORD
-                keyAlias UNSPLASH_RELEASE_KEY_ALIAS
-                keyPassword UNSPLASH_RELEASE_KEY_PASSWORD
-            }
+            storeFile file(System.getenv("KEYSTORE") ?: UNSPLASH_RELEASE_STORE_FILE)
+            storePassword UNSPLASH_RELEASE_STORE_PASSWORD
+            keyAlias UNSPLASH_RELEASE_KEY_ALIAS
+            keyPassword UNSPLASH_RELEASE_KEY_PASSWORD
         }
     }
     splits {
