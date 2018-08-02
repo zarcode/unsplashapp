@@ -59,7 +59,8 @@ jobs:
       - run: echo 'export KEYSTORE=${HOME}/repo/keystore.jks' >> $BASH_ENV
       - run: cd android && export TERM=xterm && ./gradlew assembleRelease
       - store_artifacts:
-          path: builds
+          path: app/build/outputs/apk/
+          destination: apks/
           
 workflows:
   version: 2
