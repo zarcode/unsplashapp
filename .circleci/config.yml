@@ -2,9 +2,9 @@
 #
 # Check https://circleci.com/docs/2.0/language-javascript/ for more details
 #
-version: 2
+version: 3
 jobs:
-  build:
+  tests:
     docker:
       # specify the version you desire here
       - image: circleci/node:9.11-browsers
@@ -59,9 +59,12 @@ jobs:
           path: builds
 
 workflows:
-  version: 2
+  version: 3
   test_and_build:
     jobs:    
-      - build
+      - tests
       - android
+          type: approval
+          requires:
+            - tests
 
