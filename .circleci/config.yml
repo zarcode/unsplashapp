@@ -21,7 +21,7 @@ jobs:
           - v1-dependencies-{{ checksum "package.json" }}
           # fallback to using the latest cache if no exact match is found
           - v1-dependencies-
-      - run: npm install
+      - run: npm install --silent
       - save_cache:
           paths:
             - node_modules
@@ -43,6 +43,7 @@ jobs:
       # run tests!
       - run: npm test
       # run jsbuild!
+      - run: npm install -g --silent npm@latest react-native-cli
       - run: 
           name: "make bundle"
           command: react-native bundle --platform android --dev false --entry-file index.js --bundle-output index.android.bundle
