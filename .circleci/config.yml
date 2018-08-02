@@ -4,7 +4,7 @@
 #
 version: 2
 jobs:
-  tests:
+  build:
     docker:
       # specify the version you desire here
       - image: circleci/node:9.11-browsers
@@ -62,9 +62,9 @@ workflows:
   version: 2
   test_and_build:
     jobs:
-      - tests
+      - build
       - android
         type: approval
         requires:
-          - tests
+          - build
 
