@@ -64,7 +64,4 @@ workflows:
     jobs:    
       - build
       - android
-          type: approval
-          requires:
-            - build
 
