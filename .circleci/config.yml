@@ -4,7 +4,7 @@
 #
 version: 2
 jobs:
-  build:
+  tests:
     docker:
       # specify the version you desire here
       - image: circleci/node:9.11-browsers
@@ -42,6 +42,10 @@ jobs:
           path: reports/junit
       # run tests!
       - run: npm test
+      # run jsbuild!
+      - run: 
+          name: "make bundle"
+          command: react-native bundle --platform android --dev false --entry-file index.js --bundle-output index.android.bundle
 
   android:
     working_directory: ~/repo
@@ -50,12 +54,17 @@ jobs:
     steps:
       - checkout
       - run: npm install
-      - run: cd android && export TERM=xterm && ./gradlew assembleDebug
+      - run: cd android && ./gradlew assembleRelease
+      - store_artifacts:
+          path: builds
 
 workflows:
   version: 2
-  build_and_test:
+  test_and_build:
     jobs:
-      - build
+      - tests
       - android
+        type: approval
+        requires:
+          - tests
 
