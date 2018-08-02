@@ -55,7 +55,7 @@ jobs:
     steps:
       - checkout
       - run: npm install
-      - run: cd android && ./gradlew assembleRelease
+      - run: cd android && export TERM=xterm && ./gradlew assembleRelease
       - store_artifacts:
           path: builds
           
