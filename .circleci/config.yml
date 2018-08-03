@@ -67,7 +67,7 @@ workflows:
   test-and-build:
     jobs:
       - test:
-          type: approval
       - android:
+          type: approval
           requires:
             - test
