@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "209598635618",
+    "firebase_url": "https://splashy-30449.firebaseio.com",
+    "project_id": "splashy-30449",
+    "storage_bucket": "splashy-30449.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:209598635618:android:fd2164d68155ec61",
+        "android_client_info": {
+          "package_name": "com.zarcode.splashy"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "209598635618-dk1c8179qpk27pstgjqu9rtmd78shcib.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyALxq96exwaXq2smzR2W8JkW1TQUsIzPCY"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
