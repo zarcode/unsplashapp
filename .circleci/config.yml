@@ -61,6 +61,7 @@ jobs:
       - store_artifacts:
           path: android/app/build/outputs/apk/
           destination: apks/
+    skip
           
 workflows:
   version: 2
@@ -69,5 +70,8 @@ workflows:
       - test
       - android:
           type: approval
+          requires:
+            - test
+      - skip:
           requires:
             - test
