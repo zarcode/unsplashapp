@@ -1,4 +1,4 @@
-package com.unsplashapp;
+package com.zarcode.splashy;
 
 import android.app.Application;
 
