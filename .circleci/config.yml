@@ -61,8 +61,8 @@ jobs:
       - store_artifacts:
           path: android/app/build/outputs/apk/
           destination: apks/
-    skip:
-      - run: ls
+  skip:
+    - run: ls
           
 workflows:
   version: 2
