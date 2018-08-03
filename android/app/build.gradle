@@ -98,7 +98,7 @@ android {
     buildToolsVersion "23.0.1"
 
     defaultConfig {
-        applicationId "com.unsplashapp"
+        applicationId "com.zarcode.splashy"
         minSdkVersion 16
         targetSdkVersion 22
         versionCode 1

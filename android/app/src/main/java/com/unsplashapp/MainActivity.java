@@ -1,4 +1,4 @@
-package com.unsplashapp;
+package com.zarcode.splashy;
 
 import com.facebook.react.ReactActivity;
 
