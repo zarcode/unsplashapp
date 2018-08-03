@@ -69,6 +69,5 @@ workflows:
       - build
       - android
           type: approval
-          requires:
-            - build
+          requires: ['build']
 
