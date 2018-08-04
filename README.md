@@ -1,5 +1,7 @@
 # Unofficial unsplash.com Mobile App
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/zarcode/unsplashapp/blob/master/LICENSE)
 [![CircleCI](https://circleci.com/gh/zarcode/unsplashapp/tree/master.svg?style=shield)](https://circleci.com/gh/zarcode/unsplashapp/tree/master)
+[![Coverage Status](https://coveralls.io/repos/github/zarcode/unsplashapp/badge.svg)](https://coveralls.io/github/zarcode/unsplashapp)
 ## Description:
 React Native app for browsing [Unsplash](https://unsplash.com/) photos.
 
