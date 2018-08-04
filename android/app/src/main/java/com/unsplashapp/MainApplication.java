@@ -2,6 +2,7 @@ package com.zarcode.splashy;
 
 import android.app.Application;
 
+import com.crashlytics.android.Crashlytics;
 import com.facebook.react.ReactApplication;
 import com.reactnative.photoview.PhotoViewPackage;
 import com.facebook.react.ReactNativeHost;
@@ -9,6 +10,7 @@ import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
 
+import io.fabric.sdk.android.Fabric;
 import java.util.Arrays;
 import java.util.List;
 
@@ -42,6 +44,7 @@ public class MainApplication extends Application implements ReactApplication {
   @Override
   public void onCreate() {
     super.onCreate();
+    Fabric.with(this, new Crashlytics());
     SoLoader.init(this, /* native exopackage */ false);
   }
 }
