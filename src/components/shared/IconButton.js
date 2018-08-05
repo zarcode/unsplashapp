@@ -2,8 +2,11 @@
 import React from 'react';
 import type { Element } from 'react';
 import { Image, StyleSheet, TouchableOpacity } from 'react-native';
-import type { ViewStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheetTypes';
+import StyleSheetPropType from 'react-native/Libraries/StyleSheet/StyleSheetPropType';
+import ViewStylePropTypes from 'react-native/Libraries/Components/View/ViewStylePropTypes';
 import type { ImageProps } from './types';
+
+const stylePropType = StyleSheetPropType(ViewStylePropTypes);
 
 const styles = StyleSheet.create({
   button: {
@@ -14,7 +17,7 @@ const styles = StyleSheet.create({
 
 type Props = ImageProps & {
   onPress: () => void,
-  buttonStyle?: ViewStyleProp,
+  buttonStyle?: stylePropType,
 };
 
 const IconButton = ({ onPress, buttonStyle, ...rest }: Props): Element<*> => (
