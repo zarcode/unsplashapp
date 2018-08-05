@@ -59,9 +59,6 @@
     "redux-mock-store": "^1.5.1"
   },
   "jest": {
-    "transform": {
-      "^.+\\.js$": "babel-jest"
-    },
     "setupTestFrameworkScriptFile": "<rootDir>/setupTests.js",
     "transformIgnorePatterns": [
       "node_modules/(?!(jest-)?react-native|react-navigation)"
