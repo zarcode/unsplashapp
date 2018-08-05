@@ -1,5 +1,5 @@
 import { AppRegistry } from 'react-native';
 import Root from './src/Root';
-import './ReactotronConfig';
+// import './ReactotronConfig';
 
 AppRegistry.registerComponent('unsplashapp', () => Root);
