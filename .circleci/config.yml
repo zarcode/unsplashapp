@@ -71,9 +71,6 @@ workflows:
     jobs:
       - test
       - android:
-          filters:
-            branches:
-              only: master
           type: approval
           requires:
             - test

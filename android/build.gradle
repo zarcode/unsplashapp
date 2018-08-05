@@ -7,9 +7,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.2.3'
-        // These docs use an open ended version so that our plugin
-        // can be updated quickly in response to Android tooling updates
+        classpath 'com.android.tools.build:gradle:2.3.3'
 
         // We recommend changing it to the latest version from our changelog:
         // https://docs.fabric.io/android/changelog.html#fabric-gradle-plugin
@@ -25,5 +23,17 @@ allprojects {
             // All of React Native (JS, Obj-C sources, Android binaries) is installed from npm
             url "$rootDir/../node_modules/react-native/android"
         }
+        maven {
+            url 'https://maven.google.com/'
+            name 'Google'
+        }
     }
+}
+
+ext {
+    buildToolsVersion = "26.0.3"
+    minSdkVersion = 16
+    compileSdkVersion = 26
+    targetSdkVersion = 26
+    supportLibVersion = "26.1.0"
 }
