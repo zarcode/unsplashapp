@@ -41,7 +41,7 @@ jobs:
       - store_artifacts:
           path: reports/junit
       # run tests!
-      - run: npm run test-ci
+      - run: npm run test
       # run jsbuild!
       - run: sudo npm install -g npm@latest react-native-cli
       - run: 
