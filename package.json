@@ -34,9 +34,9 @@
     "rxjs": "^6.1.0"
   },
   "devDependencies": {
+    "@babel/core": "^7.0.0-beta.54",
     "app-icon": "^0.6.3",
     "axios-mock-adapter": "^1.15.0",
-    "babel-core": "^7.0.0-bridge.0",
     "babel-eslint": "^8.2.3",
     "babel-jest": "^23.4.2",
     "babel-preset-react-native": "^5.0.2",
