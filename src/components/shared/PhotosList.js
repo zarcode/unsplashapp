@@ -152,7 +152,7 @@ export default class PhotosListComponent extends Component<Props, State> {
         style={{
           width: 150,
           height: 150,
-          tintColor: 'rgba(255,255,255,0.4)',
+          opacity: 0.1,
         }}
         resizeMode="cover"
         source={noImages}
