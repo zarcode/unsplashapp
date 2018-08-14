@@ -54,7 +54,7 @@ buck-out/
 
 # configuration
 
-src/config\.json
+src/config.json
 
 # test coverage
 
