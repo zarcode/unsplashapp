@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { Api, FetchPhotosParams, Photo, PromiseCancel } from './types';
 import config from '../config.json';
+import { API } from '../constants';
 
 const requestGet = ({ url, params }): PromiseCancel<Array<Photo>> => {
   const cancelSource = axios.CancelToken.source();
@@ -10,7 +11,7 @@ const requestGet = ({ url, params }): PromiseCancel<Array<Photo>> => {
     url,
     params: {
       ...params,
-      client_id: config.client_id,
+      client_id: config.keys[0],
     },
     cancelToken: cancelSource.token,
   };
@@ -26,7 +27,7 @@ const requestGet = ({ url, params }): PromiseCancel<Array<Photo>> => {
 class ApiIml implements Api {
   fetchPhotos = (params: FetchPhotosParams): PromiseCancel<Array<Photo>> =>
     requestGet({
-      url: `${config.url}/photos`,
+      url: `${API.URL}/photos`,
       params,
     });
   fetchUserPhotos = ({
@@ -34,7 +35,7 @@ class ApiIml implements Api {
     ...rest
   }: { username: string } & FetchPhotosParams): PromiseCancel<Array<Photo>> =>
     requestGet({
-      url: `${config.url}/users/${username}/photos`,
+      url: `${API.URL}/users/${username}/photos`,
       rest,
     });
 }

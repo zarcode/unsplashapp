@@ -1,4 +1,7 @@
 // @flow
+export const API = {
+  URL: 'https://api.unsplash.com',
+};
 
 export const ACTION = {
   CHANGE_PHOTOS_FILTER: 'CHANGE_PHOTOS_FILTER',

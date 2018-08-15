@@ -44,6 +44,9 @@ jobs:
       - run: npm run test-ci
       # run jsbuild!
       - run: sudo npm install -g npm@latest react-native-cli
+      # set keys
+      - run: ./scripts/set-keys.sh
+      # make bundle
       - run: 
           name: "make bundle"
           command: react-native bundle --platform android --dev false --entry-file index.js --bundle-output index.android.bundle
