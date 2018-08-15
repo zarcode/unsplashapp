@@ -30,6 +30,8 @@ jobs:
       - run: npm run prettier:diff
       # run flow!
       - run: npm run flow-check
+      # set keys
+      - run: ./scripts/set-keys.sh
       # run linter!
       - run:
           name: "npm run eslint"
@@ -44,8 +46,6 @@ jobs:
       - run: npm run test-ci
       # run jsbuild!
       - run: sudo npm install -g npm@latest react-native-cli
-      # set keys
-      - run: ./scripts/set-keys.sh
       # make bundle
       - run: 
           name: "make bundle"
