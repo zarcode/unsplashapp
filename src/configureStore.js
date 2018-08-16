@@ -9,6 +9,7 @@ import rootEpic from './epics/';
 import photos from './reducers/photos';
 import users from './reducers/users';
 import userPhotos from './reducers/userPhotos';
+import keys from './reducers/keys';
 
 import nav from './reducers/nav';
 
@@ -28,6 +29,7 @@ export default (navigationMiddleware: Middleware) => {
     photos,
     users,
     userPhotos,
+    keys,
   });
 
   return createStore(appReducer, applyMiddleware(...middleWares));

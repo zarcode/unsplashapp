@@ -14,6 +14,7 @@ import type { Action } from '../action/actionTypes';
 import * as photosActions from '../action/userPhotos';
 import { asObservable } from './rxUtils';
 import api from '../api';
+import config from '../config.json';
 
 const perPage = 30;
 
@@ -34,6 +35,7 @@ export const loadUserPhotosToList = (
         username: a.username,
         page: nextPage,
         per_page: perPage,
+        client_id: config.keys[state.value.keys],
       }));
       const requestAction = from(request).pipe(
         // tap(data => { console.log("data", data); }),

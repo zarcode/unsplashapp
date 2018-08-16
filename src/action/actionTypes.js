@@ -2,6 +2,10 @@
 import { ACTION } from '../constants';
 import type { PhotosFilter, Photo, User } from '../api/types';
 
+export type KeysAction = {
+  type: typeof ACTION.SET_NEW_KEY,
+};
+
 export type PhotosAction =
   | {
       type: typeof ACTION.CHANGE_PHOTOS_FILTER,

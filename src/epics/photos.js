@@ -11,12 +11,14 @@ import {
 
 import { ACTION } from '../constants';
 import type { Action } from '../action/actionTypes';
+import changeKey from '../action/keys';
 import * as photosActions from '../action/photos';
 import { asObservable } from './rxUtils';
 import api from '../api';
 import type { PhotosFilter } from '../api/types';
+import config from '../config.json';
 
-const perPage = 30;
+const perPage = 5;
 
 export const loadPhotosToList = (
   action$: Observable<Action>,
@@ -42,6 +44,7 @@ export const loadPhotosToList = (
             page: nextPage,
             per_page: perPage,
             order_by: a.filter,
+            client_id: config.keys[state.value.keys],
           }));
           const requestAction = from(request).pipe(
             // tap(data => { console.log("data", data); }),
@@ -53,7 +56,13 @@ export const loadPhotosToList = (
                 data.length < perPage,
                 a.refresh,
               )),
-            catchError(e => of(photosActions.photosFail(e.message, a.filter))),
+            catchError((e) => {
+              console.log(JSON.stringify(e));
+              if (state.value.keys < 2) {
+                return of(changeKey()).pipe(concat(of(photosActions.photosRequested(a.filter, a.refresh))));
+              }
+              return of(photosActions.photosFail(e.message, a.filter));
+            }),
           );
           // requestAction.subscribe(x => console.log("-------",x));
           return loadingAction.pipe(

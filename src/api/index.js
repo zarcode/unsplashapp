@@ -1,6 +1,5 @@
 import axios from 'axios';
 import { Api, FetchPhotosParams, Photo, PromiseCancel } from './types';
-import config from '../config.json';
 import { API } from '../constants';
 
 const requestGet = ({ url, params }): PromiseCancel<Array<Photo>> => {
@@ -9,10 +8,7 @@ const requestGet = ({ url, params }): PromiseCancel<Array<Photo>> => {
   const request = {
     method: 'get',
     url,
-    params: {
-      ...params,
-      client_id: config.keys[0],
-    },
+    params,
     cancelToken: cancelSource.token,
   };
 
