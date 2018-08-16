@@ -32,7 +32,7 @@ export const userPhotosSuccess = (
   refresh,
 });
 
-export const userPhotosFail = (error: string): UserPhotosAction => ({
+export const userPhotosFail = (error: string | null): UserPhotosAction => ({
   type: ACTION.FETCH_USER_PHOTOS_FAIL,
   error,
 });

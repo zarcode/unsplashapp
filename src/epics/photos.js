@@ -8,6 +8,7 @@ import {
   catchError,
   takeUntil,
 } from 'rxjs/operators';
+import propPath from 'crocks/Maybe/propPath';
 
 import { ACTION } from '../constants';
 import type { Action } from '../action/actionTypes';
@@ -18,7 +19,7 @@ import api from '../api';
 import type { PhotosFilter } from '../api/types';
 import config from '../config.json';
 
-const perPage = 5;
+const perPage = 30;
 
 export const loadPhotosToList = (
   action$: Observable<Action>,
@@ -57,9 +58,19 @@ export const loadPhotosToList = (
                 a.refresh,
               )),
             catchError((e) => {
-              console.log(JSON.stringify(e));
-              if (state.value.keys < 2) {
-                return of(changeKey()).pipe(concat(of(photosActions.photosRequested(a.filter, a.refresh))));
+              // console.log(JSON.stringify(e));
+              const remaining = propPath(
+                ['response', 'headers', 'x-ratelimit-remaining'],
+                e,
+              ).option(null);
+              if (remaining === '0') {
+                if (state.value.keys === config.keys.length - 1) {
+                  return of(photosActions.photosFail('limit', a.filter));
+                }
+                return of(photosActions.photosFail(null, a.filter)).pipe(concat(
+                  of(changeKey()),
+                  of(photosActions.photosRequested(a.filter, a.refresh)),
+                ));
               }
               return of(photosActions.photosFail(e.message, a.filter));
             }),

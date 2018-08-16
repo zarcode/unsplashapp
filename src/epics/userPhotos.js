@@ -8,9 +8,11 @@ import {
   catchError,
   takeUntil,
 } from 'rxjs/operators';
+import propPath from 'crocks/Maybe/propPath';
 
 import { ACTION } from '../constants';
 import type { Action } from '../action/actionTypes';
+import changeKey from '../action/keys';
 import * as photosActions from '../action/userPhotos';
 import { asObservable } from './rxUtils';
 import api from '../api';
@@ -46,7 +48,23 @@ export const loadUserPhotosToList = (
             data.length < perPage,
             a.refresh,
           )),
-        catchError(e => of(photosActions.userPhotosFail(e.message))),
+        catchError((e) => {
+          // console.log(JSON.stringify(e));
+          const remaining = propPath(
+            ['response', 'headers', 'x-ratelimit-remaining'],
+            e,
+          ).option(null);
+          if (remaining === '0') {
+            if (state.value.keys === config.keys.length - 1) {
+              return of(photosActions.userPhotosFail('limit'));
+            }
+            return of(photosActions.userPhotosFail(null)).pipe(concat(
+              of(changeKey()),
+              of(photosActions.userPhotosFail(a.filter)),
+            ));
+          }
+          return of(photosActions.userPhotosFail(e.message));
+        }),
       );
       // requestAction.subscribe(x => console.log("-------",x));
       return loadingAction.pipe(

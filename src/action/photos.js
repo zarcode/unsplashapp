@@ -45,7 +45,7 @@ export const photosSuccess = (
 });
 
 export const photosFail = (
-  error: string,
+  error: string | null,
   filter: PhotosFilter,
 ): PhotosAction => ({
   type: ACTION.FETCH_PHOTOS_FAIL,

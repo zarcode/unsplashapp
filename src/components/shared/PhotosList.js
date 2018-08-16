@@ -58,11 +58,19 @@ export default class PhotosListComponent extends Component<Props, State> {
   }
   componentWillReceiveProps(nextProps: Props) {
     if (this.props.getErrorMessage === null && nextProps.getErrorMessage) {
-      Alert.alert(
-        'Sorry, something went wrong',
-        'Please, try refreshing the list',
-        [{ text: 'OK', onPress: null }],
-      );
+      if (nextProps.getErrorMessage === 'limit') {
+        Alert.alert(
+          'Usage limit exceeded',
+          'This is just a code showcase app. Try it again in one hour.',
+          [{ text: 'OK', onPress: null }],
+        );
+      } else {
+        Alert.alert(
+          'Sorry, something went wrong',
+          'Please, try refreshing the list',
+          [{ text: 'OK', onPress: null }],
+        );
+      }
     }
   }
   componentWillUnmount() {
