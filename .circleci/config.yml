@@ -28,10 +28,10 @@ jobs:
           key: v1-dependencies-{{ checksum "package.json" }}
       # run prettier!
       - run: npm run prettier:diff
-      # run flow!
-      - run: npm run flow-check
       # set keys
       - run: ./scripts/set-keys.sh
+      # run flow!
+      - run: npm run flow-check
       # run linter!
       - run:
           name: "npm run eslint"
@@ -57,6 +57,7 @@ jobs:
       - image: circleci/android:api-27-node8-alpha
     steps:
       - checkout
+      - run: ./scripts/set-keys.sh
       - run: npm install
       - run: echo $UNSPLASH_RELEASE_STORE_FILE | base64 --decode >> ${HOME}/repo/keystore.jks
       - run: echo 'export KEYSTORE=${HOME}/repo/keystore.jks' >> $BASH_ENV
