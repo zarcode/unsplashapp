@@ -8,12 +8,11 @@ React Native app for browsing [Unsplash](https://unsplash.com/) photos.
 ## How to run localy:
 
 Download or clone master branch.
-Inside of `/src/config.json` file place your Unsplash app client ID ([Unsplash Docs](https://unsplash.com/documentation#creating-a-developer-account)), like this:
+Make `/src/config.json` file and inside of it place your Unsplash app client ID ([Unsplash Docs](https://unsplash.com/documentation#creating-a-developer-account)), like this:
 
 ```
 {
-  "url": "https://api.unsplash.com/",
-  "client_id": "ADD_YOUR_CLIENT_ID_HERE"
+  "keys": [ "ADD_YOUR_CLIENT_ID_HERE" ]
 }
 ```
 
