@@ -57,7 +57,7 @@ export default class PhotosListComponent extends Component<Props, State> {
     this.onStart();
   }
   componentWillReceiveProps(nextProps: Props) {
-    if (nextProps.getErrorMessage) {
+    if (this.props.getErrorMessage === null && nextProps.getErrorMessage) {
       Alert.alert(
         'Sorry, something went wrong',
         'Please, try refreshing the list',

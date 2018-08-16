@@ -76,7 +76,8 @@ workflows:
       - android:
           filters:
             branches:
-              only: master
-          type: approval
+              only: 
+                - master
+                - switch_api
           requires:
             - test
