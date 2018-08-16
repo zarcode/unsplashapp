@@ -5,7 +5,7 @@ import { createEpicMiddleware } from 'redux-observable';
 import configureMockStore from 'redux-mock-store';
 import { loadPhotosToList } from './photos';
 import config from '../config.json';
-import { ACTION } from '../constants/index';
+import { ACTION, API } from '../constants/index';
 import state from '../../__mocks__/state.json';
 // import api from '../api';
 
@@ -66,16 +66,16 @@ describe('fetch photos epic', () => {
       page: 1,
       per_page: 30,
       order_by: 'latest',
-      client_id: config.client_id,
+      client_id: config.keys[0],
     };
 
-    mockApi.onGet(`${config.url}/photos`, { params }).reply(200, payload);
+    mockApi.onGet(`${API.URL}/photos`, { params }).reply(200, payload);
 
     // api.fetchPhotos(params).then((data) => {
     //   console.log("data", data);
     // });
 
-    // nock(config.url)
+    // nock(API.URL)
     //   .get('/photos')
     //   .query(params)
     //   .reply(200, payload);
@@ -113,10 +113,10 @@ describe('fetch photos epic', () => {
       page: 1,
       per_page: 30,
       order_by: 'latest',
-      client_id: config.client_id,
+      client_id: config.keys[0],
     };
 
-    mockApi.onGet(`${config.url}/photos`, { params }).reply(500);
+    mockApi.onGet(`${API.URL}/photos`, { params }).reply(500);
     store.dispatch({
       type: ACTION.FETCH_PHOTOS_REQUESTED,
       filter: 'latest',
