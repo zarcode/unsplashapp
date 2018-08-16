@@ -32,11 +32,11 @@ class ApiIml implements Api {
     });
   fetchUserPhotos = ({
     username,
-    ...rest
+    ...params
   }: { username: string } & FetchPhotosParams): PromiseCancel<Array<Photo>> =>
     requestGet({
       url: `${API.URL}/users/${username}/photos`,
-      rest,
+      params,
     });
 }
 
