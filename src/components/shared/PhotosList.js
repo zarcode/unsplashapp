@@ -1,6 +1,13 @@
 // @flow
 import React, { Component } from 'react';
-import { FlatList, Dimensions, StyleSheet, Image, Alert } from 'react-native';
+import {
+  FlatList,
+  Dimensions,
+  StyleSheet,
+  Image,
+  Alert,
+  PixelRatio,
+} from 'react-native';
 import propPath from 'crocks/Maybe/propPath';
 
 import type { Photo, PhotosFilter, PhotoID } from '../../api/types';
@@ -26,6 +33,7 @@ type Props = {
 type State = {
   numColumns: number,
   imageDim: number,
+  imagePixels: number,
 };
 
 export type PhotoViewModel = {
@@ -45,9 +53,11 @@ export default class PhotosListComponent extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
 
+    const imageDim = Dimensions.get('window').width / 3;
     this.state = {
       numColumns: 3,
-      imageDim: Math.floor(Dimensions.get('window').width / 3),
+      imageDim: Math.floor(imageDim),
+      imagePixels: PixelRatio.getPixelSizeForLayoutSize(imageDim),
     };
   }
 
@@ -81,9 +91,11 @@ export default class PhotosListComponent extends Component<Props, State> {
         columns = 10;
       }
     }
+    const imageDim = Math.floor(width / columns);
     this.setState({
       numColumns: columns,
-      imageDim: Math.floor(width / columns),
+      imageDim,
+      imagePixels: PixelRatio.getPixelSizeForLayoutSize(imageDim),
     });
   };
   onStart = () => {
@@ -114,10 +126,16 @@ export default class PhotosListComponent extends Component<Props, State> {
     }
   };
 
-  photoViewModel = (item: Photo): PhotoViewModel => ({
-    id: propPath(['id'], item).option(''),
-    url: propPath(['urls', 'small'], item).option(null),
-  });
+  photoViewModel = (item: Photo): PhotoViewModel => {
+    const { imagePixels } = this.state;
+    return {
+      id: propPath(['id'], item).option(''),
+      url: propPath(
+        ['urls', imagePixels > 200 ? 'small' : 'thumb'],
+        item,
+      ).option(null),
+    };
+  };
 
   keyExtractor = (item: Photo) => item.id;
 

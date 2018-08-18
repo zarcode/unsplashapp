@@ -13,6 +13,8 @@ import {
   Image,
   ActivityIndicator,
   TouchableOpacity,
+  Dimensions,
+  PixelRatio,
 } from 'react-native';
 // import { Header } from 'react-navigation';
 import propPath from 'crocks/Maybe/propPath';
@@ -23,6 +25,12 @@ import IconButton from '../shared/IconButton';
 import toUser from '../../action/users';
 
 const backIcon = require('../../assets/icons/arrow-back.png');
+
+const { width, height } = Dimensions.get('window');
+const photoSize =
+  PixelRatio.getPixelSizeForLayoutSize(Math.min(width, height)) > 1200
+    ? 'full'
+    : 'regular';
 
 const styles = StyleSheet.create({
   container: {
@@ -120,7 +128,7 @@ type UserViewModel = {
 function photoViewModel(item: Photo): PhotoViewModel {
   return {
     id: propPath(['id'], item).option(''),
-    url: propPath(['urls', 'full'], item).option(null),
+    url: propPath(['urls', photoSize], item).option(null),
   };
 }
 
@@ -176,7 +184,7 @@ export class PhotoSingleScreen extends Component<Props, State> {
           }}
           minimumZoomScale={1}
           maximumZoomScale={3}
-          androidScaleType="center"
+          androidScaleType="fitCenter"
           onLoad={this.removeLoader}
           style={styles.imagePreview}
         />
