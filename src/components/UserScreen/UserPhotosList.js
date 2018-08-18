@@ -7,7 +7,6 @@ import {
   userPhotosRequested as photosRequested,
   resetUserPhotos as resetPhotos,
 } from '../../action/userPhotos';
-import { toSinglePhoto } from '../../action/photos';
 import {
   getPhotos,
   getErrorMessage,
@@ -31,10 +30,7 @@ const mapStateToProps = (state, ownProps) => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators(
-    { photosRequested, toSinglePhoto, resetPhotos },
-    dispatch,
-  ),
+  actions: bindActionCreators({ photosRequested, resetPhotos }, dispatch),
 });
 
 export default connect(

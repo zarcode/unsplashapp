@@ -23,8 +23,9 @@ type Props = {
   lastLoadedPage: number,
   loadingState: 'refreshing' | 'loading' | 'idle',
   getErrorMessage: string,
+  navigation: any,
   actions: {
-    toSinglePhoto: (photo: Photo) => void,
+    // toSinglePhoto: (photo: Photo) => void,
     photosRequested: (filter: PhotosFilter, refresh: boolean) => void,
     resetPhotos?: () => void,
   },
@@ -139,8 +140,11 @@ export default class PhotosListComponent extends Component<Props, State> {
 
   keyExtractor = (item: Photo) => item.id;
 
-  navigateToSingle = (item: Photo) => () =>
-    this.props.actions.toSinglePhoto(item);
+  navigateToSingle = (item: Photo) => () => {
+    this.props.navigation.navigate('PhotoSingleScreen', {
+      photo: item,
+    });
+  };
 
   renderItem = ({ item }: Photo) => {
     const photo: PhotoViewModel = this.photoViewModel(item);

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { mapProps } from 'recompose';
 import { bindActionCreators } from 'redux';
 
-import { photosRequested, toSinglePhoto } from '../../action/photos';
+import { photosRequested } from '../../action/photos';
 import {
   getPhotos,
   getFilter,
@@ -31,7 +31,7 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators({ photosRequested, toSinglePhoto }, dispatch),
+  actions: bindActionCreators({ photosRequested }, dispatch),
 });
 
 export default connect(

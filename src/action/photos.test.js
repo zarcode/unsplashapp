@@ -83,10 +83,10 @@ describe('photos actions', () => {
     )).toEqual(expectedAction);
   });
 
-  it('should create an action navigate to single photo screen', () => {
-    const expectedAction = {
-      type: ACTION.TO_SINGLE_PHOTO,
-    };
-    expect(actions.toSinglePhoto()).toEqual(expectedAction);
-  });
+  // it('should create an action navigate to single photo screen', () => {
+  //   const expectedAction = {
+  //     type: ACTION.TO_SINGLE_PHOTO,
+  //   };
+  //   expect(actions.toSinglePhoto()).toEqual(expectedAction);
+  // });
 });

@@ -128,7 +128,7 @@ const UserScreen = (props: Props) => {
         </TouchableOpacity>
       </View>
       <View style={styles.container}>
-        <UserPhotosList user={userVM} />
+        <UserPhotosList user={userVM} navigation={props.navigation} />
       </View>
     </SafeAreaView>
   );

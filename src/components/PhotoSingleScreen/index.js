@@ -3,7 +3,6 @@
  */
 
 import React, { Component } from 'react';
-import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 // import PropTypes from 'prop-types';
 import PhotoView from 'react-native-photo-view';
@@ -22,7 +21,7 @@ import { getById as getUserById } from '../../reducers/users';
 import type { Photo, User, PhotoID, UserID } from '../../api/types';
 import { AppText } from '../shared/Typography';
 import IconButton from '../shared/IconButton';
-import toUser from '../../action/users';
+// import toUser from '../../action/users';
 
 const backIcon = require('../../assets/icons/arrow-back.png');
 
@@ -104,9 +103,6 @@ type Props = {
   photo: Photo,
   user: User,
   navigation: any,
-  actions: {
-    toUser: (user: User) => void,
-  },
 };
 
 type State = {
@@ -156,7 +152,10 @@ export class PhotoSingleScreen extends Component<Props, State> {
     this.props.navigation.setParams({
       userVM,
       toUser: () =>
-        userVM.username && this.props.actions.toUser(this.props.user),
+        userVM.username &&
+        this.props.navigation.navigate('UserScreen', {
+          user: this.props.user,
+        }),
     });
   }
   componentWillReceiveProps(nextProps: Props) {
@@ -240,11 +239,4 @@ const mapStateToProps = (state, ownProps) => {
   };
 };
 
-const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators({ toUser }, dispatch),
-});
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(PhotoSingleScreen);
+export default connect(mapStateToProps)(PhotoSingleScreen);

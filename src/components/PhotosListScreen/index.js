@@ -17,13 +17,17 @@ const styles = StyleSheet.create({
   },
 });
 
-const PhotosListScreen = () => (
+type Props = {
+  navigation: any,
+};
+
+const PhotosListScreen = (props: Props) => (
   <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
     <View style={styles.container}>
       <View style={styles.header}>
         <PhotosFilters />
       </View>
-      <AllPhotosList />
+      <AllPhotosList navigation={props.navigation} />
     </View>
   </SafeAreaView>
 );
