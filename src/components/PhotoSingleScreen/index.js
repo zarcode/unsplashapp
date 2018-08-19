@@ -10,7 +10,6 @@ import {
   View,
   StyleSheet,
   Image,
-  ActivityIndicator,
   TouchableOpacity,
   Dimensions,
   PixelRatio,
@@ -21,9 +20,9 @@ import { getById as getUserById } from '../../reducers/users';
 import type { Photo, User, PhotoID, UserID } from '../../api/types';
 import { AppText } from '../shared/Typography';
 import IconButton from '../shared/IconButton';
-// import toUser from '../../action/users';
 
 const backIcon = require('../../assets/icons/arrow-back.png');
+const loader = require('../../assets/loader.png');
 
 const { width, height } = Dimensions.get('window');
 const photoSize =
@@ -34,16 +33,12 @@ const photoSize =
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: 'black',
   },
   imagePreview: {
     flex: 1,
     width: '100%',
   },
-  // topLine: {
-  //   position: 'absolute',
-  //   height: Header.HEIGHT,
-  //   justifyContent: 'space-between',
-  // },
   backButton: {
     backgroundColor: 'rgba(50, 50, 50, 0.6)',
     width: 34,
@@ -105,10 +100,6 @@ type Props = {
   navigation: any,
 };
 
-type State = {
-  loaded: boolean,
-};
-
 type PhotoViewModel = {
   id: PhotoID,
   url: string,
@@ -139,14 +130,8 @@ function userViewModel(item: User): UserViewModel {
 
 const navigateBack = navigation => () => navigation.goBack();
 
-export class PhotoSingleScreen extends Component<Props, State> {
+export class PhotoSingleScreen extends Component<Props> {
   static navigationOptions: (*) => *;
-  constructor(props: Props) {
-    super(props);
-    this.state = {
-      loaded: false,
-    };
-  }
   componentDidMount() {
     const userVM = userViewModel(this.props.user);
     this.props.navigation.setParams({
@@ -158,18 +143,6 @@ export class PhotoSingleScreen extends Component<Props, State> {
         }),
     });
   }
-  componentWillReceiveProps(nextProps: Props) {
-    if (nextProps.photo.id !== this.props.photo.id) {
-      this.setState({
-        loaded: false,
-      });
-    }
-  }
-  removeLoader = () => {
-    this.setState({
-      loaded: true,
-    });
-  };
   render() {
     const { photo } = this.props;
     const photoVM = photoViewModel(photo);
@@ -184,14 +157,9 @@ export class PhotoSingleScreen extends Component<Props, State> {
           minimumZoomScale={1}
           maximumZoomScale={3}
           androidScaleType="fitCenter"
-          onLoad={this.removeLoader}
+          loadingIndicatorSource={loader}
           style={styles.imagePreview}
         />
-        {!this.state.loaded && (
-          <View style={styles.loaderContainer}>
-            <ActivityIndicator color="white" />
-          </View>
-        )}
       </View>
     );
   }
