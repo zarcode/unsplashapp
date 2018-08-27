@@ -10,7 +10,10 @@ exports[`<PhotosList /> render loader 1`] = `
       Object {
         "id": "1",
         "urls": Object {
+          "full": "url",
+          "regular": "url",
           "small": "url",
+          "thumb": "url",
         },
       },
     ]
@@ -25,7 +28,7 @@ exports[`<PhotosList /> render loader 1`] = `
   maxToRenderPerBatch={10}
   numColumns={3}
   onEndReached={[Function]}
-  onEndReachedThreshold={0.5}
+  onEndReachedThreshold={0.2}
   onLayout={[Function]}
   onRefresh={[Function]}
   refreshing={false}

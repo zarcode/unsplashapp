@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image } from 'react-native';
+import { Image, PixelRatio } from 'react-native';
 import toJson from 'enzyme-to-json';
 import { shallow } from 'enzyme';
 import PhotosList from './PhotosList';
@@ -9,12 +9,17 @@ import ListLoader from '../shared/ListLoader';
 import PhotoThumb from './PhotoThumb';
 
 jest.mock('Dimensions');
+// jest.mock('PixelRatio');
+PixelRatio.getPixelSizeForLayoutSize = jest.fn(() => 300);
 
 describe('<PhotosList />', () => {
   const photo = {
     id: '1',
     urls: {
+      thumb: 'url',
       small: 'url',
+      regular: 'url',
+      full: 'url',
     },
   };
   const props = {
@@ -24,7 +29,6 @@ describe('<PhotosList />', () => {
     lastLoadedPage: 1,
     actions: {
       photosRequested: jest.fn(),
-      toSinglePhoto: jest.fn(),
     },
     photos: [photo],
   };
@@ -74,9 +78,6 @@ describe('<PhotosList />', () => {
   it('render item', () => {
     const showProps = {
       photos: [photo],
-      actions: {
-        toSinglePhoto: jest.fn(),
-      },
     };
 
     const showStateWrapper = shallow(<PhotosList {...showProps} />);
@@ -133,12 +134,14 @@ describe('<PhotosList />', () => {
   it('layout is correct', () => {
     wrapper.instance().onLayout();
     expect(wrapper.instance().state).toEqual({
+      alertVisible: false,
       imageDim: 80,
+      imagePixels: 300,
       numColumns: 5,
     });
   });
-  it('navigates to single', () => {
-    wrapper.instance().navigateToSingle(photo)();
-    expect(props.actions.toSinglePhoto).toBeCalledWith(photo);
-  });
+  // it('navigates to single', () => {
+  //   wrapper.instance().navigateToSingle(photo)();
+  //   expect(props.actions.toSinglePhoto).toBeCalledWith(photo);
+  // });
 });

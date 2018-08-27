@@ -119,7 +119,7 @@ export const errorMessage = (selectedFilter: PhotosFilter) => (
   switch (action.type) {
     case ACTION.FETCH_PHOTOS_FAIL:
       return action.error;
-    case ACTION.FETCH_PHOTOS_REQUESTED:
+    case ACTION.FETCH_PHOTOS_LOADING:
     case ACTION.FETCH_PHOTOS_SUCCESS:
       return null;
     default:

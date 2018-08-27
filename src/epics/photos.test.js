@@ -9,15 +9,15 @@ import { ACTION, API } from '../constants/index';
 import state from '../../__mocks__/state.json';
 // import api from '../api';
 
-const epicMiddleware = createEpicMiddleware(loadPhotosToList);
-const mockStore = configureMockStore([epicMiddleware]);
-
 const mockApi = new MockAdapter(axios);
 
 describe('fetch photos epic', () => {
   let store;
+  let epicMiddleware;
 
   beforeEach(() => {
+    epicMiddleware = createEpicMiddleware(loadPhotosToList);
+    const mockStore = configureMockStore([epicMiddleware]);
     store = mockStore(state);
   });
 

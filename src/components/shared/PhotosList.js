@@ -1,6 +1,13 @@
 // @flow
 import React, { Component } from 'react';
-import { FlatList, Dimensions, StyleSheet, Image, Alert } from 'react-native';
+import {
+  FlatList,
+  Dimensions,
+  StyleSheet,
+  Image,
+  Alert,
+  PixelRatio,
+} from 'react-native';
 import propPath from 'crocks/Maybe/propPath';
 
 import type { Photo, PhotosFilter, PhotoID } from '../../api/types';
@@ -16,8 +23,9 @@ type Props = {
   lastLoadedPage: number,
   loadingState: 'refreshing' | 'loading' | 'idle',
   getErrorMessage: string,
+  navigation: any,
   actions: {
-    toSinglePhoto: (photo: Photo) => void,
+    // toSinglePhoto: (photo: Photo) => void,
     photosRequested: (filter: PhotosFilter, refresh: boolean) => void,
     resetPhotos?: () => void,
   },
@@ -26,6 +34,8 @@ type Props = {
 type State = {
   numColumns: number,
   imageDim: number,
+  imagePixels: number,
+  alertVisible: boolean,
 };
 
 export type PhotoViewModel = {
@@ -45,9 +55,12 @@ export default class PhotosListComponent extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
 
+    const imageDim = Dimensions.get('window').width / 3;
     this.state = {
       numColumns: 3,
-      imageDim: Math.floor(Dimensions.get('window').width / 3),
+      imageDim: Math.floor(imageDim),
+      imagePixels: PixelRatio.getPixelSizeForLayoutSize(imageDim),
+      alertVisible: false,
     };
   }
 
@@ -57,18 +70,23 @@ export default class PhotosListComponent extends Component<Props, State> {
     this.onStart();
   }
   componentWillReceiveProps(nextProps: Props) {
-    if (this.props.getErrorMessage === null && nextProps.getErrorMessage) {
+    if (
+      this.props.getErrorMessage === null &&
+      nextProps.getErrorMessage &&
+      !this.state.alertVisible
+    ) {
+      this.setState({ alertVisible: true });
       if (nextProps.getErrorMessage === 'limit') {
         Alert.alert(
           'Usage limit exceeded',
           'This is just a code showcase app. Try it again in one hour.',
-          [{ text: 'OK', onPress: null }],
+          [{ text: 'OK', onPress: this.onCloseAlert }],
         );
       } else {
         Alert.alert(
           'Sorry, something went wrong',
           'Please, try refreshing the list',
-          [{ text: 'OK', onPress: null }],
+          [{ text: 'OK', onPress: this.onCloseAlert }],
         );
       }
     }
@@ -76,7 +94,9 @@ export default class PhotosListComponent extends Component<Props, State> {
   componentWillUnmount() {
     if (this.props.actions.resetPhotos) this.props.actions.resetPhotos();
   }
-
+  onCloseAlert = () => {
+    this.setState({ alertVisible: false });
+  };
   onLayout = () => {
     const { width, height } = Dimensions.get('window');
     let columns = 3;
@@ -89,9 +109,11 @@ export default class PhotosListComponent extends Component<Props, State> {
         columns = 10;
       }
     }
+    const imageDim = Math.floor(width / columns);
     this.setState({
       numColumns: columns,
-      imageDim: Math.floor(width / columns),
+      imageDim,
+      imagePixels: PixelRatio.getPixelSizeForLayoutSize(imageDim),
     });
   };
   onStart = () => {
@@ -122,15 +144,24 @@ export default class PhotosListComponent extends Component<Props, State> {
     }
   };
 
-  photoViewModel = (item: Photo): PhotoViewModel => ({
-    id: propPath(['id'], item).option(''),
-    url: propPath(['urls', 'small'], item).option(null),
-  });
+  photoViewModel = (item: Photo): PhotoViewModel => {
+    const { imagePixels } = this.state;
+    return {
+      id: propPath(['id'], item).option(''),
+      url: propPath(
+        ['urls', imagePixels > 200 ? 'small' : 'thumb'],
+        item,
+      ).option(null),
+    };
+  };
 
   keyExtractor = (item: Photo) => item.id;
 
-  navigateToSingle = (item: Photo) => () =>
-    this.props.actions.toSinglePhoto(item);
+  navigateToSingle = (item: Photo) => () => {
+    this.props.navigation.navigate('PhotoSingleScreen', {
+      photo: item,
+    });
+  };
 
   renderItem = ({ item }: Photo) => {
     const photo: PhotoViewModel = this.photoViewModel(item);
@@ -171,13 +202,10 @@ export default class PhotosListComponent extends Component<Props, State> {
   render() {
     const loading = this.props.loadingState === 'loading';
     const refreshing = this.props.loadingState === 'refreshing';
-    const errorHappend =
-      this.props.loadingState === 'idle' && this.props.getErrorMessage;
     return (
       <FlatList
         contentContainerStyle={
-          (errorHappend || this.props.photos.length === 0) &&
-          styles.listContainer
+          this.props.photos.length === 0 && styles.listContainer
         }
         getItemLayout={this.itemLayout}
         loading={loading}
@@ -191,7 +219,7 @@ export default class PhotosListComponent extends Component<Props, State> {
         ListFooterComponent={this.renderFooter}
         refreshing={refreshing}
         onRefresh={this.refresh}
-        onEndReachedThreshold={0.5}
+        onEndReachedThreshold={0.2}
         onEndReached={this.loadMore}
       />
     );

@@ -3,7 +3,6 @@
  */
 
 import React, { Component } from 'react';
-import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 // import PropTypes from 'prop-types';
 import PhotoView from 'react-native-photo-view';
@@ -11,8 +10,9 @@ import {
   View,
   StyleSheet,
   Image,
-  ActivityIndicator,
   TouchableOpacity,
+  Dimensions,
+  PixelRatio,
 } from 'react-native';
 // import { Header } from 'react-navigation';
 import propPath from 'crocks/Maybe/propPath';
@@ -20,23 +20,25 @@ import { getById as getUserById } from '../../reducers/users';
 import type { Photo, User, PhotoID, UserID } from '../../api/types';
 import { AppText } from '../shared/Typography';
 import IconButton from '../shared/IconButton';
-import toUser from '../../action/users';
 
 const backIcon = require('../../assets/icons/arrow-back.png');
+const loader = require('../../assets/loader.png');
+
+const { width, height } = Dimensions.get('window');
+const photoSize =
+  PixelRatio.getPixelSizeForLayoutSize(Math.min(width, height)) > 1200
+    ? 'full'
+    : 'regular';
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: 'black',
   },
   imagePreview: {
     flex: 1,
     width: '100%',
   },
-  // topLine: {
-  //   position: 'absolute',
-  //   height: Header.HEIGHT,
-  //   justifyContent: 'space-between',
-  // },
   backButton: {
     backgroundColor: 'rgba(50, 50, 50, 0.6)',
     width: 34,
@@ -96,13 +98,6 @@ type Props = {
   photo: Photo,
   user: User,
   navigation: any,
-  actions: {
-    toUser: (user: User) => void,
-  },
-};
-
-type State = {
-  loaded: boolean,
 };
 
 type PhotoViewModel = {
@@ -120,7 +115,7 @@ type UserViewModel = {
 function photoViewModel(item: Photo): PhotoViewModel {
   return {
     id: propPath(['id'], item).option(''),
-    url: propPath(['urls', 'full'], item).option(null),
+    url: propPath(['urls', photoSize], item).option(null),
   };
 }
 
@@ -135,34 +130,19 @@ function userViewModel(item: User): UserViewModel {
 
 const navigateBack = navigation => () => navigation.goBack();
 
-export class PhotoSingleScreen extends Component<Props, State> {
+export class PhotoSingleScreen extends Component<Props> {
   static navigationOptions: (*) => *;
-  constructor(props: Props) {
-    super(props);
-    this.state = {
-      loaded: false,
-    };
-  }
   componentDidMount() {
     const userVM = userViewModel(this.props.user);
     this.props.navigation.setParams({
       userVM,
       toUser: () =>
-        userVM.username && this.props.actions.toUser(this.props.user),
+        userVM.username &&
+        this.props.navigation.navigate('UserScreen', {
+          user: this.props.user,
+        }),
     });
   }
-  componentWillReceiveProps(nextProps: Props) {
-    if (nextProps.photo.id !== this.props.photo.id) {
-      this.setState({
-        loaded: false,
-      });
-    }
-  }
-  removeLoader = () => {
-    this.setState({
-      loaded: true,
-    });
-  };
   render() {
     const { photo } = this.props;
     const photoVM = photoViewModel(photo);
@@ -176,15 +156,10 @@ export class PhotoSingleScreen extends Component<Props, State> {
           }}
           minimumZoomScale={1}
           maximumZoomScale={3}
-          androidScaleType="center"
-          onLoad={this.removeLoader}
+          androidScaleType="fitCenter"
+          loadingIndicatorSource={loader}
           style={styles.imagePreview}
         />
-        {!this.state.loaded && (
-          <View style={styles.loaderContainer}>
-            <ActivityIndicator color="white" />
-          </View>
-        )}
       </View>
     );
   }
@@ -232,11 +207,4 @@ const mapStateToProps = (state, ownProps) => {
   };
 };
 
-const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators({ toUser }, dispatch),
-});
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(PhotoSingleScreen);
+export default connect(mapStateToProps)(PhotoSingleScreen);
