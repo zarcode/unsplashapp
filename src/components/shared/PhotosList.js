@@ -35,6 +35,7 @@ type State = {
   numColumns: number,
   imageDim: number,
   imagePixels: number,
+  alertVisible: boolean,
 };
 
 export type PhotoViewModel = {
@@ -59,6 +60,7 @@ export default class PhotosListComponent extends Component<Props, State> {
       numColumns: 3,
       imageDim: Math.floor(imageDim),
       imagePixels: PixelRatio.getPixelSizeForLayoutSize(imageDim),
+      alertVisible: false,
     };
   }
 
@@ -68,18 +70,25 @@ export default class PhotosListComponent extends Component<Props, State> {
     this.onStart();
   }
   componentWillReceiveProps(nextProps: Props) {
-    if (this.props.getErrorMessage === null && nextProps.getErrorMessage) {
+    if (
+      this.props.getErrorMessage === null &&
+      nextProps.getErrorMessage &&
+      !this.state.alertVisible
+    ) {
+      this.setState({ alertVisible: true });
       Alert.alert(
         'Sorry, something went wrong',
         'Please, try refreshing the list',
-        [{ text: 'OK', onPress: null }],
+        [{ text: 'OK', onPress: this.onCloseAlert }],
       );
     }
   }
   componentWillUnmount() {
     if (this.props.actions.resetPhotos) this.props.actions.resetPhotos();
   }
-
+  onCloseAlert = () => {
+    this.setState({ alertVisible: false });
+  };
   onLayout = () => {
     const { width, height } = Dimensions.get('window');
     let columns = 3;
@@ -185,13 +194,10 @@ export default class PhotosListComponent extends Component<Props, State> {
   render() {
     const loading = this.props.loadingState === 'loading';
     const refreshing = this.props.loadingState === 'refreshing';
-    const errorHappend =
-      this.props.loadingState === 'idle' && this.props.getErrorMessage;
     return (
       <FlatList
         contentContainerStyle={
-          (errorHappend || this.props.photos.length === 0) &&
-          styles.listContainer
+          this.props.photos.length === 0 && styles.listContainer
         }
         getItemLayout={this.itemLayout}
         loading={loading}
@@ -205,7 +211,7 @@ export default class PhotosListComponent extends Component<Props, State> {
         ListFooterComponent={this.renderFooter}
         refreshing={refreshing}
         onRefresh={this.refresh}
-        onEndReachedThreshold={0.5}
+        onEndReachedThreshold={0.2}
         onEndReached={this.loadMore}
       />
     );

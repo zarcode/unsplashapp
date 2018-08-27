@@ -134,6 +134,7 @@ describe('<PhotosList />', () => {
   it('layout is correct', () => {
     wrapper.instance().onLayout();
     expect(wrapper.instance().state).toEqual({
+      alertVisible: false,
       imageDim: 80,
       imagePixels: 300,
       numColumns: 5,
