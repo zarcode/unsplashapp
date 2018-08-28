@@ -58,7 +58,7 @@ jobs:
     steps:
       - checkout
       - run: ./scripts/set-keys.sh
-      - run: npm install
+      - run: npm install --silent
       - run: echo $UNSPLASH_RELEASE_STORE_FILE | base64 --decode >> ${HOME}/repo/keystore.jks
       - run: echo 'export KEYSTORE=${HOME}/repo/keystore.jks' >> $BASH_ENV
       - run: cd android && export TERM=xterm && ./gradlew assembleRelease
