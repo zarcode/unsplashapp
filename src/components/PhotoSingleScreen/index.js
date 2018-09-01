@@ -13,6 +13,7 @@ import {
   TouchableOpacity,
   Dimensions,
   PixelRatio,
+  Platform,
 } from 'react-native';
 // import { Header } from 'react-navigation';
 import propPath from 'crocks/Maybe/propPath';
@@ -23,6 +24,7 @@ import IconButton from '../shared/IconButton';
 
 const backIcon = require('../../assets/icons/arrow-back.png');
 const loader = require('../../assets/loader.png');
+const loaderAndroid = require('../../assets/loader-android.png');
 
 const { width, height } = Dimensions.get('window');
 const photoSize =
@@ -157,7 +159,9 @@ export class PhotoSingleScreen extends Component<Props> {
           minimumZoomScale={1}
           maximumZoomScale={3}
           androidScaleType="fitCenter"
-          loadingIndicatorSource={loader}
+          loadingIndicatorSource={
+            Platform.OS === 'android' ? loaderAndroid : loaderAndroid
+          }
           style={styles.imagePreview}
         />
       </View>
