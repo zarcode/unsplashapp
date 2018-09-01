@@ -8,16 +8,32 @@ import config from '../config.json';
 import { ACTION, API } from '../constants/index';
 import state from '../../__mocks__/state.json';
 // import api from '../api';
-
-const epicMiddleware = createEpicMiddleware(loadPhotosToList);
-const mockStore = configureMockStore([epicMiddleware]);
-
 const mockApi = new MockAdapter(axios);
 
 describe('fetch photos epic', () => {
   let store;
+  let epicMiddleware;
+  const failActionsArray = [
+    {
+      filter: 'latest',
+      refresh: true,
+      type: ACTION.FETCH_PHOTOS_REQUESTED,
+    },
+    {
+      filter: 'latest',
+      refresh: true,
+      type: ACTION.FETCH_PHOTOS_LOADING,
+    },
+    {
+      filter: 'latest',
+      error: 'Request failed with status code 500',
+      type: ACTION.FETCH_PHOTOS_FAIL,
+    },
+  ];
 
   beforeEach(() => {
+    epicMiddleware = createEpicMiddleware(loadPhotosToList);
+    const mockStore = configureMockStore([epicMiddleware]);
     store = mockStore(state);
   });
 
@@ -123,24 +139,69 @@ describe('fetch photos epic', () => {
       refresh: true,
     });
     setImmediate(() => {
-      expect(store.getActions()).toEqual([
-        {
-          filter: 'latest',
-          refresh: true,
-          type: ACTION.FETCH_PHOTOS_REQUESTED,
-        },
-        {
-          filter: 'latest',
-          refresh: true,
-          type: ACTION.FETCH_PHOTOS_LOADING,
-        },
-        {
-          filter: 'latest',
-          error: 'Request failed with status code 500',
-          type: ACTION.FETCH_PHOTOS_FAIL,
-        },
-      ]);
+      expect(store.getActions()).toEqual(failActionsArray);
       done();
     });
+  });
+  it('throttle works', (done) => {
+    const params = {
+      page: 1,
+      per_page: 30,
+      order_by: 'latest',
+      client_id: config.keys[0],
+    };
+
+    mockApi.onGet(`${API.URL}/photos`, { params }).reply(500);
+
+    // first trigger
+    store.dispatch({
+      type: ACTION.FETCH_PHOTOS_REQUESTED,
+      filter: 'latest',
+      refresh: true,
+    });
+
+    setTimeout(() => {
+      // second trigger after one second
+      store.dispatch({
+        type: ACTION.FETCH_PHOTOS_REQUESTED,
+        filter: 'latest',
+        refresh: true,
+      });
+      setImmediate(() => {
+        expect(store.getActions()).toEqual([
+          ...failActionsArray,
+          {
+            filter: 'latest',
+            refresh: true,
+            type: ACTION.FETCH_PHOTOS_REQUESTED,
+          },
+        ]);
+        done();
+      });
+    }, 1000);
+
+    setTimeout(() => {
+      // third trigger after two seconds
+      store.dispatch({
+        type: ACTION.FETCH_PHOTOS_REQUESTED,
+        filter: 'latest',
+        refresh: true,
+      });
+      setImmediate(() => {
+        expect(store.getActions()).toEqual([
+          ...failActionsArray,
+          {
+            filter: 'latest',
+            refresh: true,
+            type: ACTION.FETCH_PHOTOS_REQUESTED,
+          },
+          {
+            type: '@@redux-observable/EPIC_END',
+          },
+          ...failActionsArray,
+        ]);
+        done();
+      });
+    }, 2005);
   });
 });

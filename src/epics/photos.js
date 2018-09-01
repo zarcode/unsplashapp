@@ -7,6 +7,7 @@ import {
   filter,
   catchError,
   takeUntil,
+  throttleTime,
 } from 'rxjs/operators';
 
 import { ACTION } from '../constants';
@@ -33,6 +34,7 @@ export const loadPhotosToList = (
             ((photosState(a.filter).loadingState === 'idle' &&
               !photosState(a.filter).isLastPage) ||
               a.refresh)),
+        throttleTime(2000),
         switchMap((a) => {
           const nextPage = !a.refresh
             ? photosState(a.filter).lastLoadedPage + 1
