@@ -160,7 +160,7 @@ export class PhotoSingleScreen extends Component<Props> {
           maximumZoomScale={3}
           androidScaleType="fitCenter"
           loadingIndicatorSource={
-            Platform.OS === 'android' ? loaderAndroid : loaderAndroid
+            Platform.OS === 'android' ? loaderAndroid : loader
           }
           style={styles.imagePreview}
         />
