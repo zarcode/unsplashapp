@@ -4,15 +4,9 @@ exports[`<ListLoader /> renders correctly 1`] = `
 <View
   style={
     Object {
+      "height": 50,
       "paddingVertical": 15,
     }
   }
->
-  <ActivityIndicator
-    animating={true}
-    color="#999999"
-    hidesWhenStopped={true}
-    size="small"
-  />
-</View>
+/>
 `;

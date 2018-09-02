@@ -166,12 +166,9 @@ export default class PhotosListComponent extends Component<Props, State> {
     );
   };
 
-  renderFooter = () => {
-    if (this.props.loadingState === 'loading') {
-      return <ListLoader />;
-    }
-    return null;
-  };
+  renderFooter = () => (
+    <ListLoader loading={this.props.loadingState === 'loading'} />
+  );
 
   renderEmpty = () => {
     if (this.props.loadingState !== 'idle') {
