@@ -143,65 +143,65 @@ describe('fetch photos epic', () => {
       done();
     });
   });
-  it('throttle works', (done) => {
-    const params = {
-      page: 1,
-      per_page: 30,
-      order_by: 'latest',
-      client_id: config.keys[0],
-    };
+  // it('throttle works', (done) => {
+  //   const params = {
+  //     page: 1,
+  //     per_page: 30,
+  //     order_by: 'latest',
+  //     client_id: config.keys[0],
+  //   };
 
-    mockApi.onGet(`${API.URL}/photos`, { params }).reply(500);
+  //   mockApi.onGet(`${API.URL}/photos`, { params }).reply(500);
 
-    // first trigger
-    store.dispatch({
-      type: ACTION.FETCH_PHOTOS_REQUESTED,
-      filter: 'latest',
-      refresh: true,
-    });
+  //   // first trigger
+  //   store.dispatch({
+  //     type: ACTION.FETCH_PHOTOS_REQUESTED,
+  //     filter: 'latest',
+  //     refresh: true,
+  //   });
 
-    setTimeout(() => {
-      // second trigger after one second
-      store.dispatch({
-        type: ACTION.FETCH_PHOTOS_REQUESTED,
-        filter: 'latest',
-        refresh: true,
-      });
-      setImmediate(() => {
-        expect(store.getActions()).toEqual([
-          ...failActionsArray,
-          {
-            filter: 'latest',
-            refresh: true,
-            type: ACTION.FETCH_PHOTOS_REQUESTED,
-          },
-        ]);
-        done();
-      });
-    }, 1000);
+  //   setTimeout(() => {
+  //     // second trigger after one second
+  //     store.dispatch({
+  //       type: ACTION.FETCH_PHOTOS_REQUESTED,
+  //       filter: 'latest',
+  //       refresh: true,
+  //     });
+  //     setImmediate(() => {
+  //       expect(store.getActions()).toEqual([
+  //         ...failActionsArray,
+  //         {
+  //           filter: 'latest',
+  //           refresh: true,
+  //           type: ACTION.FETCH_PHOTOS_REQUESTED,
+  //         },
+  //       ]);
+  //       done();
+  //     });
+  //   }, 1000);
 
-    setTimeout(() => {
-      // third trigger after two seconds
-      store.dispatch({
-        type: ACTION.FETCH_PHOTOS_REQUESTED,
-        filter: 'latest',
-        refresh: true,
-      });
-      setImmediate(() => {
-        expect(store.getActions()).toEqual([
-          ...failActionsArray,
-          {
-            filter: 'latest',
-            refresh: true,
-            type: ACTION.FETCH_PHOTOS_REQUESTED,
-          },
-          {
-            type: '@@redux-observable/EPIC_END',
-          },
-          ...failActionsArray,
-        ]);
-        done();
-      });
-    }, 2005);
-  });
+  //   setTimeout(() => {
+  //     // third trigger after two seconds
+  //     store.dispatch({
+  //       type: ACTION.FETCH_PHOTOS_REQUESTED,
+  //       filter: 'latest',
+  //       refresh: true,
+  //     });
+  //     setImmediate(() => {
+  //       expect(store.getActions()).toEqual([
+  //         ...failActionsArray,
+  //         {
+  //           filter: 'latest',
+  //           refresh: true,
+  //           type: ACTION.FETCH_PHOTOS_REQUESTED,
+  //         },
+  //         {
+  //           type: '@@redux-observable/EPIC_END',
+  //         },
+  //         ...failActionsArray,
+  //       ]);
+  //       done();
+  //     });
+  //   }, 2005);
+  // });
 });

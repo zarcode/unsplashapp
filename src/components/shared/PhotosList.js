@@ -174,12 +174,9 @@ export default class PhotosListComponent extends Component<Props, State> {
     );
   };
 
-  renderFooter = () => {
-    if (this.props.loadingState === 'loading') {
-      return <ListLoader />;
-    }
-    return null;
-  };
+  renderFooter = () => (
+    <ListLoader loading={this.props.loadingState === 'loading'} />
+  );
 
   renderEmpty = () => {
     if (this.props.loadingState !== 'idle') {
@@ -221,6 +218,7 @@ export default class PhotosListComponent extends Component<Props, State> {
         onRefresh={this.refresh}
         onEndReachedThreshold={0.2}
         onEndReached={this.loadMore}
+        extraData={this.props.getErrorMessage}
       />
     );
   }

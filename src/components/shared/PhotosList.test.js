@@ -104,9 +104,9 @@ describe('<PhotosList />', () => {
       photos: [photo],
     };
 
-    expect(wrapper.instance().renderFooter()).toEqual(null);
+    expect(wrapper.instance().renderFooter()).toEqual(<ListLoader loading={false} />);
     const loadingStateWrapper = shallow(<PhotosList {...loadingProps} />);
-    expect(loadingStateWrapper.instance().renderFooter()).toEqual(<ListLoader />);
+    expect(loadingStateWrapper.instance().renderFooter()).toEqual(<ListLoader loading />);
     expect(loadingStateWrapper.instance().renderEmpty()).toEqual(null);
     expect(toJson(loadingStateWrapper)).toMatchSnapshot();
   });
