@@ -210,6 +210,7 @@ export default class PhotosListComponent extends Component<Props, State> {
         onRefresh={this.refresh}
         onEndReachedThreshold={0.2}
         onEndReached={this.loadMore}
+        extraData={this.props.getErrorMessage}
       />
     );
   }
