@@ -5,6 +5,13 @@
 version: 2
 jobs:
   test:
+    docker:
+      # specify the version you desire here
+      - image: circleci/node:9.11-browsers
+      # Specify service dependencies here if necessary
+      # CircleCI maintains a library of pre-built images
+      # documented at https://circleci.com/docs/2.0/circleci-images/
+      # - image: circleci/mongo:3.4.4
     working_directory: ~/repo
     steps:
       - checkout
@@ -51,6 +58,7 @@ jobs:
       - image: circleci/android:api-27-node8-alpha
     steps:
       - checkout
+      - run: cat ~/.ssh/id_rsa.pub
       - run: ./scripts/set-keys.sh
       - run: npm install
       - run: echo $UNSPLASH_RELEASE_STORE_FILE | base64 --decode >> ${HOME}/repo/keystore.jks
@@ -64,13 +72,13 @@ workflows:
   version: 2
   test:
     jobs:
-      - test
-  test-and-build:
-    jobs:
-      - test
-      - android:
-          filters:
-            branches:
-              only: switch_api
-          requires:
-            - test
+      - android
+  # test-and-build:
+  #   jobs:
+  #     - test
+  #     - android:
+  #         filters:
+  #           branches:
+  #             only: switch_api
+  #         requires:
+  #           - test
