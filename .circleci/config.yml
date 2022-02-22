@@ -1,82 +1,21 @@
-# Javascript Node CircleCI 2.0 configuration file
-#
-# Check https://circleci.com/docs/2.0/language-javascript/ for more details
-#
-version: 2
-jobs:
-  test:
-    docker:
-      # specify the version you desire here
-      - image: circleci/node:9.11-browsers
-      # Specify service dependencies here if necessary
-      # CircleCI maintains a library of pre-built images
-      # documented at https://circleci.com/docs/2.0/circleci-images/
-      # - image: circleci/mongo:3.4.4
-    working_directory: ~/repo
-    steps:
-      - checkout
-      # Download and cache dependencies
-      - restore_cache:
-          keys:
-          - v1-dependencies-{{ checksum "package.json" }}
-          # fallback to using the latest cache if no exact match is found
-          - v1-dependencies-
-      - run: npm install --silent
-      - save_cache:
-          paths:
-            - node_modules
-          key: v1-dependencies-{{ checksum "package.json" }}
-      # run prettier!
-      - run: npm run prettier:diff
-      # set keys
-      - run: ./scripts/set-keys.sh
-      # run flow!
-      - run: npm run flow-check
-      # run linter!
-      - run:
-          name: "npm run eslint"
-          # npm here makes sure we are using the local jest binary
-          command: npm run eslint src -- --format junit -o reports/junit/js-lint-results.xml
-      # Note: this hasn't changed. Don't add this twice!
-      - store_test_results:
-          path: reports/junit
-      - store_artifacts:
-          path: reports/junit
-      # run tests!
-      - run: npm run test-ci
-      # run jsbuild!
-      - run: sudo npm install -g npm@latest react-native-cli
-      # make bundle
-      - run: 
-          name: "make bundle"
-          command: react-native bundle --platform android --dev false --entry-file index.js --bundle-output index.android.bundle
+# This config is equivalent to both the '.circleci/extended/orb-free.yml' and the base '.circleci/config.yml'
+version: 2.1
 
-  android:
-    working_directory: ~/repo
-    docker:
-      - image: circleci/android:api-27-node8-alpha
-    steps:
-      - checkout
-      - run: ./scripts/set-keys.sh
-      - run: npm install
-      - run: echo $UNSPLASH_RELEASE_STORE_FILE | base64 --decode >> ${HOME}/repo/keystore.jks
-      - run: echo 'export KEYSTORE=${HOME}/repo/keystore.jks' >> $BASH_ENV
-      - run: cd android && export TERM=xterm && ./gradlew assembleRelease
-      - store_artifacts:
-          path: android/app/build/outputs/apk/
-          destination: apks/
-          
+# Orbs are reusable packages of CircleCI configuration that you may share across projects, enabling you to create encapsulated, parameterized commands, jobs, and executors that can be used across multiple projects.
+# See: https://circleci.com/docs/2.0/orb-intro/
+orbs:
+  node: circleci/node@4.7
+
+# Invoke jobs via workflows
+# See: https://circleci.com/docs/2.0/configuration-reference/#workflows
 workflows:
-  version: 2
-  test:
+  sample: # This is the name of the workflow, feel free to change it to better match your workflow.
+    # Inside the workflow, you define the jobs you want to run.
     jobs:
-      - test
-  test-and-build:
-    jobs:
-      - test
-      - android:
-          filters:
-            branches:
-              only: switch_api
-          requires:
-            - test
+      - node/test:
+          # This is the node version to use for the `cimg/node` tag
+          # Relevant tags can be found on the CircleCI Developer Hub
+          # https://circleci.com/developer/images/image/cimg/node
+          version: '16.10'
+          # If you are using yarn, change the line below from "npm" to "yarn"
+          pkg-manager: npm
